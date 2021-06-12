@@ -17,7 +17,6 @@ export default Vue.extend({
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
         { key: "single", label: "Single", type: "check" },
-        { key: 'edit', label: ''}
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', single: false },
