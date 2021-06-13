@@ -5,7 +5,10 @@
         <b-form-select @keydown.native="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'select' && selectedRow === data.index && selectedCell === field.key" :key="index" v-model="items[data.index][field.key]" :options="field.options" class="form-control"></b-form-select>
         <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'check' && selectedRow === data.index && selectedCell === field.key" :key="index"></b-form-checkbox>
         <b-form-input @keydown="handleKeydown($event, index, data)" v-focus @input="$emit('input-change', $event, data)" v-else-if="field.type && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-input>
-        <span class="edit-cell" :key="index" v-else @click="handleEditCell(data.index, field.key)">{{data.value}}</span>
+        <span class="edit-cell" :key="index" v-else @click="handleEditCell(data.index, field.key)">
+          <slot v-if="handleSlots($scopedSlots, field.key)" :name="`readonly-${field.key}`" v-bind="data"></slot>
+          <template v-else>{{data.value}}</template>
+        </span>
       </template>
       <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
     </b-table>
@@ -71,6 +74,9 @@ export default Vue.extend({
           this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
           this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
         }
+      },
+      handleSlots(slots: any, field: string) {
+        return slots[`readonly-${field}`];
       }
     }
 });
