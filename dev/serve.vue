@@ -37,6 +37,11 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <b-editable-table :items="items" :fields="fields" @input-change="inputHandler"></b-editable-table>
+    <b-editable-table :items="items" :fields="fields" @input-change="inputHandler">
+      <!-- <template #cell(single)="data">
+        <span v-if="data.single">Yes</span>
+        <span v-else>No</span>
+      </template> -->
+    </b-editable-table>
   </div>
 </template>
