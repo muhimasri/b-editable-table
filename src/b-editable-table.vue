@@ -2,11 +2,11 @@
   <b-table v-bind="{...$props, ...$attrs}" v-on="$listeners">
       <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
         <b-form-datepicker @keydown.native="handleKeydown($event, index, data)" v-focus="'date'" @input="$emit('input-change', $event, data)" v-if="field.type === 'date' && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-datepicker>
-        <b-form-select @keydown.native="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'select' && selectedRow === data.index && selectedCell === field.key" :key="index" v-model="items[data.index][field.key]" :options="field.options" class="form-control"></b-form-select>
-        <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'check' && selectedRow === data.index && selectedCell === field.key" :key="index"></b-form-checkbox>
+        <b-form-select @keydown.native="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'select' && selectedRow === data.index && selectedCell === field.key" :key="index" v-model="items[data.index][field.key]" :options="field.options" plain></b-form-select>
+        <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'check' && selectedRow === data.index && selectedCell === field.key" :key="index" plain></b-form-checkbox>
         <b-form-input @keydown="handleKeydown($event, index, data)" v-focus @input="$emit('input-change', $event, data)" v-else-if="field.type && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-input>
         <span class="edit-cell" :key="index" v-else @click="handleEditCell(data.index, field.key)">
-          <slot v-if="handleSlots($scopedSlots, field.key)" :name="`readonly-${field.key}`" v-bind="data"></slot>
+          <slot v-if="$scopedSlots[`readonly-${field.key}`]" :name="`readonly-${field.key}`" v-bind="data"></slot>
           <template v-else>{{data.value}}</template>
         </span>
       </template>
@@ -17,15 +17,6 @@
 <script lang="ts">
 import { BTable, BFormDatepicker, BFormInput, BFormSelect, BFormCheckbox } from 'bootstrap-vue';
 import Vue from 'vue';
-
-// interface SampleData {
-//   counter: number;
-//   initCounter: number;
-//   message: {
-//     action: string | null;
-//     amount: number | null;
-//   };
-// }
 
 export default Vue.extend({
   name: 'BEditableTable',
@@ -74,9 +65,6 @@ export default Vue.extend({
           this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
           this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
         }
-      },
-      handleSlots(slots: any, field: string) {
-        return slots[`readonly-${field}`];
       }
     }
 });
@@ -88,12 +76,4 @@ export default Vue.extend({
     height: 100%;
     width: 100%
   }
-  /* table {
-    table-layout: fixed;
-  }
-
-  .form-control {
-    border: 0;
-  } */
-
 </style>
