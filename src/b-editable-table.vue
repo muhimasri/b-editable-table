@@ -50,7 +50,7 @@ export default Vue.extend({
       },
       selectedRow: {
         type: Object,
-        default: {}
+        default: null
       },
     };
   },
@@ -64,6 +64,10 @@ export default Vue.extend({
           e.preventDefault();
           this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
           this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
+        } else if (e.code === 'Escape') {
+          e.preventDefault();
+          this.selectedCell = null;
+          this.selectedRow = null
         }
       }
     }

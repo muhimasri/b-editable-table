@@ -218,11 +218,11 @@ var isPromise = function isPromise(value) {
   return !isUndefinedOrNull(value) && isFunction$1(value.then) && isFunction$1(value.catch);
 };
 
-function ownKeys$r(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$t(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$r(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$r(Object(source), true).forEach(function (key) { _defineProperty$x(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$r(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$t(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$t(Object(source), true).forEach(function (key) { _defineProperty$z(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$t(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$x(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$z(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var assign = function assign() {
   return Object.assign.apply(Object, arguments);
@@ -243,7 +243,7 @@ var hasOwnProperty = function hasOwnProperty(obj, prop) {
 // Shallow copy an object
 
 var clone = function clone(obj) {
-  return _objectSpread$r({}, obj);
+  return _objectSpread$t({}, obj);
 }; // Return a shallow copy of object with the specified properties only
 // See: https://gist.github.com/bisubus/2da8af7e801ffd813fab7ac221aa7afc
 
@@ -251,7 +251,7 @@ var pick = function pick(obj, props) {
   return keys(obj).filter(function (key) {
     return props.indexOf(key) !== -1;
   }).reduce(function (result, key) {
-    return _objectSpread$r(_objectSpread$r({}, result), {}, _defineProperty$x({}, key, obj[key]));
+    return _objectSpread$t(_objectSpread$t({}, result), {}, _defineProperty$z({}, key, obj[key]));
   }, {});
 }; // Return a shallow copy of object with the specified properties omitted
 // See: https://gist.github.com/bisubus/2da8af7e801ffd813fab7ac221aa7afc
@@ -260,7 +260,7 @@ var omit = function omit(obj, props) {
   return keys(obj).filter(function (key) {
     return props.indexOf(key) === -1;
   }).reduce(function (result, key) {
-    return _objectSpread$r(_objectSpread$r({}, result), {}, _defineProperty$x({}, key, obj[key]));
+    return _objectSpread$t(_objectSpread$t({}, result), {}, _defineProperty$z({}, key, obj[key]));
   }, {});
 }; // Merges two object deeply together
 // See: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
@@ -275,7 +275,7 @@ var mergeDeep = function mergeDeep(target, source) {
 
         mergeDeep(target[key], source[key]);
       } else {
-        assign(target, _defineProperty$x({}, key, source[key]));
+        assign(target, _defineProperty$z({}, key, source[key]));
       }
     });
   }
@@ -285,7 +285,7 @@ var mergeDeep = function mergeDeep(target, source) {
 
 var sortKeys = function sortKeys(obj) {
   return keys(obj).sort().reduce(function (result, key) {
-    return _objectSpread$r(_objectSpread$r({}, result), {}, _defineProperty$x({}, key, obj[key]));
+    return _objectSpread$t(_objectSpread$t({}, result), {}, _defineProperty$z({}, key, obj[key]));
   }, {});
 }; // Convenience method to create a read-only descriptor
 
@@ -297,11 +297,11 @@ var readonlyDescriptor = function readonlyDescriptor() {
   };
 };
 
-function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$q(Object(source), true).forEach(function (key) { _defineProperty$w(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$s(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$s(Object(source), true).forEach(function (key) { _defineProperty$y(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$s(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$w(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$y(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray$4(arr) { return _arrayWithoutHoles$4(arr) || _iterableToArray$4(arr) || _unsupportedIterableToArray$5(arr) || _nonIterableSpread$4(); }
 
@@ -325,7 +325,7 @@ var cloneDeep = function cloneDeep(obj) {
 
   if (isPlainObject(obj)) {
     return keys(obj).reduce(function (result, key) {
-      return _objectSpread$q(_objectSpread$q({}, result), {}, _defineProperty$w({}, key, cloneDeep(obj[key], obj[key])));
+      return _objectSpread$s(_objectSpread$s({}, result), {}, _defineProperty$y({}, key, cloneDeep(obj[key], obj[key])));
     }, {});
   }
 
@@ -432,6 +432,7 @@ var warn = function warn(message)
 var NAME_BUTTON = 'BButton';
 var NAME_CALENDAR = 'BCalendar';
 var NAME_DROPDOWN = 'BDropdown';
+var NAME_FORM_CHECKBOX = 'BFormCheckbox';
 var NAME_FORM_DATEPICKER = 'BFormDatepicker';
 var NAME_FORM_INPUT = 'BFormInput';
 var NAME_FORM_SELECT = 'BFormSelect';
@@ -789,11 +790,11 @@ var getComponentConfig = function getComponentConfig(key) {
   return propKey ? getConfigValue("".concat(key, ".").concat(propKey), defaultValue) : getConfigValue(key, {});
 }; // Get all breakpoint names
 
-function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$r(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$p(Object(source), true).forEach(function (key) { _defineProperty$v(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$r(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$r(Object(source), true).forEach(function (key) { _defineProperty$x(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$r(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$x(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var makeProp = function makeProp() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : PROP_TYPE_ANY;
@@ -802,7 +803,7 @@ var makeProp = function makeProp() {
   var validator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
   var required = requiredOrValidator === true;
   validator = required ? validator : requiredOrValidator;
-  return _objectSpread$p(_objectSpread$p(_objectSpread$p({}, type ? {
+  return _objectSpread$r(_objectSpread$r(_objectSpread$r({}, type ? {
     type: type
   } : {}), required ? {
     required: required
@@ -828,7 +829,7 @@ var pluckProps = function pluckProps(keysToPluck, objToPluck) {
 // call that falls back to the current default value of the prop
 
 var makePropConfigurable = function makePropConfigurable(prop, key, componentKey) {
-  return _objectSpread$p(_objectSpread$p({}, cloneDeep(prop)), {}, {
+  return _objectSpread$r(_objectSpread$r({}, cloneDeep(prop)), {}, {
     default: function bvConfigurablePropDefault() {
       var value = getComponentConfig(componentKey, key, prop.default);
       return isFunction$1(value) ? value() : value;
@@ -840,7 +841,7 @@ var makePropConfigurable = function makePropConfigurable(prop, key, componentKey
 
 var makePropsConfigurable = function makePropsConfigurable(props, componentKey) {
   return keys(props).reduce(function (result, key) {
-    return _objectSpread$p(_objectSpread$p({}, result), {}, _defineProperty$v({}, key, makePropConfigurable(props[key], key, componentKey)));
+    return _objectSpread$r(_objectSpread$r({}, result), {}, _defineProperty$x({}, key, makePropConfigurable(props[key], key, componentKey)));
   }, {});
 }; // Get function name we use in `makePropConfigurable()`
 // for the prop default value override to compare
@@ -853,7 +854,7 @@ var hasPropFunction = function hasPropFunction(fn) {
   return isFunction$1(fn) && fn.name !== configurablePropDefaultFnName;
 };
 
-function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$w(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var makeModelMixin = function makeModelMixin(prop) {
   var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
       _ref$type = _ref.type,
@@ -865,7 +866,7 @@ var makeModelMixin = function makeModelMixin(prop) {
       _ref$event = _ref.event,
       event = _ref$event === void 0 ? EVENT_NAME_INPUT : _ref$event;
 
-  var props = _defineProperty$u({}, prop, makeProp(type, defaultValue, validator)); // @vue/component
+  var props = _defineProperty$w({}, prop, makeProp(type, defaultValue, validator)); // @vue/component
 
 
   var mixin = Vue.extend({
@@ -1159,7 +1160,7 @@ var computeHref = function computeHref() {
   return fallback;
 };
 
-function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // Base attributes needed on all icons
 
 var BASE_ATTRS = {
@@ -1179,7 +1180,7 @@ var STACKED_ATTRS = {
   'aria-label': null
 }; // --- Props ---
 
-var props$I = {
+var props$K = {
   animation: makeProp(PROP_TYPE_STRING),
   content: makeProp(PROP_TYPE_STRING),
   flipH: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -1199,7 +1200,7 @@ var props$I = {
 var BVIconBase = /*#__PURE__*/Vue.extend({
   name: NAME_ICON_BASE,
   functional: true,
-  props: props$I,
+  props: props$K,
   render: function render(h, _ref) {
     var _class;
 
@@ -1255,7 +1256,7 @@ var BVIconBase = /*#__PURE__*/Vue.extend({
     var $content = [$title, $inner].filter(identity);
     return h('svg', a({
       staticClass: 'b-icon bi',
-      class: (_class = {}, _defineProperty$t(_class, "text-".concat(variant), variant), _defineProperty$t(_class, "b-icon-animation-".concat(animation), animation), _class),
+      class: (_class = {}, _defineProperty$v(_class, "text-".concat(variant), variant), _defineProperty$v(_class, "b-icon-animation-".concat(animation), animation), _class),
       attrs: BASE_ATTRS,
       style: stacked ? {} : {
         fontSize: fontScale === 1 ? null : "".concat(fontScale * 100, "%")
@@ -1274,11 +1275,11 @@ var BVIconBase = /*#__PURE__*/Vue.extend({
   }
 });
 
-function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$o(Object(source), true).forEach(function (key) { _defineProperty$s(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$q(Object(source), true).forEach(function (key) { _defineProperty$u(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /**
  * Icon component generator function
  *
@@ -1298,7 +1299,7 @@ var makeIcon = function makeIcon(name, content) {
   return /*#__PURE__*/Vue.extend({
     name: iconName,
     functional: true,
-    props: omit(props$I, ['content']),
+    props: omit(props$K, ['content']),
     render: function render(h, _ref) {
       var data = _ref.data,
           props = _ref.props;
@@ -1314,7 +1315,7 @@ var makeIcon = function makeIcon(name, content) {
       data, // Required data
       {
         staticClass: iconNameClass,
-        props: _objectSpread$o(_objectSpread$o({}, props), {}, {
+        props: _objectSpread$q(_objectSpread$q({}, props), {}, {
           content: svgContent
         })
       }));
@@ -1414,7 +1415,7 @@ var looseEqual = function looseEqual(a, b) {
   return String(a) === String(b);
 };
 
-function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var isEmpty = function isEmpty(value) {
   return !value || keys(value).length === 0;
@@ -1447,9 +1448,9 @@ var makePropWatcher = function makePropWatcher(propName) {
 var makePropCacheMixin = function makePropCacheMixin(propName, proxyPropName) {
   return Vue.extend({
     data: function data() {
-      return _defineProperty$r({}, proxyPropName, cloneDeep(this[propName]));
+      return _defineProperty$t({}, proxyPropName, cloneDeep(this[propName]));
     },
-    watch: _defineProperty$r({}, propName, makePropWatcher(proxyPropName))
+    watch: _defineProperty$t({}, propName, makePropWatcher(proxyPropName))
   });
 };
 
@@ -1535,11 +1536,11 @@ function _arrayWithoutHoles$3(arr) { if (Array.isArray(arr)) return _arrayLikeTo
 
 function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$n(Object(source), true).forEach(function (key) { _defineProperty$q(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$p(Object(source), true).forEach(function (key) { _defineProperty$s(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var ROOT_EVENT_NAME_CLICKED = getRootEventName(NAME_LINK, 'clicked'); // --- Props ---
 // `<router-link>` specific props
@@ -1566,7 +1567,7 @@ var nuxtLinkProps = {
   prefetch: makeProp(PROP_TYPE_BOOLEAN, null)
 }; // All `<b-link>` props
 
-var props$H = makePropsConfigurable(sortKeys(_objectSpread$n(_objectSpread$n(_objectSpread$n({}, nuxtLinkProps), routerLinkProps), {}, {
+var props$J = makePropsConfigurable(sortKeys(_objectSpread$p(_objectSpread$p(_objectSpread$p({}, nuxtLinkProps), routerLinkProps), {}, {
   active: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   href: makeProp(PROP_TYPE_STRING),
@@ -1586,7 +1587,7 @@ var BLink = /*#__PURE__*/Vue.extend({
   // Mixin order is important!
   mixins: [attrsMixin, listenersMixin, listenOnRootMixin, normalizeSlotMixin],
   inheritAttrs: false,
-  props: props$H,
+  props: props$J,
   computed: {
     computedTag: function computedTag() {
       // We don't pass `this` as the first arg as we need reactivity of the props
@@ -1622,7 +1623,7 @@ var BLink = /*#__PURE__*/Vue.extend({
     },
     computedProps: function computedProps() {
       var prefetch = this.prefetch;
-      return this.isRouterLink ? _objectSpread$n(_objectSpread$n({}, pluckProps(_objectSpread$n(_objectSpread$n({}, routerLinkProps), nuxtLinkProps), this)), {}, {
+      return this.isRouterLink ? _objectSpread$p(_objectSpread$p({}, pluckProps(_objectSpread$p(_objectSpread$p({}, routerLinkProps), nuxtLinkProps), this)), {}, {
         // Coerce `prefetch` value `null` to be `undefined`
         prefetch: isBoolean(prefetch) ? prefetch : undefined,
         // Pass `router-tag` as `tag` prop
@@ -1637,7 +1638,7 @@ var BLink = /*#__PURE__*/Vue.extend({
           target = this.target,
           routerTag = this.routerTag,
           isRouterLink = this.isRouterLink;
-      return _objectSpread$n(_objectSpread$n(_objectSpread$n(_objectSpread$n({}, bvAttrs), href ? {
+      return _objectSpread$p(_objectSpread$p(_objectSpread$p(_objectSpread$p({}, bvAttrs), href ? {
         href: href
       } : {}), isRouterLink && !isTag(routerTag, 'a') ? {} : {
         rel: rel,
@@ -1648,7 +1649,7 @@ var BLink = /*#__PURE__*/Vue.extend({
       });
     },
     computedListeners: function computedListeners() {
-      return _objectSpread$n(_objectSpread$n({}, this.bvListeners), {}, {
+      return _objectSpread$p(_objectSpread$p({}, this.bvListeners), {}, {
         // We want to overwrite any click handler since our callback
         // will invoke the user supplied handler(s) if `!this.disabled`
         click: this.onClick
@@ -1707,7 +1708,7 @@ var BLink = /*#__PURE__*/Vue.extend({
   render: function render(h) {
     var active = this.active,
         disabled = this.disabled;
-    return h(this.computedTag, _defineProperty$q({
+    return h(this.computedTag, _defineProperty$s({
       class: {
         active: active,
         disabled: disabled
@@ -1718,16 +1719,16 @@ var BLink = /*#__PURE__*/Vue.extend({
   }
 });
 
-function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$m(Object(source), true).forEach(function (key) { _defineProperty$p(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$o(Object(source), true).forEach(function (key) { _defineProperty$r(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var linkProps = omit(props$H, ['event', 'routerTag']);
+var linkProps = omit(props$J, ['event', 'routerTag']);
 delete linkProps.href.default;
 delete linkProps.to.default;
-var props$G = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m({}, linkProps), {}, {
+var props$I = makePropsConfigurable(sortKeys(_objectSpread$o(_objectSpread$o({}, linkProps), {}, {
   block: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   pill: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -1776,7 +1777,7 @@ var isNonStandardTag = function isNonStandardTag(props) {
 var computeClass = function computeClass(props) {
   var _ref;
 
-  return ["btn-".concat(props.variant || 'secondary'), (_ref = {}, _defineProperty$p(_ref, "btn-".concat(props.size), props.size), _defineProperty$p(_ref, 'btn-block', props.block), _defineProperty$p(_ref, 'rounded-pill', props.pill), _defineProperty$p(_ref, 'rounded-0', props.squared && !props.pill), _defineProperty$p(_ref, "disabled", props.disabled), _defineProperty$p(_ref, "active", props.pressed), _ref)];
+  return ["btn-".concat(props.variant || 'secondary'), (_ref = {}, _defineProperty$r(_ref, "btn-".concat(props.size), props.size), _defineProperty$r(_ref, 'btn-block', props.block), _defineProperty$r(_ref, 'rounded-pill', props.pill), _defineProperty$r(_ref, 'rounded-0', props.squared && !props.pill), _defineProperty$r(_ref, "disabled", props.disabled), _defineProperty$r(_ref, "active", props.pressed), _ref)];
 }; // Compute the link props to pass to b-link (if required)
 
 
@@ -1827,7 +1828,7 @@ var computeAttrs = function computeAttrs(props, data) {
 var BButton = /*#__PURE__*/Vue.extend({
   name: NAME_BUTTON,
   functional: true,
-  props: props$G,
+  props: props$I,
   render: function render(h, _ref2) {
     var props = _ref2.props,
         data = _ref2.data,
@@ -2077,13 +2078,13 @@ var isLocaleRTL = function isLocaleRTL(locale) {
 
 // SSR safe client-side ID attribute generation
 
-var props$F = {
+var props$H = {
   id: makeProp(PROP_TYPE_STRING)
 }; // --- Mixin ---
 // @vue/component
 
 var idMixin = Vue.extend({
-  props: props$F,
+  props: props$H,
   data: function data() {
     return {
       localId_: null
@@ -2121,24 +2122,24 @@ var idMixin = Vue.extend({
   }
 });
 
-var _watch$2;
+var _watch$3;
 
-function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$l(Object(source), true).forEach(function (key) { _defineProperty$o(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$n(Object(source), true).forEach(function (key) { _defineProperty$q(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _makeModelMixin$4 = makeModelMixin('value', {
+var _makeModelMixin$5 = makeModelMixin('value', {
   type: PROP_TYPE_DATE_STRING
 }),
-    modelMixin$3 = _makeModelMixin$4.mixin,
-    modelProps$3 = _makeModelMixin$4.props,
-    MODEL_PROP_NAME$3 = _makeModelMixin$4.prop,
-    MODEL_EVENT_NAME$3 = _makeModelMixin$4.event; // --- Props ---
+    modelMixin$4 = _makeModelMixin$5.mixin,
+    modelProps$4 = _makeModelMixin$5.props,
+    MODEL_PROP_NAME$4 = _makeModelMixin$5.prop,
+    MODEL_EVENT_NAME$4 = _makeModelMixin$5.event; // --- Props ---
 
 
-var props$E = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l(_objectSpread$l({}, props$F), modelProps$3), {}, {
+var props$G = makePropsConfigurable(sortKeys(_objectSpread$n(_objectSpread$n(_objectSpread$n({}, props$H), modelProps$4), {}, {
   ariaControls: makeProp(PROP_TYPE_STRING),
   // Makes calendar the full width of its parent container
   block: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -2223,10 +2224,10 @@ var props$E = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l(_ob
 var BCalendar = Vue.extend({
   name: NAME_CALENDAR,
   // Mixin order is important!
-  mixins: [attrsMixin, idMixin, modelMixin$3, normalizeSlotMixin],
-  props: props$E,
+  mixins: [attrsMixin, idMixin, modelMixin$4, normalizeSlotMixin],
+  props: props$G,
   data: function data() {
-    var selected = formatYMD(this[MODEL_PROP_NAME$3]) || '';
+    var selected = formatYMD(this[MODEL_PROP_NAME$4]) || '';
     return {
       // Selected date
       selectedYMD: selected,
@@ -2415,7 +2416,7 @@ var BCalendar = Vue.extend({
     // Computed props that return date formatter functions
     formatDateString: function formatDateString() {
       // Returns a date formatter function
-      return createDateFormatter(this.calendarLocale, _objectSpread$l(_objectSpread$l({
+      return createDateFormatter(this.calendarLocale, _objectSpread$n(_objectSpread$n({
         // Ensure we have year, month, day shown for screen readers/ARIA
         // If users really want to leave one of these out, they can
         // pass `undefined` for the property value
@@ -2530,7 +2531,7 @@ var BCalendar = Vue.extend({
           /* istanbul ignore next */
           {
             class: dateInfo
-          } : isPlainObject(dateInfo) ? _objectSpread$l({
+          } : isPlainObject(dateInfo) ? _objectSpread$n({
             class: ''
           }, dateInfo) :
           /* istanbul ignore next */
@@ -2564,7 +2565,7 @@ var BCalendar = Vue.extend({
       });
     }
   },
-  watch: (_watch$2 = {}, _defineProperty$o(_watch$2, MODEL_PROP_NAME$3, function (newValue, oldValue) {
+  watch: (_watch$3 = {}, _defineProperty$q(_watch$3, MODEL_PROP_NAME$4, function (newValue, oldValue) {
     var selected = formatYMD(newValue) || '';
     var old = formatYMD(oldValue) || '';
 
@@ -2572,23 +2573,23 @@ var BCalendar = Vue.extend({
       this.activeYMD = selected || this.activeYMD;
       this.selectedYMD = selected;
     }
-  }), _defineProperty$o(_watch$2, "selectedYMD", function selectedYMD(newYMD, oldYMD) {
+  }), _defineProperty$q(_watch$3, "selectedYMD", function selectedYMD(newYMD, oldYMD) {
     // TODO:
     //   Should we compare to `formatYMD(this.value)` and emit
     //   only if they are different?
     if (newYMD !== oldYMD) {
-      this.$emit(MODEL_EVENT_NAME$3, this.valueAsDate ? parseYMD(newYMD) || null : newYMD || '');
+      this.$emit(MODEL_EVENT_NAME$4, this.valueAsDate ? parseYMD(newYMD) || null : newYMD || '');
     }
-  }), _defineProperty$o(_watch$2, "context", function context(newValue, oldValue) {
+  }), _defineProperty$q(_watch$3, "context", function context(newValue, oldValue) {
     if (!looseEqual(newValue, oldValue)) {
       this.$emit(EVENT_NAME_CONTEXT, newValue);
     }
-  }), _defineProperty$o(_watch$2, "hidden", function hidden(newValue) {
+  }), _defineProperty$q(_watch$3, "hidden", function hidden(newValue) {
     // Reset the active focused day when hidden
-    this.activeYMD = this.selectedYMD || formatYMD(this[MODEL_PROP_NAME$3] || this.constrainDate(this.initialDate || this.getToday())); // Enable/disable the live regions
+    this.activeYMD = this.selectedYMD || formatYMD(this[MODEL_PROP_NAME$4] || this.constrainDate(this.initialDate || this.getToday())); // Enable/disable the live regions
 
     this.setLive(!newValue);
-  }), _watch$2),
+  }), _watch$3),
   created: function created() {
     var _this3 = this;
 
@@ -2876,11 +2877,11 @@ var BCalendar = Vue.extend({
       shiftV: 0.5
     };
 
-    var navPrevProps = _objectSpread$l(_objectSpread$l({}, navProps), {}, {
+    var navPrevProps = _objectSpread$n(_objectSpread$n({}, navProps), {}, {
       flipH: isRTL
     });
 
-    var navNextProps = _objectSpread$l(_objectSpread$l({}, navProps), {}, {
+    var navNextProps = _objectSpread$n(_objectSpread$n({}, navProps), {}, {
       flipH: !isRTL
     });
 
@@ -2993,7 +2994,7 @@ var BCalendar = Vue.extend({
             // Styling
             disabled: day.isDisabled || disabled,
             active: isSelected
-          }, _defineProperty$o(_class, _this6.computedVariant, isSelected), _defineProperty$o(_class, _this6.computedTodayVariant, isToday && highlightToday && !isSelected && day.isThisMonth), _defineProperty$o(_class, 'btn-outline-light', !(isToday && highlightToday) && !isSelected && !isActive), _defineProperty$o(_class, 'btn-light', !(isToday && highlightToday) && !isSelected && isActive), _defineProperty$o(_class, 'text-muted', !day.isThisMonth && !isSelected), _defineProperty$o(_class, 'text-dark', !(isToday && highlightToday) && !isSelected && !isActive && day.isThisMonth), _defineProperty$o(_class, 'font-weight-bold', (isSelected || day.isThisMonth) && !day.isDisabled), _class),
+          }, _defineProperty$q(_class, _this6.computedVariant, isSelected), _defineProperty$q(_class, _this6.computedTodayVariant, isToday && highlightToday && !isSelected && day.isThisMonth), _defineProperty$q(_class, 'btn-outline-light', !(isToday && highlightToday) && !isSelected && !isActive), _defineProperty$q(_class, 'btn-light', !(isToday && highlightToday) && !isSelected && isActive), _defineProperty$q(_class, 'text-muted', !day.isThisMonth && !isSelected), _defineProperty$q(_class, 'text-dark', !(isToday && highlightToday) && !isSelected && !isActive && day.isThisMonth), _defineProperty$q(_class, 'font-weight-bold', (isSelected || day.isThisMonth) && !day.isDisabled), _class),
           on: {
             click: function click() {
               return _this6.onClickDay(day);
@@ -5892,11 +5893,11 @@ var focusInMixin = Vue.extend({
   }
 });
 
-function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$k(Object(source), true).forEach(function (key) { _defineProperty$n(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$m(Object(source), true).forEach(function (key) { _defineProperty$p(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var ROOT_EVENT_NAME_SHOWN = getRootEventName(NAME_DROPDOWN, EVENT_NAME_SHOWN);
 var ROOT_EVENT_NAME_HIDDEN = getRootEventName(NAME_DROPDOWN, EVENT_NAME_HIDDEN); // CSS selectors
@@ -5912,7 +5913,7 @@ var filterVisibles = function filterVisibles(els) {
 }; // --- Props ---
 
 
-var props$D = makePropsConfigurable(sortKeys(_objectSpread$k(_objectSpread$k({}, props$F), {}, {
+var props$F = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m({}, props$H), {}, {
   // String: `scrollParent`, `window` or `viewport`
   // HTMLElement: HTML Element reference
   boundary: makeProp([HTMLElement, PROP_TYPE_STRING], 'scrollParent'),
@@ -5946,7 +5947,7 @@ var dropdownMixin = Vue.extend({
       default: null
     }
   },
-  props: props$D,
+  props: props$F,
   data: function data() {
     return {
       visible: false,
@@ -6349,7 +6350,7 @@ var dropdownMixin = Vue.extend({
 
 var OPTIONS_OBJECT_DEPRECATED_MSG = 'Setting prop "options" to an object is deprecated. Use the array format instead.'; // --- Props ---
 
-var props$C = makePropsConfigurable({
+var props$E = makePropsConfigurable({
   disabledField: makeProp(PROP_TYPE_STRING, 'disabled'),
   htmlField: makeProp(PROP_TYPE_STRING, 'html'),
   options: makeProp(PROP_TYPE_ARRAY_OBJECT, []),
@@ -6359,7 +6360,7 @@ var props$C = makePropsConfigurable({
 // @vue/component
 
 var formOptionsMixin = Vue.extend({
-  props: props$C,
+  props: props$E,
   computed: {
     formOptions: function formOptions() {
       return this.normalizeOptions(this.options);
@@ -6413,9 +6414,19 @@ var formOptionsMixin = Vue.extend({
   }
 });
 
+var looseIndexOf = function looseIndexOf(array, value) {
+  for (var i = 0; i < array.length; i++) {
+    if (looseEqual(array[i], value)) {
+      return i;
+    }
+  }
+
+  return -1;
+};
+
 var SELECTOR = 'input, textarea, select'; // --- Props ---
 
-var props$B = makePropsConfigurable({
+var props$D = makePropsConfigurable({
   autofocus: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   form: makeProp(PROP_TYPE_STRING),
@@ -6426,7 +6437,7 @@ var props$B = makePropsConfigurable({
 // @vue/component
 
 var formControlMixin = Vue.extend({
-  props: props$B,
+  props: props$D,
   mounted: function mounted() {
     this.handleAutofocus();
   },
@@ -6456,13 +6467,13 @@ var formControlMixin = Vue.extend({
   }
 });
 
-var props$A = makePropsConfigurable({
+var props$C = makePropsConfigurable({
   plain: makeProp(PROP_TYPE_BOOLEAN, false)
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
 var formCustomMixin = Vue.extend({
-  props: props$A,
+  props: props$C,
   computed: {
     custom: function custom() {
       return !this.plain;
@@ -6470,13 +6481,13 @@ var formCustomMixin = Vue.extend({
   }
 });
 
-var props$z = makePropsConfigurable({
+var props$B = makePropsConfigurable({
   size: makeProp(PROP_TYPE_STRING)
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
 var formSizeMixin = Vue.extend({
-  props: props$z,
+  props: props$B,
   computed: {
     sizeFormClass: function sizeFormClass() {
       return [this.size ? "form-control-".concat(this.size) : null];
@@ -6493,14 +6504,14 @@ var formSizeMixin = Vue.extend({
  *  - null for no contextual state
  */
 
-var props$y = makePropsConfigurable({
+var props$A = makePropsConfigurable({
   // Tri-state prop: true, false, null (or undefined)
   state: makeProp(PROP_TYPE_BOOLEAN, null)
 }, 'formState'); // --- Mixin ---
 // @vue/component
 
 var formStateMixin = Vue.extend({
-  props: props$y,
+  props: props$A,
   computed: {
     computedState: function computedState() {
       // If not a boolean, ensure that value is null
@@ -6518,6 +6529,385 @@ var formStateMixin = Vue.extend({
       }
 
       return this.computedState === false ? 'true' : ariaInvalid;
+    }
+  }
+});
+
+var _watch$2, _methods;
+
+function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$l(Object(source), true).forEach(function (key) { _defineProperty$o(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _makeModelMixin$4 = makeModelMixin('checked', {
+  defaultValue: null
+}),
+    modelMixin$3 = _makeModelMixin$4.mixin,
+    modelProps$3 = _makeModelMixin$4.props,
+    MODEL_PROP_NAME$3 = _makeModelMixin$4.prop,
+    MODEL_EVENT_NAME$3 = _makeModelMixin$4.event;
+
+var props$z = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l(_objectSpread$l(_objectSpread$l(_objectSpread$l(_objectSpread$l(_objectSpread$l({}, props$H), modelProps$3), props$D), props$B), props$A), props$C), {}, {
+  ariaLabel: makeProp(PROP_TYPE_STRING),
+  ariaLabelledby: makeProp(PROP_TYPE_STRING),
+  // Only applicable in standalone mode (non group)
+  button: makeProp(PROP_TYPE_BOOLEAN, false),
+  // Only applicable when rendered with button style
+  buttonVariant: makeProp(PROP_TYPE_STRING),
+  inline: makeProp(PROP_TYPE_BOOLEAN, false),
+  value: makeProp(PROP_TYPE_ANY)
+})), 'formRadioCheckControls'); // --- Mixin ---
+// @vue/component
+
+var formRadioCheckMixin = Vue.extend({
+  mixins: [attrsMixin, idMixin, modelMixin$3, normalizeSlotMixin, formControlMixin, formSizeMixin, formStateMixin, formCustomMixin],
+  inheritAttrs: false,
+  props: props$z,
+  data: function data() {
+    return {
+      localChecked: this.isGroup ? this.bvGroup[MODEL_PROP_NAME$3] : this[MODEL_PROP_NAME$3],
+      hasFocus: false
+    };
+  },
+  computed: {
+    computedLocalChecked: {
+      get: function get() {
+        return this.isGroup ? this.bvGroup.localChecked : this.localChecked;
+      },
+      set: function set(value) {
+        if (this.isGroup) {
+          this.bvGroup.localChecked = value;
+        } else {
+          this.localChecked = value;
+        }
+      }
+    },
+    isChecked: function isChecked() {
+      return looseEqual(this.value, this.computedLocalChecked);
+    },
+    isRadio: function isRadio() {
+      return true;
+    },
+    isGroup: function isGroup() {
+      // Is this check/radio a child of check-group or radio-group?
+      return !!this.bvGroup;
+    },
+    isBtnMode: function isBtnMode() {
+      // Support button style in single input mode
+      return this.isGroup ? this.bvGroup.buttons : this.button;
+    },
+    isPlain: function isPlain() {
+      return this.isBtnMode ? false : this.isGroup ? this.bvGroup.plain : this.plain;
+    },
+    isCustom: function isCustom() {
+      return this.isBtnMode ? false : !this.isPlain;
+    },
+    isSwitch: function isSwitch() {
+      // Custom switch styling (checkboxes only)
+      return this.isBtnMode || this.isRadio || this.isPlain ? false : this.isGroup ? this.bvGroup.switches : this.switch;
+    },
+    isInline: function isInline() {
+      return this.isGroup ? this.bvGroup.inline : this.inline;
+    },
+    isDisabled: function isDisabled() {
+      // Child can be disabled while parent isn't, but is always disabled if group is
+      return this.isGroup ? this.bvGroup.disabled || this.disabled : this.disabled;
+    },
+    isRequired: function isRequired() {
+      // Required only works when a name is provided for the input(s)
+      // Child can only be required when parent is
+      // Groups will always have a name (either user supplied or auto generated)
+      return this.computedName && (this.isGroup ? this.bvGroup.required : this.required);
+    },
+    computedName: function computedName() {
+      // Group name preferred over local name
+      return (this.isGroup ? this.bvGroup.groupName : this.name) || null;
+    },
+    computedForm: function computedForm() {
+      return (this.isGroup ? this.bvGroup.form : this.form) || null;
+    },
+    computedSize: function computedSize() {
+      return (this.isGroup ? this.bvGroup.size : this.size) || '';
+    },
+    computedState: function computedState() {
+      return this.isGroup ? this.bvGroup.computedState : isBoolean(this.state) ? this.state : null;
+    },
+    computedButtonVariant: function computedButtonVariant() {
+      // Local variant preferred over group variant
+      var buttonVariant = this.buttonVariant;
+
+      if (buttonVariant) {
+        return buttonVariant;
+      }
+
+      if (this.isGroup && this.bvGroup.buttonVariant) {
+        return this.bvGroup.buttonVariant;
+      }
+
+      return 'secondary';
+    },
+    buttonClasses: function buttonClasses() {
+      var _ref;
+
+      var computedSize = this.computedSize;
+      return ['btn', "btn-".concat(this.computedButtonVariant), (_ref = {}, _defineProperty$o(_ref, "btn-".concat(computedSize), computedSize), _defineProperty$o(_ref, "disabled", this.isDisabled), _defineProperty$o(_ref, "active", this.isChecked), _defineProperty$o(_ref, "focus", this.hasFocus), _ref)];
+    },
+    computedAttrs: function computedAttrs() {
+      var disabled = this.isDisabled,
+          required = this.isRequired;
+      return _objectSpread$l(_objectSpread$l({}, this.bvAttrs), {}, {
+        id: this.safeId(),
+        type: this.isRadio ? 'radio' : 'checkbox',
+        name: this.computedName,
+        form: this.computedForm,
+        disabled: disabled,
+        required: required,
+        'aria-required': required || null,
+        'aria-label': this.ariaLabel || null,
+        'aria-labelledby': this.ariaLabelledby || null
+      });
+    }
+  },
+  watch: (_watch$2 = {}, _defineProperty$o(_watch$2, MODEL_PROP_NAME$3, function () {
+    this["".concat(MODEL_PROP_NAME$3, "Watcher")].apply(this, arguments);
+  }), _defineProperty$o(_watch$2, "computedLocalChecked", function computedLocalChecked() {
+    this.computedLocalCheckedWatcher.apply(this, arguments);
+  }), _watch$2),
+  methods: (_methods = {}, _defineProperty$o(_methods, "".concat(MODEL_PROP_NAME$3, "Watcher"), function Watcher(newValue) {
+    if (!looseEqual(newValue, this.computedLocalChecked)) {
+      this.computedLocalChecked = newValue;
+    }
+  }), _defineProperty$o(_methods, "computedLocalCheckedWatcher", function computedLocalCheckedWatcher(newValue, oldValue) {
+    if (!looseEqual(newValue, oldValue)) {
+      this.$emit(MODEL_EVENT_NAME$3, newValue);
+    }
+  }), _defineProperty$o(_methods, "handleChange", function handleChange(_ref2) {
+    var _this = this;
+
+    var checked = _ref2.target.checked;
+    var value = this.value;
+    var localChecked = checked ? value : null;
+    this.computedLocalChecked = value; // Fire events in a `$nextTick()` to ensure the `v-model` is updated
+
+    this.$nextTick(function () {
+      // Change is only emitted on user interaction
+      _this.$emit(EVENT_NAME_CHANGE, localChecked); // If this is a child of a group, we emit a change event on it as well
+
+
+      if (_this.isGroup) {
+        _this.bvGroup.$emit(EVENT_NAME_CHANGE, localChecked);
+      }
+    });
+  }), _defineProperty$o(_methods, "handleFocus", function handleFocus(event) {
+    // When in buttons mode, we need to add 'focus' class to label when input focused
+    // As it is the hidden input which has actual focus
+    if (event.target) {
+      if (event.type === 'focus') {
+        this.hasFocus = true;
+      } else if (event.type === 'blur') {
+        this.hasFocus = false;
+      }
+    }
+  }), _defineProperty$o(_methods, "focus", function focus() {
+    if (!this.isDisabled) {
+      attemptFocus(this.$refs.input);
+    }
+  }), _defineProperty$o(_methods, "blur", function blur() {
+    if (!this.isDisabled) {
+      attemptBlur(this.$refs.input);
+    }
+  }), _methods),
+  render: function render(h) {
+    var isRadio = this.isRadio,
+        isBtnMode = this.isBtnMode,
+        isPlain = this.isPlain,
+        isCustom = this.isCustom,
+        isInline = this.isInline,
+        isSwitch = this.isSwitch,
+        computedSize = this.computedSize,
+        bvAttrs = this.bvAttrs;
+    var $content = this.normalizeSlot();
+    var $input = h('input', {
+      class: [{
+        'form-check-input': isPlain,
+        'custom-control-input': isCustom,
+        // https://github.com/bootstrap-vue/bootstrap-vue/issues/2911
+        'position-static': isPlain && !$content
+      }, isBtnMode ? '' : this.stateClass],
+      directives: [{
+        name: 'model',
+        value: this.computedLocalChecked
+      }],
+      attrs: this.computedAttrs,
+      domProps: {
+        value: this.value,
+        checked: this.isChecked
+      },
+      on: _objectSpread$l({
+        change: this.handleChange
+      }, isBtnMode ? {
+        focus: this.handleFocus,
+        blur: this.handleFocus
+      } : {}),
+      key: 'input',
+      ref: 'input'
+    });
+
+    if (isBtnMode) {
+      var $button = h('label', {
+        class: this.buttonClasses
+      }, [$input, $content]);
+
+      if (!this.isGroup) {
+        // Standalone button mode, so wrap in 'btn-group-toggle'
+        // and flag it as inline-block to mimic regular buttons
+        $button = h('div', {
+          class: ['btn-group-toggle', 'd-inline-block']
+        }, [$button]);
+      }
+
+      return $button;
+    } // If no label content in plain mode we dont render the label
+    // See: https://github.com/bootstrap-vue/bootstrap-vue/issues/2911
+
+
+    var $label = h();
+
+    if (!(isPlain && !$content)) {
+      $label = h('label', {
+        class: {
+          'form-check-label': isPlain,
+          'custom-control-label': isCustom
+        },
+        attrs: {
+          for: this.safeId()
+        }
+      }, $content);
+    }
+
+    return h('div', {
+      class: [_defineProperty$o({
+        'form-check': isPlain,
+        'form-check-inline': isPlain && isInline,
+        'custom-control': isCustom,
+        'custom-control-inline': isCustom && isInline,
+        'custom-checkbox': isCustom && !isRadio && !isSwitch,
+        'custom-switch': isSwitch,
+        'custom-radio': isCustom && isRadio
+      }, "b-custom-control-".concat(computedSize), computedSize && !isBtnMode), bvAttrs.class],
+      style: bvAttrs.style
+    }, [$input, $label]);
+  }
+});
+
+var _objectSpread2;
+
+function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$k(Object(source), true).forEach(function (key) { _defineProperty$n(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var MODEL_PROP_NAME_INDETERMINATE = 'indeterminate';
+var MODEL_EVENT_NAME_INDETERMINATE = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_INDETERMINATE; // --- Props ---
+
+var props$y = makePropsConfigurable(sortKeys(_objectSpread$k(_objectSpread$k({}, props$z), {}, (_objectSpread2 = {}, _defineProperty$n(_objectSpread2, MODEL_PROP_NAME_INDETERMINATE, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$n(_objectSpread2, "switch", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$n(_objectSpread2, "uncheckedValue", makeProp(PROP_TYPE_ANY, false)), _defineProperty$n(_objectSpread2, "value", makeProp(PROP_TYPE_ANY, true)), _objectSpread2))), NAME_FORM_CHECKBOX); // --- Main component ---
+// @vue/component
+
+var BFormCheckbox = /*#__PURE__*/Vue.extend({
+  name: NAME_FORM_CHECKBOX,
+  mixins: [formRadioCheckMixin],
+  inject: {
+    bvGroup: {
+      from: 'bvCheckGroup',
+      default: null
+    }
+  },
+  props: props$y,
+  computed: {
+    isChecked: function isChecked() {
+      var value = this.value,
+          checked = this.computedLocalChecked;
+      return isArray(checked) ? looseIndexOf(checked, value) > -1 : looseEqual(checked, value);
+    },
+    isRadio: function isRadio() {
+      return false;
+    }
+  },
+  watch: _defineProperty$n({}, MODEL_PROP_NAME_INDETERMINATE, function (newValue, oldValue) {
+    if (!looseEqual(newValue, oldValue)) {
+      this.setIndeterminate(newValue);
+    }
+  }),
+  mounted: function mounted() {
+    // Set initial indeterminate state
+    this.setIndeterminate(this[MODEL_PROP_NAME_INDETERMINATE]);
+  },
+  methods: {
+    computedLocalCheckedWatcher: function computedLocalCheckedWatcher(newValue, oldValue) {
+      if (!looseEqual(newValue, oldValue)) {
+        this.$emit(MODEL_EVENT_NAME$3, newValue);
+        var $input = this.$refs.input;
+
+        if ($input) {
+          this.$emit(MODEL_EVENT_NAME_INDETERMINATE, $input.indeterminate);
+        }
+      }
+    },
+    handleChange: function handleChange(_ref) {
+      var _this = this;
+
+      var _ref$target = _ref.target,
+          checked = _ref$target.checked,
+          indeterminate = _ref$target.indeterminate;
+      var value = this.value,
+          uncheckedValue = this.uncheckedValue; // Update `computedLocalChecked`
+
+      var localChecked = this.computedLocalChecked;
+
+      if (isArray(localChecked)) {
+        var index = looseIndexOf(localChecked, value);
+
+        if (checked && index < 0) {
+          // Add value to array
+          localChecked = localChecked.concat(value);
+        } else if (!checked && index > -1) {
+          // Remove value from array
+          localChecked = localChecked.slice(0, index).concat(localChecked.slice(index + 1));
+        }
+      } else {
+        localChecked = checked ? value : uncheckedValue;
+      }
+
+      this.computedLocalChecked = localChecked; // Fire events in a `$nextTick()` to ensure the `v-model` is updated
+
+      this.$nextTick(function () {
+        // Change is only emitted on user interaction
+        _this.$emit(EVENT_NAME_CHANGE, localChecked); // If this is a child of a group, we emit a change event on it as well
+
+
+        if (_this.isGroup) {
+          _this.bvGroup.$emit(EVENT_NAME_CHANGE, localChecked);
+        }
+
+        _this.$emit(MODEL_EVENT_NAME_INDETERMINATE, indeterminate);
+      });
+    },
+    setIndeterminate: function setIndeterminate(state) {
+      // Indeterminate only supported in single checkbox mode
+      if (isArray(this.computedLocalChecked)) {
+        state = false;
+      }
+
+      var $input = this.$refs.input;
+
+      if ($input) {
+        $input.indeterminate = state; // Emit update event to prop
+
+        this.$emit(MODEL_EVENT_NAME_INDETERMINATE, state);
+      }
     }
   }
 });
@@ -6581,7 +6971,7 @@ function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { 
 
 function _defineProperty$m(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$x = sortKeys(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j({}, props$F), props$z), props$y), omit(props$D, ['disabled'])), omit(props$B, ['autofocus'])), {}, {
+var props$x = sortKeys(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j({}, props$H), props$B), props$A), omit(props$F, ['disabled'])), omit(props$D, ['autofocus'])), {}, {
   // When `true`, renders a `btn-group` wrapper and visually hides the label
   buttonOnly: makeProp(PROP_TYPE_BOOLEAN, false),
   // Applicable in button mode only
@@ -6821,9 +7211,9 @@ var _makeModelMixin$3 = makeModelMixin('value', {
     MODEL_EVENT_NAME$2 = _makeModelMixin$3.event; // --- Props ---
 
 
-var calendarProps = omit(props$E, ['block', 'hidden', 'id', 'noKeyNav', 'roleDescription', 'value', 'width']);
+var calendarProps = omit(props$G, ['block', 'hidden', 'id', 'noKeyNav', 'roleDescription', 'value', 'width']);
 var formBtnLabelControlProps = omit(props$x, ['formattedValue', 'id', 'lang', 'rtl', 'value']);
-var props$w = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i(_objectSpread$i(_objectSpread$i(_objectSpread$i({}, props$F), modelProps$2), calendarProps), formBtnLabelControlProps), {}, {
+var props$w = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i(_objectSpread$i(_objectSpread$i(_objectSpread$i({}, props$H), modelProps$2), calendarProps), formBtnLabelControlProps), {}, {
   // Width of the calendar dropdown
   calendarWidth: makeProp(PROP_TYPE_STRING, '270px'),
   closeButton: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -7477,7 +7867,7 @@ function _defineProperty$j(obj, key, value) { if (key in obj) { Object.definePro
 
 var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'range', 'color', 'date', 'time', 'datetime', 'datetime-local', 'month', 'week']; // --- Props ---
 
-var props$u = makePropsConfigurable(sortKeys(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g({}, props$F), props$B), props$z), props$y), props$v), {}, {
+var props$u = makePropsConfigurable(sortKeys(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g({}, props$H), props$D), props$B), props$A), props$v), {}, {
   list: makeProp(PROP_TYPE_STRING),
   max: makeProp(PROP_TYPE_NUMBER_STRING),
   min: makeProp(PROP_TYPE_NUMBER_STRING),
@@ -7614,7 +8004,7 @@ function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { 
 
 function _defineProperty$i(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$s = makePropsConfigurable(sortKeys(_objectSpread$f(_objectSpread$f({}, props$C), {}, {
+var props$s = makePropsConfigurable(sortKeys(_objectSpread$f(_objectSpread$f({}, props$E), {}, {
   labelField: makeProp(PROP_TYPE_STRING, 'label'),
   optionsField: makeProp(PROP_TYPE_STRING, 'options')
 })), 'formOptions'); // --- Mixin ---
@@ -7693,7 +8083,7 @@ function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { 
 
 function _defineProperty$h(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$q = makePropsConfigurable(sortKeys(_objectSpread$e(_objectSpread$e({}, props$C), {}, {
+var props$q = makePropsConfigurable(sortKeys(_objectSpread$e(_objectSpread$e({}, props$E), {}, {
   label: makeProp(PROP_TYPE_STRING, undefined, true) // Required
 
 })), NAME_FORM_SELECT_OPTION_GROUP); // --- Main component ---
@@ -7733,7 +8123,7 @@ function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { 
 
 function _defineProperty$g(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$p = makePropsConfigurable(sortKeys(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d({}, props$F), props$t), props$B), props$A), props$z), props$y), {}, {
+var props$p = makePropsConfigurable(sortKeys(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d({}, props$H), props$t), props$D), props$C), props$B), props$A), {}, {
   ariaInvalid: makeProp(PROP_TYPE_BOOLEAN_STRING, false),
   multiple: makeProp(PROP_TYPE_BOOLEAN, false),
   // Browsers default size to `0`, which shows 4 rows in most browsers in multiple mode
@@ -11077,7 +11467,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props = makePropsConfigurable(sortKeys(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, props$F), props$n), props$l), props$k), props$j), props$i), props$h), props$g), props$f), props$e), props$d), props$c), props$b), props$a), props$6), props$4), props$2), props$1)), NAME_TABLE); // --- Main component ---
+var props = makePropsConfigurable(sortKeys(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, props$H), props$n), props$l), props$k), props$j), props$i), props$h), props$g), props$f), props$e), props$d), props$c), props$b), props$a), props$6), props$4), props$2), props$1)), NAME_TABLE); // --- Main component ---
 // @vue/component
 
 var BTable = /*#__PURE__*/Vue.extend({
@@ -11092,43 +11482,61 @@ var BTable = /*#__PURE__*/Vue.extend({
 
 });
 
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-// interface SampleData {
-//   counter: number;
-//   initCounter: number;
-//   message: {
-//     action: string | null;
-//     amount: number | null;
-//   };
-// }
-
-var script = /*#__PURE__*/Vue.extend({
+var script = Vue.extend({
   name: 'BEditableTable',
-  // vue component name
   components: {
     BTable,
     BFormDatepicker,
     BFormInput,
-    BFormSelect
+    BFormSelect,
+    BFormCheckbox
   },
   props: {
     fields: Array,
     items: Array
   },
+  directives: {
+    focus: {
+      inserted: function (el, event) {
+        switch (event.value) {
+          case 'checkbox':
+            el.children[0].focus();
+
+          case 'date':
+            el.children[0].focus();
+
+          default:
+            el.focus();
+        }
+      }
+    }
+  },
 
   data() {
     return {
-      selectedCell: null,
-      selectedRow: {}
+      selectedCell: {
+        type: String,
+        default: null
+      },
+      selectedRow: {
+        type: Object,
+        default: {}
+      }
     };
   },
 
   methods: {
-    handleEditCell(data, name) {
+    handleEditCell(index, name) {
       this.selectedCell = name;
-      this.selectedRow = {
-        [data.index]: true
-      };
+      this.selectedRow = index;
+    },
+
+    handleKeydown(e, index, data) {
+      if (e.code === 'Tab') {
+        e.preventDefault();
+        this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
+        this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
+      }
     }
 
   }
@@ -11209,6 +11617,59 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
     return script;
 }
 
+const isOldIE = typeof navigator !== 'undefined' &&
+    /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+function createInjector(context) {
+    return (id, style) => addStyle(id, style);
+}
+let HEAD;
+const styles = {};
+function addStyle(id, css) {
+    const group = isOldIE ? css.media || 'default' : id;
+    const style = styles[group] || (styles[group] = { ids: new Set(), styles: [] });
+    if (!style.ids.has(id)) {
+        style.ids.add(id);
+        let code = css.source;
+        if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+                '\n/*# sourceMappingURL=data:application/json;base64,' +
+                    btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+                    ' */';
+        }
+        if (!style.element) {
+            style.element = document.createElement('style');
+            style.element.type = 'text/css';
+            if (css.media)
+                style.element.setAttribute('media', css.media);
+            if (HEAD === undefined) {
+                HEAD = document.head || document.getElementsByTagName('head')[0];
+            }
+            HEAD.appendChild(style.element);
+        }
+        if ('styleSheet' in style.element) {
+            style.styles.push(code);
+            style.element.styleSheet.cssText = style.styles
+                .filter(Boolean)
+                .join('\n');
+        }
+        else {
+            const index = style.ids.size - 1;
+            const textNode = document.createTextNode(code);
+            const nodes = style.element.childNodes;
+            if (nodes[index])
+                style.element.removeChild(nodes[index]);
+            if (nodes.length)
+                style.element.insertBefore(textNode, nodes[index]);
+            else
+                style.element.appendChild(textNode);
+        }
+    }
+}
+
 /* script */
 const __vue_script__ = script;
 /* template */
@@ -11225,10 +11686,26 @@ var __vue_render__ = function () {
       return {
         key: "cell(" + field.key + ")",
         fn: function (data) {
-          return [field.type === 'date' && _vm.selectedRow[data.index] && _vm.selectedCell === field.key ? _c('b-form-datepicker', {
+          return [field.type === 'date' && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-datepicker', {
+            directives: [{
+              name: "focus",
+              rawName: "v-focus",
+              value: 'date',
+              expression: "'date'"
+            }],
             key: index,
             attrs: {
               "type": field.type
+            },
+            on: {
+              "input": function ($event) {
+                return _vm.$emit('input-change', $event, data);
+              }
+            },
+            nativeOn: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
+              }
             },
             model: {
               value: _vm.items[data.index][field.key],
@@ -11237,11 +11714,25 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type === 'select' && _vm.selectedRow[data.index] && _vm.selectedCell === field.key ? _c('b-form-select', {
+          }) : field.type === 'select' && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-select', {
+            directives: [{
+              name: "focus",
+              rawName: "v-focus"
+            }],
             key: index,
-            staticClass: "form-control",
             attrs: {
-              "options": field.options
+              "options": field.options,
+              "plain": ""
+            },
+            on: {
+              "change": function ($event) {
+                return _vm.$emit('input-change', $event, data);
+              }
+            },
+            nativeOn: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
+              }
             },
             model: {
               value: _vm.items[data.index][field.key],
@@ -11250,10 +11741,50 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type && _vm.selectedRow[data.index] && _vm.selectedCell === field.key ? _c('b-form-input', {
+          }) : field.type === 'check' && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-checkbox', {
+            directives: [{
+              name: "focus",
+              rawName: "v-focus",
+              value: 'checkbox',
+              expression: "'checkbox'"
+            }],
+            key: index,
+            attrs: {
+              "plain": ""
+            },
+            on: {
+              "change": function ($event) {
+                return _vm.$emit('input-change', $event, data);
+              }
+            },
+            nativeOn: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
+              }
+            },
+            model: {
+              value: _vm.items[data.index][field.key],
+              callback: function ($$v) {
+                _vm.$set(_vm.items[data.index], field.key, $$v);
+              },
+              expression: "items[data.index][field.key]"
+            }
+          }) : field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-input', {
+            directives: [{
+              name: "focus",
+              rawName: "v-focus"
+            }],
             key: index,
             attrs: {
               "type": field.type
+            },
+            on: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
+              },
+              "input": function ($event) {
+                return _vm.$emit('input-change', $event, data);
+              }
             },
             model: {
               value: _vm.items[data.index][field.key],
@@ -11264,12 +11795,13 @@ var __vue_render__ = function () {
             }
           }) : _c('span', {
             key: index,
+            staticClass: "edit-cell",
             on: {
               "click": function ($event) {
-                return _vm.handleEditCell(data, field.key);
+                return _vm.handleEditCell(data.index, field.key);
               }
             }
-          }, [_vm._v(_vm._s(data.value))])];
+          }, [_vm.$scopedSlots["readonly-" + field.key] ? _vm._t("readonly-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
         }
       };
     }), _vm._l(_vm.$scopedSlots, function (_, slot) {
@@ -11286,18 +11818,24 @@ var __vue_render__ = function () {
 var __vue_staticRenderFns__ = [];
 /* style */
 
-const __vue_inject_styles__ = undefined;
+const __vue_inject_styles__ = function (inject) {
+  if (!inject) return;
+  inject("data-v-58132760_0", {
+    source: ".edit-cell[data-v-58132760]{display:flex;height:100%;width:100%}",
+    map: undefined,
+    media: undefined
+  });
+};
 /* scoped */
 
-const __vue_scope_id__ = "data-v-3bf5c2ba";
+
+const __vue_scope_id__ = "data-v-58132760";
 /* module identifier */
 
 const __vue_module_identifier__ = undefined;
 /* functional template */
 
 const __vue_is_functional_template__ = false;
-/* style inject */
-
 /* style inject SSR */
 
 /* style inject shadow dom */
@@ -11305,7 +11843,7 @@ const __vue_is_functional_template__ = false;
 const __vue_component__ = /*#__PURE__*/normalizeComponent({
   render: __vue_render__,
   staticRenderFns: __vue_staticRenderFns__
-}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, undefined, undefined, undefined);
+}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, createInjector, undefined, undefined);
 
 // Import vue component
 
