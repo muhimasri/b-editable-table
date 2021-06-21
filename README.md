@@ -107,3 +107,46 @@ Every cell will change to an editable input filed upon clicking on the cell. Bel
 |--|--|
 | Tab | Automatically move to the next cell with edit mode |
 | Esc | Change back to read-only mode |
+
+## Events:
+|Event |Arguments | Description |
+|--|--|--|
+| input-change |`value` - Current cell value <br/> `data` - Row data| Emitted when any cell input changes
+
+### Example:
+```javascript
+<template>
+    <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+</template>
+
+<script>
+import BEditableTable from 'vue-bootstrap-editable-table';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text"},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
+        { key: "age", label: "Age", type: "number" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
+        { key: "permanentResident", label: "Permanent Resident", type: "check" },
+      ],
+       items: [
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', permanentResident: true },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', permanentResident: false },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', permanentResident: false },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', permanentResident: true }
+        ]
+    };
+  },
+  methods: {
+      handleInput(value, data) {
+	      // Handle input change
+      }
+  }
+};
+</script>
+```
