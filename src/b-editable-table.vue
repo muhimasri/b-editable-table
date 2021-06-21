@@ -6,7 +6,7 @@
         <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'check' && selectedRow === data.index && selectedCell === field.key" :key="index" plain></b-form-checkbox>
         <b-form-input @keydown="handleKeydown($event, index, data)" v-focus @input="$emit('input-change', $event, data)" v-else-if="field.type && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-input>
         <span class="edit-cell" :key="index" v-else @click="handleEditCell(data.index, field.key)">
-          <slot v-if="$scopedSlots[`readonly-${field.key}`]" :name="`readonly-${field.key}`" v-bind="data"></slot>
+          <slot v-if="$scopedSlots[`cell-${field.key}`]" :name="`cell-${field.key}`" v-bind="data"></slot>
           <template v-else>{{data.value}}</template>
         </span>
       </template>

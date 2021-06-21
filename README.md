@@ -1,7 +1,12 @@
 
+
 # BootstrapVue Editable Table
 
-A Vue Editable Table that extends and inherits all Bootstrap table features and provide an easy way to edit cells.
+Ahow thn early stage Vue Editable Table that extends and inherits all Bootstrap table features and provide an easy way to edit cells.
+
+This is still in Beta and requires testing and validation. So please help by creating issues or new features requests.
+
+If you'd like to understand the code to contribute, please read this article for details. 
 
 ## Prerequisite
 
@@ -19,7 +24,6 @@ npm i bootstrap-vue-editable-table
 Since this a BootstrapVue component, you need to set it up the same way. The fastest way is to register BootstrapVue in your app entry point (typically app.js or main.js):
 
 ```javascript
-
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
@@ -32,7 +36,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
-
 ```
 Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more details in seting up your project.
 
@@ -111,9 +114,9 @@ Every cell will change to an editable input filed upon clicking on the cell. Bel
 ## Events:
 |Event |Arguments | Description |
 |--|--|--|
-| input-change |`value` - Current cell value <br/> `data` - Row data| Emitted when any cell input changes
+| input-change |`value` - Current cell value <br/> `data` - Row data (the same returned object by Bootstrap)| Emitted when any cell input changes
 
-### Example:
+#### Example:
 ```javascript
 <template>
     <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
@@ -150,3 +153,31 @@ export default {
 };
 </script>
 ```
+## Custom Cell
+To customize a none editable cell, you can use a scoped slots to customize a particular field.
+
+#### Example rendering a `boolean` field (`permanentResident`) to `Yes` or `No` value:
+
+```javascript
+<b-editable-table :items="items" :fields="fields">
+	<template #cell-permanentResident="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+     </template>
+</b-editable-table>
+```
+
+The slot name has to start with `cell-` then followed by the field key `cell-permanentResident`
+
+|Name |Arguments | Description |
+|--|--|--|
+| `cell-{key}`|Returns the same row data that Bootstrap returns| Scoped slot for custom data rendering of field data. '{key}' is the field's key name
+
+## Supported Versions
+This has only been tested on:
+
+ - vue `v2.6.12`
+ - bootstrap `v5.0.1`
+ - bootstrap-vue `v2.21.2`
+
+We are looking to support as many versions as possible but please create an issue if you encounter issues with different versions.

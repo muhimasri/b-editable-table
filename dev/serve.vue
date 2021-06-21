@@ -16,21 +16,21 @@ export default Vue.extend({
         { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "single", label: "Single", type: "check" },
+        { key: "permanentResident", label: "Permanent Resident", type: "check" },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', single: false },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', single: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', single: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', single: false }
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', permanentResident: true },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', permanentResident: false },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', permanentResident: false },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', permanentResident: true }
         ]
     };
   },
   methods: {
-    inputHandler(e:any, data:any) {
-      console.log(e);
-      console.log(data);
-    }
+      handleInput(value: any, data: any) {
+          console.log(value);
+          console.log(data);
+      }
   }
 });
 </script>
@@ -38,12 +38,9 @@ export default Vue.extend({
 <template>
   <div id="app">
     <b-editable-table :items="items" :fields="fields" @input-change="inputHandler">
-      <template #readonly-single="data">
+      <template #cell-permanentResident="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
-      </template>
-      <template #readonly-dateOfBirth="data">
-        Date: {{data.value}}
       </template>
     </b-editable-table>
   </div>
