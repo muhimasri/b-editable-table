@@ -1,13 +1,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import BEditableTable from '@/b-editable-table.vue';
+import BExample from './b-example.vue';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default Vue.extend({
   name: 'ServeDev',
   components: {
-    BEditableTable
+    BEditableTable,
+    BExample
   },
   data() {
     return {
@@ -37,11 +39,12 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <b-editable-table :items="items" :fields="fields" @input-change="inputHandler">
+    <!-- <b-editable-table :items="items" :fields="fields" @input-change="inputHandler">
       <template #cell-permanentResident="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
       </template>
-    </b-editable-table>
+    </b-editable-table> -->
+    <b-example></b-example>
   </div>
 </template>

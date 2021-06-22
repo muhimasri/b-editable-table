@@ -161,9 +161,9 @@ To customize a none editable cell, you can use a scoped slots to customize a par
 ```javascript
 <b-editable-table :items="items" :fields="fields">
 	<template #cell-permanentResident="data">
-        <span v-if="data.value">Yes</span>
-        <span v-else>No</span>
-     </template>
+		<span v-if="data.value">Yes</span>
+		<span v-else>No</span>
+	</template>
 </b-editable-table>
 ```
 
