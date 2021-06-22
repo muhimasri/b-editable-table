@@ -1,8 +1,9 @@
 # BootstrapVue Editable Table
+![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
-Ahow thn early stage Vue Editable Table that extends and inherits all Bootstrap table features and provide an easy way to edit cells.
+A Vue Editable Table that extends and inherits all Bootstrap table features and provide an easy way to edit cells.
 
-This is still in Beta and requires testing and validation. So please help by creating issues or new features requests.
+This is an early stage Beta and requires testing and validation. So please help by creating issues or new features requests.
 
 If you'd like to understand the code to contribute, please read this article for details. 
 
