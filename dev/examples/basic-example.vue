@@ -15,7 +15,7 @@ export default {
         { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "check", formatter: (value, key, item) => {
+        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
               return value ? 'Yes' : 'No'
             }, },
       ],

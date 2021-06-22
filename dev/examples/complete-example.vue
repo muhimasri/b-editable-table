@@ -224,7 +224,7 @@ export default {
             },
             sortable: true,
             sortByFormatted: true,
-            filterByFormatted: true, type: 'check'
+            filterByFormatted: true, type: 'checkbox'
           },
         //   { key: 'actions', label: 'Actions' }
         ],
