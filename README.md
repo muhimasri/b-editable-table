@@ -8,7 +8,7 @@ If you'd like to understand the code to contribute, please read this article for
 
 ## Prerequisite
 
-At least a basic understanding of [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table). This component requires Bootstrap and Vue Bootstrap.
+A basic understanding of [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table). This component requires Bootstrap and Vue Bootstrap.
 
 ```
 npm install bootstrap bootstrap-vue
@@ -173,6 +173,24 @@ The slot name has to start with `cell-` then followed by the field key `cell-isA
 |Name |Arguments | Description |
 |--|--|--|
 | `cell-{key}`|Returns the same row data that Bootstrap returns| Scoped slot for custom data rendering of field data. '{key}' is the field's key name
+
+## Styling
+There is still no built-in styling or themes for the editable table so input fields will look like the default Bootstrap form element.
+
+To customize elements, simply add a class to the component and use CSS selector to style a specific element.
+
+#### Example:
+```html
+<template>
+	<b-editable-table  class="b-table" :items="items" :fields="fields"></b-editable-table>
+</template>
+<style>
+/** Change the border color for the input field */
+.b-table input {
+    border: 1px solid red;
+}
+</style>
+```
 
 ## Supported Versions
 This has only been tested on:

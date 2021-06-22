@@ -17,6 +17,6 @@ export default Vue.extend({
 <template>
   <div id="app">
     <basic-example></basic-example>
-    <complete-example></complete-example>
+    <!-- <complete-example></complete-example> -->
   </div>
 </template>

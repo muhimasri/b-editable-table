@@ -12,7 +12,7 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
         { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
