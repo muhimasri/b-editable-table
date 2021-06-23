@@ -73,9 +73,9 @@ export default {
 </script>
 ```
 
-`items` and `fields` are the same properties used in BootstrapVue Table except a fields has a new  `type` property to indicate what input field is required in every column.
+`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` property in the `fields` object to indicate what element is required in every column.
 
-For `select` the options can be passed as another property with an array of the required options (as shown in the example above). Since this is a Boostrap form select, it supports key/value objects:
+For `select` element, the options can be passed as another property (as shown in the example above). Since this is a [Boostrap Form Select](https://bootstrap-vue.org/docs/components/form-select), it supports a list of strings or key/value objects:
 
 ```json
 [
@@ -85,7 +85,7 @@ For `select` the options can be passed as another property with an array of the 
 ]
 ```
 
-## Input Fields:
+## Form Elements:
 Every column requires a `type` in order to make the cell editable:
 
 ```json
@@ -97,27 +97,31 @@ Every column requires a `type` in order to make the cell editable:
   { key: "isActive", label: "Is Active", type: "checkbox" },
 ]
 ```
-#### Current supported Bootstrap form elements:
+#### Below are the supported Bootstrap form elements:
 |Type | Description |
 |--|--|
 | text | Bootstrap Form Text Input
 | number | Bootstrap Form Number Input
 | select | Bootstrap Form Select
 | date | Bootstrap Form Datepicker
+| checkbox | Bootstrap Form Checkbox
 
 ## Behavior:
-Every cell will change to an editable input filed upon clicking on the cell. Below are the supported keyboard keys:
+Every cell will change to an editable input field upon clicking on the cell. 
+
+#### Supported keyboard keys:
 |Key |Behavior |
 |--|--|
-| Tab | Automatically move to the next cell with edit mode |
-| Esc | Change back to read-only mode |
+| Tab | Move to the next cell |
+| Esc | Exit edit mode |
 
-The component uses `v-model` on input elements internally to support **two-way data bindings**. Any change will reflect directly on the `items` array
+## Data Binding:
+Editable cells use `v-model` internally to support **two-way data bindings**. Any change will reflect directly on the `items` array.
 
 ## Events:
 |Event |Arguments | Description |
 |--|--|--|
-| input-change |`value` - Current cell value <br/> `data` - Row data (the same returned object by Bootstrap)| Emitted when any cell input changes
+| input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
 
 #### Example:
 ```javascript
@@ -135,7 +139,7 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
         { key: "isActive", label: "Is Active", type: "checkbox" },
@@ -157,9 +161,9 @@ export default {
 </script>
 ```
 ## Custom Cell
-To customize a none editable cell, you can use a scoped slots to customize a particular field.
+To customize a none editable cell, you can use scoped slots to customize a particular field.
 
-#### Example rendering a `boolean` field (`isActive`) to `Yes` or `No` value:
+#### Example rendering a `boolean` field to `Yes` or `No` value:
 
 ```javascript
 <b-editable-table :items="items" :fields="fields">
@@ -172,14 +176,14 @@ To customize a none editable cell, you can use a scoped slots to customize a par
 
 The slot name has to start with `cell-` then followed by the field key `cell-isActive`
 
-|Name |Arguments | Description |
+|Name | Description |
 |--|--|--|
-| `cell-{key}`|Returns the same row data that Bootstrap returns| Scoped slot for custom data rendering of field data. '{key}' is the field's key name
+| `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp;| Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
 
 ## Styling
-There is still no built-in styling or themes for the editable table so input fields will look like the default Bootstrap form element.
+There is still no built-in styling or themes for the editable table so input fields will look like the default Bootstrap form elements.
 
-To customize elements, simply add a class to the component and use CSS selector to style a specific element.
+To customize an element, simply add a class to the component and use a CSS selector to style a specific element.
 
 #### Example:
 ```html
@@ -194,11 +198,11 @@ To customize elements, simply add a class to the component and use CSS selector 
 </style>
 ```
 
-## Supported Versions
+## Supported Version
 This has only been tested on:
 
  - vue `v2.6.12`
  - bootstrap `v5.0.1`
  - bootstrap-vue `v2.21.2`
 
-We are looking to support as many versions as possible but please create an issue if you encounter issues with different versions.
+We are looking to support as many versions as possible but please create an issue if you encounter compatibility issues 🙏
