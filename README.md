@@ -1,15 +1,17 @@
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
-A Vue Editable Table that extends and inherits all Bootstrap table features and provide an easy way to edit cells.
+BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [Bootstrap Table](https://bootstrap-vue.org/docs/components/table).
 
-This is an early stage Beta and requires testing and validation. So please help by creating issues or new features requests.
+**This is still an early stage beta version so please help by creating issues with proper labels (bug, question, enhancement...).** Thank you in advance 🙏
 
-If you'd like to understand the code to contribute, please read this article for details. 
+If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/create-an-editable-dynamic-table-with-bootstrap-vue/).
 
 ## Prerequisite
 
-A basic understanding of [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table). This component requires Bootstrap and Vue Bootstrap.
+A basic understanding of [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
+
+You're required to install Bootstrap and Bootstrap Vue in your project:
 
 ```
 npm install bootstrap bootstrap-vue
@@ -20,14 +22,13 @@ npm install bootstrap bootstrap-vue
 npm i bootstrap-vue-editable-table
 ```
 
-Since this a BootstrapVue component, you need to set it up the same way. The fastest way is to register BootstrapVue in your app entry point (typically app.js or main.js):
+Since this is a BootstrapVue component, you need to set it up the same way. The easiest approach is to register BootstrapVue in your app entry point (typically app.js or main.js):
 
 ```javascript
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-// Import Bootstrap an BootstrapVue CSS files (order is important)
-
+// Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -36,7 +37,7 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 ```
-Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more details in seting up your project.
+Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more details.
 
 ## Usage
 
@@ -55,7 +56,7 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Marketing'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
         { key: "isActive", label: "Is Active", type: "checkbox" },
