@@ -6,8 +6,13 @@
     "type": "git",
     "url": "https://github.com/muhimasri/b-editable-table"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "homepage": "https://github.com/muhimasri/b-editable-table",
   "keywords": ["Vue", "Bootstrap", "Table", "Editable"],
   "author": "Muhi Masri",
+  "license": "MIT",
   "main": "dist/b-editable-table.ssr.js",
   "browser": "dist/b-editable-table.esm.js",
   "module": "dist/b-editable-table.esm.js",
