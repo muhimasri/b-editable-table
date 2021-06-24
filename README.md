@@ -177,7 +177,7 @@ To customize a none editable cell, you can use scoped slots to customize a parti
 The slot name has to start with `cell-` then followed by the field key `cell-isActive`
 
 |Name | Description |
-|--|--|--|
+|--|--|
 | `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp; | Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
 
 ## Styling
