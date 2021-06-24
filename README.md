@@ -56,7 +56,7 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Marketing'] },
+        { key: "department", label: "Department", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'] },
         { key: "age", label: "Age", type: "number" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
         { key: "isActive", label: "Is Active", type: "checkbox" },
@@ -91,13 +91,13 @@ Every column requires a `type` in order to make the cell editable:
 ```json
 [
   { key: "name", label: "Name", type: "text"},
-  { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR'] },
+  { key: "department", label: "Department", type: "select", options: ['Accounting', 'Marketing', 'Development', 'HR'] },
   { key: "age", label: "Age", type: "number" },
   { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
   { key: "isActive", label: "Is Active", type: "checkbox" },
 ]
 ```
-#### Below are the supported Bootstrap form elements:
+#### Supported Bootstrap form elements:
 |Type | Description |
 |--|--|
 | text | Bootstrap Form Text Input
@@ -178,7 +178,7 @@ The slot name has to start with `cell-` then followed by the field key `cell-isA
 
 |Name | Description |
 |--|--|--|
-| `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp;| Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
+| `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp; | Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
 
 ## Styling
 There is still no built-in styling or themes for the editable table so input fields will look like the default Bootstrap form elements.
@@ -188,7 +188,7 @@ To customize an element, simply add a class to the component and use a CSS selec
 #### Example:
 ```html
 <template>
-	<b-editable-table  class="b-table" :items="items" :fields="fields"></b-editable-table>
+	<b-editable-table class="b-table" :items="items" :fields="fields"></b-editable-table>
 </template>
 <style>
 /** Change the border color for the input field */
