@@ -27,8 +27,6 @@
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
   },
   "dependencies": {
-    "bootstrap": "^5.0.1",
-    "bootstrap-vue": "^2.21.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -52,7 +50,9 @@
     "vue-template-compiler": "^2.6.12"
   },
   "peerDependencies": {
-    "vue": "^2.6.12"
+    "vue": "^2.6.12",
+    "bootstrap": "^5.0.1",
+    "bootstrap-vue": "^2.21.2"
   },
   "engines": {
     "node": ">=12"

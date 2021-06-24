@@ -11520,7 +11520,7 @@ var script = Vue.extend({
       },
       selectedRow: {
         type: Object,
-        default: {}
+        default: null
       }
     };
   },
@@ -11536,6 +11536,10 @@ var script = Vue.extend({
         e.preventDefault();
         this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
         this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
+      } else if (e.code === 'Escape') {
+        e.preventDefault();
+        this.selectedCell = null;
+        this.selectedRow = null;
       }
     }
 
@@ -11741,7 +11745,7 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type === 'check' && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-checkbox', {
+          }) : field.type === 'checkbox' && _vm.selectedRow === data.index && _vm.selectedCell === field.key ? _c('b-form-checkbox', {
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -11801,7 +11805,7 @@ var __vue_render__ = function () {
                 return _vm.handleEditCell(data.index, field.key);
               }
             }
-          }, [_vm.$scopedSlots["readonly-" + field.key] ? _vm._t("readonly-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
+          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
         }
       };
     }), _vm._l(_vm.$scopedSlots, function (_, slot) {
@@ -11820,8 +11824,8 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-58132760_0", {
-    source: ".edit-cell[data-v-58132760]{display:flex;height:100%;width:100%}",
+  inject("data-v-0600bfb8_0", {
+    source: ".edit-cell[data-v-0600bfb8]{display:flex;height:100%;width:100%}",
     map: undefined,
     media: undefined
   });
@@ -11829,7 +11833,7 @@ const __vue_inject_styles__ = function (inject) {
 /* scoped */
 
 
-const __vue_scope_id__ = "data-v-58132760";
+const __vue_scope_id__ = "data-v-0600bfb8";
 /* module identifier */
 
 const __vue_module_identifier__ = undefined;
