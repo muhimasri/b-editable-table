@@ -45,7 +45,9 @@ export default Vue.extend({
       bind: function (el: any, binding: any, vnode: any) {
         el.clickOutsideEvent = function (event: any) {
           if (!(el == event.target || el.contains(event.target))) {
-            vnode.context[binding.expression](event);
+            if (document.contains(event.target)) {
+              vnode.context[binding.expression](event);
+            }
           }
         };
         document.addEventListener('click', el.clickOutsideEvent)
