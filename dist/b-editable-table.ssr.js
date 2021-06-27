@@ -11352,6 +11352,22 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
             el.focus();
         }
       }
+    },
+    clickOutside: {
+      bind: function bind(el, binding, vnode) {
+        el.clickOutsideEvent = function (event) {
+          if (!(el == event.target || el.contains(event.target))) {
+            if (document.contains(event.target)) {
+              vnode.context[binding.expression](event);
+            }
+          }
+        };
+
+        document.addEventListener('click', el.clickOutsideEvent);
+      },
+      unbind: function unbind(el) {
+        document.removeEventListener('click', el.clickOutsideEvent);
+      }
     }
   },
   data: function data() {
@@ -11367,7 +11383,8 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
     };
   },
   methods: {
-    handleEditCell: function handleEditCell(index, name) {
+    handleEditCell: function handleEditCell(e, index, name) {
+      e.stopPropagation();
       this.selectedCell = name;
       this.selectedRow = index;
     },
@@ -11381,6 +11398,10 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         this.selectedCell = null;
         this.selectedRow = null;
       }
+    },
+    handleClickOut: function handleClickOut() {
+      this.selectedCell = null;
+      this.selectedRow = null;
     }
   }
 });function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -11508,6 +11529,12 @@ var __vue_render__ = function __vue_render__() {
   var _c = _vm._self._c || _h;
 
   return _c('b-table', _vm._g(_vm._b({
+    directives: [{
+      name: "click-outside",
+      rawName: "v-click-outside",
+      value: _vm.handleClickOut,
+      expression: "handleClickOut"
+    }],
     scopedSlots: _vm._u([_vm._l(_vm.fields, function (field, index) {
       return {
         key: "cell(" + field.key + ")",
@@ -11624,7 +11651,7 @@ var __vue_render__ = function __vue_render__() {
             staticClass: "edit-cell",
             on: {
               "click": function click($event) {
-                return _vm.handleEditCell(data.index, field.key);
+                return _vm.handleEditCell($event, data.index, field.key);
               }
             }
           }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
@@ -11646,8 +11673,8 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-0600bfb8_0", {
-    source: ".edit-cell[data-v-0600bfb8]{display:flex;height:100%;width:100%}",
+  inject("data-v-b527eb90_0", {
+    source: ".edit-cell[data-v-b527eb90]{display:flex;height:100%;width:100%}",
     map: undefined,
     media: undefined
   });
@@ -11655,10 +11682,10 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 /* scoped */
 
 
-var __vue_scope_id__ = "data-v-0600bfb8";
+var __vue_scope_id__ = "data-v-b527eb90";
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-0600bfb8";
+var __vue_module_identifier__ = "data-v-b527eb90";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
