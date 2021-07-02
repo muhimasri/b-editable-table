@@ -1,5 +1,5 @@
 <template>
-    <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
 </template>
 
 <script>
@@ -29,24 +29,21 @@ export default {
   },
   methods: {
       handleInput(value, data) {
-          console.log(value);
-          console.log(data);
       }
   }
 };
 </script>
 
 <style>
-.b-table input {
-
+.editable-table .data-cell {
+  padding: 0.4rem 0.4rem; 
 }
-thead, tbody, tfoot, tr, td, th {
-  text-align: left;
-  width: 100px;
+
+.editable-table td {
   vertical-align: middle;
 }
-pre {
-  text-align: left;
-  color: #d63384;
+
+.editable-table .form-check {
+  margin-left: 7px;
 }
 </style>

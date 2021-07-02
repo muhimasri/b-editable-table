@@ -1,3 +1,4 @@
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -97,7 +98,7 @@ Every column requires a `type` in order to make the cell editable:
   { key: "isActive", label: "Is Active", type: "checkbox" },
 ]
 ```
-#### Supported Bootstrap form elements:
+**Supported Bootstrap form elements:**
 |Type | Description |
 |--|--|
 | text | Bootstrap Form Text Input
@@ -109,7 +110,7 @@ Every column requires a `type` in order to make the cell editable:
 ## Behavior:
 Every cell will change to an editable input field upon clicking on the cell. 
 
-#### Supported keyboard keys:
+**Supported keyboard keys:**
 |Key |Behavior |
 |--|--|
 | Tab | Move to the next cell |
@@ -123,7 +124,7 @@ Editable cells use `v-model` internally to support **two-way data bindings**. An
 |--|--|--|
 | input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
 
-#### Example:
+**Example:**
 ```javascript
 <template>
     <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
@@ -163,7 +164,7 @@ export default {
 ## Custom Cell
 To customize a none editable cell, you can use scoped slots to customize a particular field.
 
-#### Example rendering a `boolean` field to `Yes` or `No` value:
+**Example rendering a `boolean` field to `Yes` or `No` value:**
 
 ```javascript
 <b-editable-table :items="items" :fields="fields">
@@ -181,22 +182,64 @@ The slot name has to start with `cell-` then followed by the field key `cell-isA
 | `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp; | Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
 
 ## Styling
-There is still no built-in styling or themes for the editable table so input fields will look like the default Bootstrap form elements.
 
-To customize an element, simply add a class to the component and use a CSS selector to style a specific element.
+There are no custom themes for the editable table but since it extends Bootstrap Vue Table, you can apply all options available from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table).
 
-#### Example:
+To customize an editable form element, add a class to the component and use a CSS selector to style a specific element.
+
+**Example customizing a table to improve the overall look and feel:**
 ```html
 <template>
-	<b-editable-table class="b-table" :items="items" :fields="fields"></b-editable-table>
+    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
 </template>
+
+<script>
+import BEditableTable from '@/b-editable-table.vue';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text"},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
+        { key: "age", label: "Age", type: "number" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
+        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
+              return value ? 'Yes' : 'No'
+            }, },
+      ],
+       items: [
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+        ]
+    };
+  },
+  methods: {
+      handleInput(value, data) {
+      }
+  }
+};
+</script>
+
 <style>
-/** Change the border color for the input field */
-.b-table input {
-    border: 1px solid red;
+.editable-table .data-cell {
+  padding: 0.4rem 0.4rem; 
+}
+
+.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .form-check {
+  margin-left: 7px;
 }
 </style>
 ```
+`.data-cell` is a built-in class used for the `span` element within every non-editable cell. You can customize it however you like. 
 
 ## Supported Version
 This has only been tested on:
