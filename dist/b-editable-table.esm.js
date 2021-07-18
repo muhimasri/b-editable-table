@@ -11827,7 +11827,7 @@ var __vue_render__ = function () {
             }
           }) : _c('span', {
             key: index,
-            staticClass: "edit-cell",
+            staticClass: "data-cell",
             on: {
               "click": function ($event) {
                 return _vm.handleEditCell($event, data.index, field.key);
@@ -11852,8 +11852,8 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-b527eb90_0", {
-    source: ".edit-cell[data-v-b527eb90]{display:flex;height:100%;width:100%}",
+  inject("data-v-9e422a74_0", {
+    source: ".data-cell[data-v-9e422a74]{display:flex;width:100%}",
     map: undefined,
     media: undefined
   });
@@ -11861,7 +11861,7 @@ const __vue_inject_styles__ = function (inject) {
 /* scoped */
 
 
-const __vue_scope_id__ = "data-v-b527eb90";
+const __vue_scope_id__ = "data-v-9e422a74";
 /* module identifier */
 
 const __vue_module_identifier__ = undefined;

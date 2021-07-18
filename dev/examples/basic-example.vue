@@ -1,5 +1,10 @@
 <template>
+<div>
     <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+    <pre>
+      {{items}}
+    </pre>
+</div>
 </template>
 
 <script>
@@ -29,6 +34,7 @@ export default {
   },
   methods: {
       handleInput(value, data) {
+        console.log(data)
       }
   }
 };
@@ -39,11 +45,11 @@ export default {
   padding: 0.4rem 0.4rem; 
 }
 
-.editable-table td {
-  vertical-align: middle;
+.editable-table th, .editable-table td {
+  vertical-align: middle !important;
 }
 
-.editable-table .form-check {
+.editable-table .custom-checkbox {
   margin-left: 7px;
 }
 </style>

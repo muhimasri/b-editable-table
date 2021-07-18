@@ -1,4 +1,5 @@
 
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -106,6 +107,7 @@ Every column requires a `type` in order to make the cell editable:
 | select | Bootstrap Form Select
 | date | Bootstrap Form Datepicker
 | checkbox | Bootstrap Form Checkbox
+| rating | Bootstrap Form Rating
 
 ## Behavior:
 Every cell will change to an editable input field upon clicking on the cell. 
@@ -115,6 +117,66 @@ Every cell will change to an editable input field upon clicking on the cell.
 |--|--|
 | Tab | Move to the next cell |
 | Esc | Exit edit mode |
+
+## Styling
+
+There are no custom themes for the editable table but since it extends Bootstrap Vue Table, you can apply all options available from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table).
+
+To customize an editable form element, add a class to the component and use a CSS selector to style a specific element.
+
+**Example customizing a table to improve the overall look and feel:**
+```html
+<template>
+    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+</template>
+
+<script>
+import BEditableTable from '@/b-editable-table.vue';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text"},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
+        { key: "age", label: "Age", type: "number" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
+        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
+              return value ? 'Yes' : 'No'
+            }, },
+      ],
+       items: [
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+        ]
+    };
+  },
+  methods: {
+      handleInput(value, data) {
+      }
+  }
+};
+</script>
+
+<style>
+.editable-table .data-cell {
+  padding: 0.4rem 0.4rem; 
+}
+
+.editable-table th, .editable-table td {
+  vertical-align: middle !important;
+}
+
+.editable-table .form-check {
+  margin-left: 7px;
+}
+</style>
+```
+`.data-cell` is an internal class used for the `span` element within every non-editable cell. You can customize it however you like. 
 
 ## Data Binding:
 Editable cells use `v-model` internally to support **two-way data bindings**. Any change will reflect directly on the `items` array.
@@ -181,71 +243,11 @@ The slot name has to start with `cell-` then followed by the field key `cell-isA
 |--|--|
 | `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp; | Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
 
-## Styling
-
-There are no custom themes for the editable table but since it extends Bootstrap Vue Table, you can apply all options available from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table).
-
-To customize an editable form element, add a class to the component and use a CSS selector to style a specific element.
-
-**Example customizing a table to improve the overall look and feel:**
-```html
-<template>
-    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
-</template>
-
-<script>
-import BEditableTable from '@/b-editable-table.vue';
-export default {
-  components: {
-    BEditableTable
-  },
-  data() {
-    return {
-      fields: [
-        { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
-        { key: "age", label: "Age", type: "number" },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
-              return value ? 'Yes' : 'No'
-            }, },
-      ],
-       items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
-        ]
-    };
-  },
-  methods: {
-      handleInput(value, data) {
-      }
-  }
-};
-</script>
-
-<style>
-.editable-table .data-cell {
-  padding: 0.4rem 0.4rem; 
-}
-
-.editable-table td {
-  vertical-align: middle;
-}
-
-.editable-table .form-check {
-  margin-left: 7px;
-}
-</style>
-```
-`.data-cell` is a built-in class used for the `span` element within every non-editable cell. You can customize it however you like. 
-
 ## Supported Version
-This has only been tested on:
+This has been tested on:
 
  - vue `v2.6.12`
- - bootstrap `v5.0.1`
+ - bootstrap `v4.3.1`
  - bootstrap-vue `v2.21.2`
 
-We are looking to support as many versions as possible but please create an issue if you encounter compatibility issues 🙏
+We are looking to support as many versions as possible so please create an issue if you encounter compatibility issues 🙏
