@@ -1,5 +1,6 @@
 
 
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -131,7 +132,7 @@ To customize an editable form element, add a class to the component and use a CS
 </template>
 
 <script>
-import BEditableTable from '@/b-editable-table.vue';
+import BEditableTable from 'bootstrap-vue-editable-table';
 export default {
   components: {
     BEditableTable
@@ -193,7 +194,7 @@ Editable cells use `v-model` internally to support **two-way data bindings**. An
 </template>
 
 <script>
-import BEditableTable from 'vue-bootstrap-editable-table';
+import BEditableTable from 'bootstrap-vue-editable-table';
 export default {
   components: {
     BEditableTable
