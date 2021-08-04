@@ -49,7 +49,7 @@ Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more deta
 </template>
 
 <script>
-import BEditableTable from 'vue-bootstrap-editable-table';
+import BEditableTable from 'bootstrap-vue-editable-table';
 export default {
   components: {
     BEditableTable
