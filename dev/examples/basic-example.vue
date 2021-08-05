@@ -16,11 +16,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
-        { key: "age", label: "Age", type: "number" },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
+        { key: "name", label: "Name", type: "text", editable: true},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "age", label: "Age", type: "number", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, formatter: (value, key, item) => {
               return value ? 'Yes' : 'No'
             }, },
       ],

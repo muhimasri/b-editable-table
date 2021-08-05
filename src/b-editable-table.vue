@@ -1,11 +1,11 @@
 <template>
   <b-table v-click-outside="handleClickOut" v-bind="{...$props, ...$attrs}" v-on="$listeners">
       <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
-        <b-form-datepicker @keydown.native="handleKeydown($event, index, data)" v-focus="'date'" @input="$emit('input-change', $event, data)" v-if="field.type === 'date' && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-datepicker>
-        <b-form-select @keydown.native="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'select' && selectedRow === data.index && selectedCell === field.key" :key="index" v-model="items[data.index][field.key]" :options="field.options"></b-form-select>
-        <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'checkbox' && selectedRow === data.index && selectedCell === field.key" :key="index"></b-form-checkbox>
-        <b-form-rating @keydown="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'rating' && field.type && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-rating>
-        <b-form-input @keydown="handleKeydown($event, index, data)" v-focus @input="$emit('input-change', $event, data)" v-else-if="field.type && selectedRow === data.index && selectedCell === field.key" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-input>
+        <b-form-datepicker @keydown.native="handleKeydown($event, index, data)" v-focus="'date'" @input="$emit('input-change', $event, data)" v-if="field.type === 'date' && selectedRow === data.index && selectedCell === field.key && field.editable" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-datepicker>
+        <b-form-select @keydown.native="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'select' && selectedRow === data.index && selectedCell === field.key && field.editable" :key="index" v-model="items[data.index][field.key]" :options="field.options"></b-form-select>
+        <b-form-checkbox @keydown.native="handleKeydown($event, index, data)" v-focus="'checkbox'" v-model="items[data.index][field.key]" @change="$emit('input-change', $event, data)" v-else-if="field.type === 'checkbox' && selectedRow === data.index && selectedCell === field.key && field.editable" :key="index"></b-form-checkbox>
+        <b-form-rating @keydown="handleKeydown($event, index, data)" v-focus @change="$emit('input-change', $event, data)" v-else-if="field.type === 'rating' && field.type && selectedRow === data.index && selectedCell === field.key && field.editable" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-rating>
+        <b-form-input @keydown="handleKeydown($event, index, data)" v-focus @input="$emit('input-change', $event, data)" v-else-if="field.type && selectedRow === data.index && selectedCell === field.key && field.editable" :key="index" :type="field.type" v-model="items[data.index][field.key]"></b-form-input>
         <span class="data-cell" :key="index" v-else @click="handleEditCell($event, data.index, field.key)">
           <slot v-if="$scopedSlots[`cell-${field.key}`]" :name="`cell-${field.key}`" v-bind="data"></slot>
           <template v-else>{{data.value}}</template>
@@ -80,8 +80,21 @@ export default Vue.extend({
       handleKeydown(e: any, index: number, data: any) {
         if (e.code === 'Tab') {
           e.preventDefault();
-          this.selectedCell = this.fields.length - 1 === index ? this.fields[0].key : this.fields[index + 1].key;
-          this.selectedRow = this.fields.length - 1 === index ? data.index + 1 : data.index;
+          let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
+          let rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
+          let i = fieldIndex;
+          // Find next editable field
+          while (!this.fields[i].editable) {
+            if (i === this.fields.length - 1) {
+              i = 0;
+              rowIndex++;
+            } else {
+              i++;
+            }
+          }
+          fieldIndex = i;
+          this.selectedCell = this.fields[fieldIndex].key;
+          this.selectedRow = rowIndex;
         } else if (e.code === 'Escape') {
           e.preventDefault();
           this.selectedCell = null;
