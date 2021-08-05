@@ -1,6 +1,7 @@
 
 
 
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -58,11 +59,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'] },
-        { key: "age", label: "Age", type: "number" },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "checkbox" },
+        { key: "name", label: "Name", type: "text", editable: true},
+        { key: "department", label: "Department", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'], editable: true },
+        { key: "age", label: "Age", type: "number", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
@@ -76,7 +77,7 @@ export default {
 </script>
 ```
 
-`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` property in the `fields` object to indicate what element is required in every column.
+`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` and `editable` property in the `fields` object to indicate what element is required in every column and whether or not it should be editable.
 
 For `select` element, the options can be passed as another property (as shown in the example above). Since this is a [Boostrap Form Select](https://bootstrap-vue.org/docs/components/form-select), it supports a list of strings or key/value objects:
 
@@ -89,15 +90,15 @@ For `select` element, the options can be passed as another property (as shown in
 ```
 
 ## Form Elements:
-Every column requires a `type` in order to make the cell editable:
+Every column requires a `type` and `editable` property in order to make the cell editable:
 
 ```json
 [
-  { key: "name", label: "Name", type: "text"},
-  { key: "department", label: "Department", type: "select", options: ['Accounting', 'Marketing', 'Development', 'HR'] },
-  { key: "age", label: "Age", type: "number" },
-  { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-  { key: "isActive", label: "Is Active", type: "checkbox" },
+  { key: "name", label: "Name", type: "text", editable: true},
+  { key: "department", label: "Department", type: "select", options: ['Accounting', 'Marketing', 'Development', 'HR'], editable: true },
+  { key: "age", label: "Age", type: "number", editable: true },
+  { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+  { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
 ]
 ```
 **Supported Bootstrap form elements:**
@@ -140,13 +141,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
-        { key: "age", label: "Age", type: "number" },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "checkbox", formatter: (value, key, item) => {
-              return value ? 'Yes' : 'No'
-            }, },
+        { key: "name", label: "Name", type: "text", editable: true},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "age", label: "Age", type: "number", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
@@ -202,11 +201,11 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text"},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'] },
-        { key: "age", label: "Age", type: "number" },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date" },
-        { key: "isActive", label: "Is Active", type: "checkbox" },
+        { key: "name", label: "Name", type: "text", editable: true},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "age", label: "Age", type: "number", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
