@@ -11917,7 +11917,7 @@ var BTable = /*#__PURE__*/Vue.extend({
 });
 
 var script = Vue.extend({
-  name: 'BEditableTable',
+  name: "BEditableTable",
   components: {
     BTable,
     BFormDatepicker,
@@ -11934,10 +11934,10 @@ var script = Vue.extend({
     focus: {
       inserted: function (el, event) {
         switch (event.value) {
-          case 'checkbox':
+          case "checkbox":
             el.children[0].focus();
 
-          case 'date':
+          case "date":
             el.children[0].focus();
 
           default:
@@ -11955,10 +11955,10 @@ var script = Vue.extend({
           }
         };
 
-        document.addEventListener('click', el.clickOutsideEvent);
+        document.addEventListener("click", el.clickOutsideEvent);
       },
       unbind: function (el) {
-        document.removeEventListener('click', el.clickOutsideEvent);
+        document.removeEventListener("click", el.clickOutsideEvent);
       }
     }
   },
@@ -11984,7 +11984,7 @@ var script = Vue.extend({
     },
 
     handleKeydown(e, index, data) {
-      if (e.code === 'Tab') {
+      if (e.code === "Tab") {
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         let rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
@@ -12002,7 +12002,7 @@ var script = Vue.extend({
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
         this.selectedRow = rowIndex;
-      } else if (e.code === 'Escape') {
+      } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
         this.selectedRow = null;
@@ -12167,7 +12167,7 @@ var __vue_render__ = function () {
       return {
         key: "cell(" + field.key + ")",
         fn: function (data) {
-          return [field.type === 'date' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', {
+          return [field.type === 'date' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12195,15 +12195,12 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type === 'select' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', {
+          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
-            attrs: {
-              "options": field.options
-            },
             on: {
               "change": function ($event) {
                 return _vm.$emit('input-change', $event, data);
@@ -12221,7 +12218,7 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type === 'checkbox' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', {
+          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12246,7 +12243,7 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type === 'rating' && field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', {
+          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
@@ -12270,7 +12267,7 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', {
+          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
@@ -12294,7 +12291,7 @@ var __vue_render__ = function () {
               },
               expression: "items[data.index][field.key]"
             }
-          }) : _c('span', {
+          }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
             key: index,
             staticClass: "data-cell",
             on: {
@@ -12321,7 +12318,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-e3921fa0_0", {
+  inject("data-v-1f18c6de_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
