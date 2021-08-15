@@ -16,10 +16,10 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true},
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
         { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
-        { key: "age", label: "Age", type: "number", editable: true },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
+        { key: "dateOfBirth", label: "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
