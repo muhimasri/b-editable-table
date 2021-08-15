@@ -2,6 +2,7 @@
 
 
 
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -100,6 +101,10 @@ Every column requires a `type` and `editable` property in order to make the cell
   { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
   { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
 ]
+```
+All Bootstrap form element's attributes and properties are supported by passing them directly through the `field` object. For example, you can add `size` and `locale` props to the date picker as follows:
+```
+{ key:  "dateOfBirth", label:  "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true }
 ```
 **Supported Bootstrap form elements:**
 |Type | Description |
