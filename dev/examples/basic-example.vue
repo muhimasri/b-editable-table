@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput"></b-editable-table>
     <pre>
       {{items}}
     </pre>
@@ -32,7 +32,8 @@ export default {
   },
   methods: {
       handleInput(value, data) {
-        console.log(data)
+        console.log(data);
+        // this.items[data.index][data.field.key] = value;
       }
   }
 };

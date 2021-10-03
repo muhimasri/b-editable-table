@@ -3,81 +3,82 @@
     v-click-outside="handleClickOut"
     v-bind="{ ...$props, ...$attrs }"
     v-on="$listeners"
+    :items="tableItems"
   >
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
         @keydown.native="handleKeydown($event, index, data)"
-        @input="$emit('input-change', $event, data)"
+        @input="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-model="items[data.index][field.key]"
         v-focus="'date'"
         v-if="
           field.type === 'date' &&
-            selectedRow === data.index &&
+            tableItems[data.index].isEdit &&
             selectedCell === field.key &&
             field.editable
         "
         :key="index"
         :type="field.type"
+        :value="tableItems[data.index][field.key]"
       ></b-form-datepicker>
       <b-form-select
         @keydown.native="handleKeydown($event, index, data)"
-        @change="$emit('input-change', $event, data)"
+        @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-model="items[data.index][field.key]"
         v-focus
         v-else-if="
           field.type === 'select' &&
-            selectedRow === data.index &&
+            tableItems[data.index].isEdit &&
             selectedCell === field.key &&
             field.editable
         "
         :key="index"
+        :value="tableItems[data.index][field.key]"
       ></b-form-select>
       <b-form-checkbox
         @keydown.native="handleKeydown($event, index, data)"
-        @change="$emit('input-change', $event, data)"
+        @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-model="items[data.index][field.key]"
         v-focus="'checkbox'"
         v-else-if="
           field.type === 'checkbox' &&
-            selectedRow === data.index &&
+            tableItems[data.index].isEdit &&
             selectedCell === field.key &&
             field.editable
         "
         :key="index"
+        :checked="tableItems[data.index][field.key]"
       ></b-form-checkbox>
       <b-form-rating
         @keydown="handleKeydown($event, index, data)"
-        @change="$emit('input-change', $event, data)"
+        @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-model="items[data.index][field.key]"
         v-focus
         v-else-if="
           field.type === 'rating' &&
             field.type &&
-            selectedRow === data.index &&
+            tableItems[data.index].isEdit &&
             selectedCell === field.key &&
             field.editable
         "
         :key="index"
         :type="field.type"
+        :value="tableItems[data.index][field.key]"
       ></b-form-rating>
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
-        @input="$emit('input-change', $event, data)"
+        @input="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-model="items[data.index][field.key]"
         v-focus
         v-else-if="
           field.type &&
-            selectedRow === data.index &&
+            tableItems[data.index].isEdit &&
             selectedCell === field.key &&
             field.editable
         "
         :key="index"
         :type="field.type"
+        :value="tableItems[data.index][field.key]"
       ></b-form-input>
       <span
         class="data-cell"
@@ -123,6 +124,7 @@ export default Vue.extend({
   props: {
     fields: Array,
     items: Array,
+    value: Array
   },
   directives: {
     focus: {
@@ -159,17 +161,15 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      selectedRow: {
-        type: Object,
-        default: null,
-      },
+      tableItems: this.value ? this.value.map((item: any) => ({...item, isEdit: false})) : this.items.map((item: any) => ({...item, isEdit: false}))
     };
   },
   methods: {
     handleEditCell(e: any, index: number, name: string) {
       e.stopPropagation();
-      this.selectedCell = name;
-      this.selectedRow = index;
+      this.mapItems();
+      this.tableItems[index].isEdit = true;
+      this.selectedCell = name
     },
     handleKeydown(e: any, index: number, data: any) {
       if (e.code === "Tab") {
@@ -189,17 +189,26 @@ export default Vue.extend({
         }
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.selectedRow = rowIndex;
+        this.mapItems();
+        this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.selectedRow = null;
+        this.mapItems();
       }
     },
     handleClickOut() {
       this.selectedCell = null;
-      this.selectedRow = null;
+      this.mapItems();
     },
+    inputHandler(value: any, data: any, key: string) {
+        this.tableItems[data.index][key] = value;
+        this.$emit('input-change', value, data);
+        this.$emit('input', this.tableItems);
+    },
+    mapItems() {
+      this.tableItems = this.tableItems.map((item: any) => ({...item, isEdit: false}));
+    }
   },
 });
 </script>
