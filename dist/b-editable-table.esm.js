@@ -11928,7 +11928,8 @@ var script = Vue.extend({
   },
   props: {
     fields: Array,
-    items: Array
+    items: Array,
+    value: Array
   },
   directives: {
     focus: {
@@ -11969,18 +11970,20 @@ var script = Vue.extend({
         type: String,
         default: null
       },
-      selectedRow: {
-        type: Object,
-        default: null
-      }
+      tableItems: this.value ? this.value.map(item => ({ ...item,
+        isEdit: false
+      })) : this.items.map(item => ({ ...item,
+        isEdit: false
+      }))
     };
   },
 
   methods: {
     handleEditCell(e, index, name) {
       e.stopPropagation();
+      this.mapItems();
+      this.tableItems[index].isEdit = true;
       this.selectedCell = name;
-      this.selectedRow = index;
     },
 
     handleKeydown(e, index, data) {
@@ -12001,17 +12004,30 @@ var script = Vue.extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.selectedRow = rowIndex;
+        this.mapItems();
+        this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.selectedRow = null;
+        this.mapItems();
       }
     },
 
     handleClickOut() {
       this.selectedCell = null;
-      this.selectedRow = null;
+      this.mapItems();
+    },
+
+    inputHandler(value, data, key) {
+      this.tableItems[data.index][key] = value;
+      this.$emit('input-change', value, data);
+      this.$emit('input', this.tableItems);
+    },
+
+    mapItems() {
+      this.tableItems = this.tableItems.map(item => ({ ...item,
+        isEdit: false
+      }));
     }
 
   }
@@ -12163,11 +12179,14 @@ var __vue_render__ = function () {
       value: _vm.handleClickOut,
       expression: "handleClickOut"
     }],
+    attrs: {
+      "items": _vm.tableItems
+    },
     scopedSlots: _vm._u([_vm._l(_vm.fields, function (field, index) {
       return {
         key: "cell(" + field.key + ")",
         fn: function (data) {
-          return [field.type === 'date' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
+          return [field.type === 'date' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12176,49 +12195,39 @@ var __vue_render__ = function () {
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
-              "input": function ($event) {
-                return _vm.$emit('input-change', $event, data);
+              "input": function (value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function ($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function ($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
+          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
+            attrs: {
+              "value": _vm.tableItems[data.index][field.key]
+            },
             on: {
-              "change": function ($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function (value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function ($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function ($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
+          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12226,70 +12235,54 @@ var __vue_render__ = function () {
               expression: "'checkbox'"
             }],
             key: index,
+            attrs: {
+              "checked": _vm.tableItems[data.index][field.key]
+            },
             on: {
-              "change": function ($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function (value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function ($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function ($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
+          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
               "keydown": function ($event) {
                 return _vm.handleKeydown($event, index, data);
               },
-              "change": function ($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function (value) {
+                return _vm.inputHandler(value, data, field.key);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function ($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
+          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
               "keydown": function ($event) {
                 return _vm.handleKeydown($event, index, data);
               },
-              "input": function ($event) {
-                return _vm.$emit('input-change', $event, data);
+              "input": function (value) {
+                return _vm.inputHandler(value, data, field.key);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function ($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
           }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
             key: index,
@@ -12318,7 +12311,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-1f18c6de_0", {
+  inject("data-v-2461a8bf_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined

@@ -3,6 +3,7 @@
 
 
 
+
 # BootstrapVue Editable Table
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -89,7 +90,53 @@ For `select` element, the options can be passed as another property (as shown in
   { value: 'b', text: 'Third Option' }
 ]
 ```
+## Data Binding:
+|Data | Binding |
+|--|--|
+| :items="items" | One-way binding
+| v-model="items" | Two-way binding
 
+When using `v-model` the data will be updated directly as follows:
+
+`<b-editable-table v-model="items" :fields="fields"></b-editable-table>`
+
+Otherwise, using `:items` prop to pass data will require updating it manually on input change as follows:
+```javascript
+<template>
+  <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+</template>
+
+<script>
+import BEditableTable from 'bootstrap-vue-editable-table';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
+        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
+        { key: "dateOfBirth", label: "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
+      ],
+       items: [
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+        ]
+    };
+  },
+  methods: {
+      handleInput(value, data) {
+        this.items[data.index][data.field.key] = value;
+      }
+  }
+};
+</script>
+```
 ## Form Elements:
 Every column requires a `type` and `editable` property in order to make the cell editable:
 
@@ -183,51 +230,11 @@ export default {
 ```
 `.data-cell` is an internal class used for the `span` element within every non-editable cell. You can customize it however you like. 
 
-## Data Binding:
-Editable cells use `v-model` internally to support **two-way data bindings**. Any change will reflect directly on the `items` array.
-
 ## Events:
 |Event |Arguments | Description |
 |--|--|--|
 | input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
 
-**Example:**
-```javascript
-<template>
-    <b-editable-table :items="items" :fields="fields" @input-change="handleInput"></b-editable-table>
-</template>
-
-<script>
-import BEditableTable from 'bootstrap-vue-editable-table';
-export default {
-  components: {
-    BEditableTable
-  },
-  data() {
-    return {
-      fields: [
-        { key: "name", label: "Name", type: "text", editable: true},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
-        { key: "age", label: "Age", type: "number", editable: true },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
-      ],
-       items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
-        ]
-    };
-  },
-  methods: {
-      handleInput(value, data) {
-	      // Handle input change
-      }
-  }
-};
-</script>
-```
 ## Custom Cell
 To customize a none editable cell, you can use scoped slots to customize a particular field.
 
