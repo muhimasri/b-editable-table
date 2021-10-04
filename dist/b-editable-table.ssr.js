@@ -1,4 +1,57 @@
-'use strict';var Vue=require('vue');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var Vue__default=/*#__PURE__*/_interopDefaultLegacy(Vue);function _slicedToArray$1(arr, i) {
+'use strict';var Vue=require('vue');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var Vue__default=/*#__PURE__*/_interopDefaultLegacy(Vue);function ownKeys$w(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2$1(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys$w(Object(source), true).forEach(function (key) {
+        _defineProperty$C(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys$w(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _defineProperty$C(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _slicedToArray$1(arr, i) {
   return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$6(arr, i) || _nonIterableRest$1();
 }
 
@@ -11767,7 +11820,8 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
   },
   props: {
     fields: Array,
-    items: Array
+    items: Array,
+    value: Array
   },
   directives: {
     focus: {
@@ -11807,17 +11861,23 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         type: String,
         default: null
       },
-      selectedRow: {
-        type: Object,
-        default: null
-      }
+      tableItems: this.value ? this.value.map(function (item) {
+        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
+          isEdit: false
+        });
+      }) : this.items.map(function (item) {
+        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
+          isEdit: false
+        });
+      })
     };
   },
   methods: {
     handleEditCell: function handleEditCell(e, index, name) {
       e.stopPropagation();
+      this.mapItems();
+      this.tableItems[index].isEdit = true;
       this.selectedCell = name;
-      this.selectedRow = index;
     },
     handleKeydown: function handleKeydown(e, index, data) {
       if (e.code === "Tab") {
@@ -11837,16 +11897,29 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.selectedRow = rowIndex;
+        this.mapItems();
+        this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.selectedRow = null;
+        this.mapItems();
       }
     },
     handleClickOut: function handleClickOut() {
       this.selectedCell = null;
-      this.selectedRow = null;
+      this.mapItems();
+    },
+    inputHandler: function inputHandler(value, data, key) {
+      this.tableItems[data.index][key] = value;
+      this.$emit('input-change', value, data);
+      this.$emit('input', this.tableItems);
+    },
+    mapItems: function mapItems() {
+      this.tableItems = this.tableItems.map(function (item) {
+        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
+          isEdit: false
+        });
+      });
     }
   }
 });function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -11980,11 +12053,14 @@ var __vue_render__ = function __vue_render__() {
       value: _vm.handleClickOut,
       expression: "handleClickOut"
     }],
+    attrs: {
+      "items": _vm.tableItems
+    },
     scopedSlots: _vm._u([_vm._l(_vm.fields, function (field, index) {
       return {
         key: "cell(" + field.key + ")",
         fn: function fn(data) {
-          return [field.type === 'date' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
+          return [field.type === 'date' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -11993,49 +12069,39 @@ var __vue_render__ = function __vue_render__() {
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
-              "input": function input($event) {
-                return _vm.$emit('input-change', $event, data);
+              "input": function input(value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function keydown($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function callback($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
+          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
+            attrs: {
+              "value": _vm.tableItems[data.index][field.key]
+            },
             on: {
-              "change": function change($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function change(value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function keydown($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function callback($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
+          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12043,70 +12109,54 @@ var __vue_render__ = function __vue_render__() {
               expression: "'checkbox'"
             }],
             key: index,
+            attrs: {
+              "checked": _vm.tableItems[data.index][field.key]
+            },
             on: {
-              "change": function change($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function change(value) {
+                return _vm.inputHandler(value, data, field.key);
               }
             },
             nativeOn: {
               "keydown": function keydown($event) {
                 return _vm.handleKeydown($event, index, data);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function callback($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
+          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
               "keydown": function keydown($event) {
                 return _vm.handleKeydown($event, index, data);
               },
-              "change": function change($event) {
-                return _vm.$emit('input-change', $event, data);
+              "change": function change(value) {
+                return _vm.inputHandler(value, data, field.key);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function callback($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.selectedRow === data.index && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
+          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus"
             }],
             key: index,
             attrs: {
-              "type": field.type
+              "type": field.type,
+              "value": _vm.tableItems[data.index][field.key]
             },
             on: {
               "keydown": function keydown($event) {
                 return _vm.handleKeydown($event, index, data);
               },
-              "input": function input($event) {
-                return _vm.$emit('input-change', $event, data);
+              "input": function input(value) {
+                return _vm.inputHandler(value, data, field.key);
               }
-            },
-            model: {
-              value: _vm.items[data.index][field.key],
-              callback: function callback($$v) {
-                _vm.$set(_vm.items[data.index], field.key, $$v);
-              },
-              expression: "items[data.index][field.key]"
             }
           }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
             key: index,
@@ -12135,7 +12185,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-1f18c6de_0", {
+  inject("data-v-2461a8bf_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
@@ -12147,7 +12197,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-1f18c6de";
+var __vue_module_identifier__ = "data-v-2461a8bf";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
