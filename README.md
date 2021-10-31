@@ -1,18 +1,31 @@
-
-
-
-
-
-
 # BootstrapVue Editable Table
-![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
-
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
+
+[CodeSandbox Editable Demo](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
+
+![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
 **This is still an early stage beta version so please help by creating issues with proper labels (bug, question, enhancement...).** Thank you in advance 🙏
 
 If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/create-an-editable-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
 
+## Roadmap
+ * [x] Tabbing
+ * [x] Two-way binding
+ * [ ] Support all bootstrap form elements
+	 * [x] Text
+	 * [x] Select
+	 * [x] Number
+	 * [x] Date
+	 * [x] Checkbox
+	 * [x] Rating
+	 * [ ] Tags
+	 * [ ] File upload
+ * [ ] Enable row editing (allows to edit all the cells of a row at once)
+ * [ ] Validation
+ * [ ] Vue 3 support
+ * [ ] Styling themes
+ 
 ## Prerequisite
 
 A basic understanding of [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
