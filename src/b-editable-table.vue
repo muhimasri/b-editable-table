@@ -65,6 +65,22 @@
         :type="field.type"
         :value="tableItems[data.index][field.key]"
       ></b-form-rating>
+      <b-form-file
+        @keydown="handleKeydown($event, index, data)"
+        @input="(value) => inputHandler(value, data, field.key)"
+        v-bind="{ ...field }"
+        v-focus
+        v-else-if="
+          field.type === 'file' &&
+            field.type &&
+            tableItems[data.index].isEdit &&
+            selectedCell === field.key &&
+            field.editable
+        "
+        :key="index"
+        :type="field.type"
+        :value="tableItems[data.index][field.key]"
+      ></b-form-file>
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
         @input="(value) => inputHandler(value, data, field.key)"
@@ -108,6 +124,7 @@ import {
   BFormSelect,
   BFormCheckbox,
   BFormRating,
+  BFormFile
 } from "bootstrap-vue";
 import Vue from "vue";
 
@@ -120,6 +137,7 @@ export default Vue.extend({
     BFormSelect,
     BFormCheckbox,
     BFormRating,
+    BFormFile
   },
   props: {
     fields: Array,

@@ -21,18 +21,19 @@ export default {
         { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
         { key: "dateOfBirth", label: "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
+        { key: "application", label: "Application", type: "file", editable: true, formatter: (value, key, item) => value.name ? value.name : value },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true, application: 'file.txt' },
+          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false, application: 'file.txt' },
+          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false, application: 'file.txt' },
+          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true, application: 'file.txt'}
         ]
     };
   },
   methods: {
       handleInput(value, data) {
-        console.log(data);
+        console.log(value);
         // this.items[data.index][data.field.key] = value;
       }
   }
