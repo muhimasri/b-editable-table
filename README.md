@@ -1,7 +1,7 @@
 # BootstrapVue Editable Table
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
-[CodeSandbox Editable Demo](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
+[Editable Demo on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
 
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
