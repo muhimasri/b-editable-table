@@ -2,7 +2,7 @@
   <b-table
     v-click-outside="handleClickOut"
     v-bind="{ ...$props, ...$attrs }"
-    v-on="$listeners"
+    v-on="handleListeners($listeners)"
     :items="tableItems"
   >
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
@@ -161,7 +161,8 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: this.value ? this.value.map((item: any) => ({...item, isEdit: false})) : this.items.map((item: any) => ({...item, isEdit: false}))
+      tableItems: this.value ? this.value.map((item: any) => ({...item, isEdit: false})) : this.items.map((item: any) => ({...item, isEdit: false})),
+      updatedTable: this.value
     };
   },
   methods: {
@@ -204,7 +205,20 @@ export default Vue.extend({
     inputHandler(value: any, data: any, key: string) {
         this.tableItems[data.index][key] = value;
         this.$emit('input-change', value, data);
-        this.$emit('input', this.tableItems);
+
+        // If v-model is set then emit updated table
+        if (this.value) {
+          this.updatedTable[data.index][key] = value;
+          this.$emit('input', this.updatedTable);
+        }
+    },
+    handleListeners(listeners: any) {
+      // Exclude listeners that are not part of Bootstrap Vue
+      const excludeEvents: any = {
+        "input": true,
+        "input-change": true
+      }
+      return Object.keys(listeners).reduce((a: any, c: any) => excludeEvents[c] ? a : {...a, [c]: listeners[c]}, {});
     },
     mapItems() {
       this.tableItems = this.tableItems.map((item: any) => ({...item, isEdit: false}));

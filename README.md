@@ -1,3 +1,4 @@
+
 # BootstrapVue Editable Table
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
@@ -9,22 +10,16 @@ BootstrapVue Editable Table is a Vue table component that enables cell editing a
 
 If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/create-an-editable-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
 
-## Roadmap
- * [x] Tabbing
- * [x] Two-way binding
- * [ ] Support all bootstrap form elements
-	 * [x] Text
-	 * [x] Select
-	 * [x] Number
-	 * [x] Date
-	 * [x] Checkbox
-	 * [x] Rating
-	 * [ ] Tags
-	 * [ ] File upload
- * [ ] Enable row editing (allows to edit all the cells of a row at once)
- * [ ] Validation
- * [ ] Vue 3 support
- * [ ] Styling themes
+## Table of Contents
+[Prerequisite](#prerequisite)
+[Setup](#setup)
+[Data Binding](#data-binding)
+[Keyboard Keys](#keyboard-keys)
+[Styling](#styling)
+[Events](#events)
+[Custom Cell](#custom-cell)
+[Supported Version](#supported-version)
+[Roadmap](#roadmap)
  
 ## Prerequisite
 
@@ -176,10 +171,7 @@ All Bootstrap form element's attributes and properties are supported by passing 
 | checkbox | Bootstrap Form Checkbox
 | rating | Bootstrap Form Rating
 
-## Behavior:
-Every cell will change to an editable input field upon clicking on the cell. 
-
-**Supported keyboard keys:**
+## Keyboard Keys:
 |Key |Behavior |
 |--|--|
 | Tab | Move to the next cell |
@@ -276,3 +268,20 @@ This has been tested on:
  - bootstrap-vue `v2.21.2`
 
 We are looking to support as many versions as possible so please create an issue if you encounter compatibility issues 🙏
+
+## Roadmap
+ * [x] Tabbing
+ * [x] Two-way binding
+ * [ ] Support all bootstrap form elements
+	 * [x] Text
+	 * [x] Select
+	 * [x] Number
+	 * [x] Date
+	 * [x] Checkbox
+	 * [x] Rating
+	 * [ ] Tags
+	 * [ ] File upload
+ * [ ] Enable row editing (allows to edit all the cells of a row at once)
+ * [ ] Validation
+ * [ ] Vue 3 support
+ * [ ] Styling themes
