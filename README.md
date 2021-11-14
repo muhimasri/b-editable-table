@@ -11,15 +11,15 @@ BootstrapVue Editable Table is a Vue table component that enables cell editing a
 If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/create-an-editable-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
 
 ## Table of Contents
-[Prerequisite](#prerequisite)
-[Setup](#setup)
-[Data Binding](#data-binding)
-[Keyboard Keys](#keyboard-keys)
-[Styling](#styling)
-[Events](#events)
-[Custom Cell](#custom-cell)
-[Supported Version](#supported-version)
-[Roadmap](#roadmap)
+[Prerequisite](#prerequisite) <br/>
+[Setup](#setup) <br/>
+[Data Binding](#data-binding)<br/>
+[Keyboard Keys](#keyboard-keys)<br/>
+[Styling](#styling)<br/>
+[Events](#events)<br/>
+[Custom Cell](#custom-cell)<br/>
+[Supported Version](#supported-version)<br/>
+[Roadmap](#roadmap)<br/>
  
 ## Prerequisite
 

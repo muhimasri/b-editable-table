@@ -11869,7 +11869,8 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
           isEdit: false
         });
-      })
+      }),
+      updatedTable: this.value
     };
   },
   methods: {
@@ -11911,8 +11912,22 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
     },
     inputHandler: function inputHandler(value, data, key) {
       this.tableItems[data.index][key] = value;
-      this.$emit('input-change', value, data);
-      this.$emit('input', this.tableItems);
+      this.$emit('input-change', value, data); // If v-model is set then emit updated table
+
+      if (this.value) {
+        this.updatedTable[data.index][key] = value;
+        this.$emit('input', this.updatedTable);
+      }
+    },
+    handleListeners: function handleListeners(listeners) {
+      // Exclude listeners that are not part of Bootstrap Vue
+      var excludeEvents = {
+        "input": true,
+        "input-change": true
+      };
+      return Object.keys(listeners).reduce(function (a, c) {
+        return excludeEvents[c] ? a : _objectSpread2$1(_objectSpread2$1({}, a), {}, _defineProperty$C({}, c, listeners[c]));
+      }, {});
     },
     mapItems: function mapItems() {
       this.tableItems = this.tableItems.map(function (item) {
@@ -12177,7 +12192,7 @@ var __vue_render__ = function __vue_render__() {
         }
       };
     })], null, true)
-  }, 'b-table', Object.assign({}, _vm.$props, _vm.$attrs), false), _vm.$listeners));
+  }, 'b-table', Object.assign({}, _vm.$props, _vm.$attrs), false), _vm.handleListeners(_vm.$listeners)));
 };
 
 var __vue_staticRenderFns__ = [];
@@ -12185,7 +12200,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-2461a8bf_0", {
+  inject("data-v-1738c209_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
@@ -12197,7 +12212,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-2461a8bf";
+var __vue_module_identifier__ = "data-v-1738c209";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

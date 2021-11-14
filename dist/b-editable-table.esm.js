@@ -11974,7 +11974,8 @@ var script = Vue.extend({
         isEdit: false
       })) : this.items.map(item => ({ ...item,
         isEdit: false
-      }))
+      })),
+      updatedTable: this.value
     };
   },
 
@@ -12020,8 +12021,23 @@ var script = Vue.extend({
 
     inputHandler(value, data, key) {
       this.tableItems[data.index][key] = value;
-      this.$emit('input-change', value, data);
-      this.$emit('input', this.tableItems);
+      this.$emit('input-change', value, data); // If v-model is set then emit updated table
+
+      if (this.value) {
+        this.updatedTable[data.index][key] = value;
+        this.$emit('input', this.updatedTable);
+      }
+    },
+
+    handleListeners(listeners) {
+      // Exclude listeners that are not part of Bootstrap Vue
+      const excludeEvents = {
+        "input": true,
+        "input-change": true
+      };
+      return Object.keys(listeners).reduce((a, c) => excludeEvents[c] ? a : { ...a,
+        [c]: listeners[c]
+      }, {});
     },
 
     mapItems() {
@@ -12303,7 +12319,7 @@ var __vue_render__ = function () {
         }
       };
     })], null, true)
-  }, 'b-table', Object.assign({}, _vm.$props, _vm.$attrs), false), _vm.$listeners));
+  }, 'b-table', Object.assign({}, _vm.$props, _vm.$attrs), false), _vm.handleListeners(_vm.$listeners)));
 };
 
 var __vue_staticRenderFns__ = [];
@@ -12311,7 +12327,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-2461a8bf_0", {
+  inject("data-v-1738c209_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
