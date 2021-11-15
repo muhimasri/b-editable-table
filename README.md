@@ -13,7 +13,9 @@ If you'd like to contribute, please read this [introductory article](https://muh
 ## Table of Contents
 [Prerequisite](#prerequisite) <br/>
 [Setup](#setup) <br/>
+[Usage](#usage) <br/>
 [Data Binding](#data-binding)<br/>
+[Form Elements](#form-elements) <br/>
 [Keyboard Keys](#keyboard-keys)<br/>
 [Styling](#styling)<br/>
 [Events](#events)<br/>
