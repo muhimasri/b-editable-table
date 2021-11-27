@@ -1,6 +1,11 @@
 <template>
 <div>
-    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput"></b-editable-table>
+    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+      <template #cell-isActive="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+      </template>
+    </b-editable-table>
     <pre>
       {{items}}
     </pre>
@@ -17,16 +22,26 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "department", label: "Department", type: "select", options: [
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ], editable: true },
         { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
-        { key: "dateOfBirth", label: "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
         ]
     };
   },

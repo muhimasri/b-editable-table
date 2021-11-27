@@ -12019,12 +12019,19 @@ var script = Vue.extend({
       this.mapItems();
     },
 
-    inputHandler(value, data, key) {
-      this.tableItems[data.index][key] = value;
+    inputHandler(value, data, key, options) {
+      let changedValue = value; // Handle select element with options
+
+      if (options) {
+        const selectedValue = options.find(item => item.value === value);
+        changedValue = selectedValue ? selectedValue.value : value;
+      }
+
+      this.tableItems[data.index][key] = changedValue;
       this.$emit('input-change', value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        this.updatedTable[data.index][key] = value;
+        this.updatedTable[data.index][key] = changedValue;
         this.$emit('input', this.updatedTable);
       }
     },
@@ -12038,6 +12045,17 @@ var script = Vue.extend({
       return Object.keys(listeners).reduce((a, c) => excludeEvents[c] ? a : { ...a,
         [c]: listeners[c]
       }, {});
+    },
+
+    getValue(data) {
+      let value = data.value; // Handle select element with options
+
+      if (data.field.options) {
+        const selectedValue = data.field.options.find(item => item.value === value);
+        value = selectedValue ? selectedValue.text : value;
+      }
+
+      return value;
     },
 
     mapItems() {
@@ -12235,7 +12253,7 @@ var __vue_render__ = function () {
             },
             on: {
               "change": function (value) {
-                return _vm.inputHandler(value, data, field.key);
+                return _vm.inputHandler(value, data, field.key, field.options);
               }
             },
             nativeOn: {
@@ -12308,7 +12326,7 @@ var __vue_render__ = function () {
                 return _vm.handleEditCell($event, data.index, field.key);
               }
             }
-          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
+          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
         }
       };
     }), _vm._l(_vm.$scopedSlots, function (_, slot) {
@@ -12327,7 +12345,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-1738c209_0", {
+  inject("data-v-67895aaf_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
