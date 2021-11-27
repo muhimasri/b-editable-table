@@ -23,7 +23,7 @@
       ></b-form-datepicker>
       <b-form-select
         @keydown.native="handleKeydown($event, index, data)"
-        @change="(value) => inputHandler(value, data, field.key)"
+        @change="(value) => inputHandler(value, data, field.key, field.options)"
         v-bind="{ ...field }"
         v-focus
         v-else-if="
@@ -91,7 +91,7 @@
           :name="`cell-${field.key}`"
           v-bind="data"
         ></slot>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{getValue(data, field)}}</template>
       </span>
     </template>
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
@@ -202,13 +202,19 @@ export default Vue.extend({
       this.selectedCell = null;
       this.mapItems();
     },
-    inputHandler(value: any, data: any, key: string) {
-        this.tableItems[data.index][key] = value;
+    inputHandler(value: any, data: any, key: string, options: Array<any>) {
+        let changedValue = value;
+        // Handle select element with options
+        if (options) {
+          const selectedValue = options.find(item => item.value === value);
+          changedValue = selectedValue ? selectedValue.value : value;
+        }
+        this.tableItems[data.index][key] = changedValue;
         this.$emit('input-change', value, data);
 
         // If v-model is set then emit updated table
         if (this.value) {
-          this.updatedTable[data.index][key] = value;
+          this.updatedTable[data.index][key] = changedValue;
           this.$emit('input', this.updatedTable);
         }
     },
@@ -219,6 +225,15 @@ export default Vue.extend({
         "input-change": true
       }
       return Object.keys(listeners).reduce((a: any, c: any) => excludeEvents[c] ? a : {...a, [c]: listeners[c]}, {});
+    },
+    getValue(data: any) {
+        let value = data.value;
+        // Handle select element with options
+        if (data.field.options) {
+          const selectedValue = data.field.options.find((item: any) => item.value === value);
+          value = selectedValue ? selectedValue.text : value;
+        }
+        return value;
     },
     mapItems() {
       this.tableItems = this.tableItems.map((item: any) => ({...item, isEdit: false}));
