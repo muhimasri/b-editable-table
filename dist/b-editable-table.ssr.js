@@ -11910,12 +11910,21 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
       this.selectedCell = null;
       this.mapItems();
     },
-    inputHandler: function inputHandler(value, data, key) {
-      this.tableItems[data.index][key] = value;
+    inputHandler: function inputHandler(value, data, key, options) {
+      var changedValue = value; // Handle select element with options
+
+      if (options) {
+        var selectedValue = options.find(function (item) {
+          return item.value === value;
+        });
+        changedValue = selectedValue ? selectedValue.value : value;
+      }
+
+      this.tableItems[data.index][key] = changedValue;
       this.$emit('input-change', value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        this.updatedTable[data.index][key] = value;
+        this.updatedTable[data.index][key] = changedValue;
         this.$emit('input', this.updatedTable);
       }
     },
@@ -11928,6 +11937,18 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
       return Object.keys(listeners).reduce(function (a, c) {
         return excludeEvents[c] ? a : _objectSpread2$1(_objectSpread2$1({}, a), {}, _defineProperty$C({}, c, listeners[c]));
       }, {});
+    },
+    getValue: function getValue(data) {
+      var value = data.value; // Handle select element with options
+
+      if (data.field.options) {
+        var selectedValue = data.field.options.find(function (item) {
+          return item.value === value;
+        });
+        value = selectedValue ? selectedValue.text : value;
+      }
+
+      return value;
     },
     mapItems: function mapItems() {
       this.tableItems = this.tableItems.map(function (item) {
@@ -12108,7 +12129,7 @@ var __vue_render__ = function __vue_render__() {
             },
             on: {
               "change": function change(value) {
-                return _vm.inputHandler(value, data, field.key);
+                return _vm.inputHandler(value, data, field.key, field.options);
               }
             },
             nativeOn: {
@@ -12181,7 +12202,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleEditCell($event, data.index, field.key);
               }
             }
-          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(data.value))]], 2)];
+          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
         }
       };
     }), _vm._l(_vm.$scopedSlots, function (_, slot) {
@@ -12200,7 +12221,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-1738c209_0", {
+  inject("data-v-67895aaf_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
@@ -12212,7 +12233,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-1738c209";
+var __vue_module_identifier__ = "data-v-67895aaf";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

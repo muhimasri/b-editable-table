@@ -1,4 +1,5 @@
 
+
 # BootstrapVue Editable Table
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
@@ -8,7 +9,7 @@ BootstrapVue Editable Table is a Vue table component that enables cell editing a
 
 **This is still an early stage beta version so please help by creating issues with proper labels (bug, question, enhancement...).** Thank you in advance 🙏
 
-If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/create-an-editable-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
+If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/part-2-create-a-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
 
 ## Table of Contents
 [Prerequisite](#prerequisite) <br/>
@@ -71,17 +72,27 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true},
-        { key: "department", label: "Department", type: "select", options: ['Accounting', 'Development', 'HR', 'Marketing'], editable: true },
-        { key: "age", label: "Age", type: "number", editable: true },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
+        { key: "department", label: "Department", type: "select", options: [
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ], editable: true },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
         ]
     };
   },
@@ -126,16 +137,26 @@ export default {
     return {
       fields: [
         { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
+        { key: "department", label: "Department", type: "select", options: [
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ], editable: true },
         { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
-        { key: "dateOfBirth", label: "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
         ]
     };
   },
@@ -200,17 +221,27 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true},
-        { key: "department", label: "Department", type: "select", options: ['Marketing', 'Development', 'HR', 'Accounting'], editable: true },
-        { key: "age", label: "Age", type: "number", editable: true },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true },
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
+        { key: "department", label: "Department", type: "select", options: [
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ], editable: true },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 'Development', dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 'Marketing', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 89, name: 'Geneva', department: 'HR', dateOfBirth: '1984-05-20', isActive: false },
-          { age: 38, name: 'Jami', department: 'Accounting', dateOfBirth: '1984-05-20', isActive: true }
+          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
         ]
     };
   },

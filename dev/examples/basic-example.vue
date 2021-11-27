@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-editable-table bordered :small="true" fixed class="editable-table" :items="items" :fields="fields" @input-change="handleInput">
+    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
