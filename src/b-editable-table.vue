@@ -4,6 +4,7 @@
     v-bind="{ ...$props, ...$attrs }"
     v-on="handleListeners($listeners)"
     :items="tableItems"
+    class="b-editable-table"
   >
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
@@ -243,6 +244,9 @@ export default Vue.extend({
 </script>
 
 <style>
+.b-editable-table.b-table {
+  width: unset;
+}
 .data-cell {
   display: flex;
   width: 100%;

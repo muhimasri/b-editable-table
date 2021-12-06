@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
@@ -21,21 +21,21 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
-        { key: "department", label: "Department", type: "select", options: [
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name...", class: "name-col"},
+        { key: "department", label: "Department", type: "select", editable: true, class: "department-col" , options: [
           { value: 1, text: 'HR' },
           { value: 2, text: 'Engineer' },
           { value: 3, text: 'VP' },
           { value: 4, text: 'CEO'}
-        ], editable: true },
-        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
-        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, locale: "en",
+        ]},
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "name-col" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, class: "date-col", locale: "en",
           "date-format-options": {
             year: "numeric",
             month: "numeric",
             day: "numeric",
           }, },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
@@ -55,15 +55,34 @@ export default {
 </script>
 
 <style>
+/* .editable-table {
+  width: 100%;
+} */
 .editable-table .data-cell {
   padding: 0.4rem 0.4rem; 
 }
 
-.editable-table th, .editable-table td {
-  vertical-align: middle !important;
+.editable-table .data-cell {
+  vertical-align: middle;
 }
 
-.editable-table .custom-checkbox {
+/* .editable-table .custom-checkbox {
   margin-left: 7px;
+} */
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 300px;
+}
+
+.date-col {
+  width: 300px;
+}
+
+.is-active-col {
+  width: 100px
 }
 </style>
