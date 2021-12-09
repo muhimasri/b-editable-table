@@ -11870,8 +11870,26 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
           isEdit: false
         });
       }),
-      updatedTable: this.value
+      updateTableItems: true
     };
+  },
+  watch: {
+    value: function value(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    },
+    items: function items(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    }
   },
   methods: {
     handleEditCell: function handleEditCell(e, index, name) {
@@ -11921,17 +11939,23 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
       }
 
       this.tableItems[data.index][key] = changedValue;
-      this.$emit('input-change', value, data); // If v-model is set then emit updated table
+      this.$emit("input-change", value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        this.updatedTable[data.index][key] = changedValue;
-        this.$emit('input', this.updatedTable);
+        // This flag will aboid the watcher from updating the data
+        this.updateTableItems = false;
+        this.$emit("input", this.tableItems.map(function (item) {
+          var newItem = _objectSpread2$1({}, item);
+
+          delete newItem.isEdit;
+          return newItem;
+        }));
       }
     },
     handleListeners: function handleListeners(listeners) {
       // Exclude listeners that are not part of Bootstrap Vue
       var excludeEvents = {
-        "input": true,
+        input: true,
         "input-change": true
       };
       return Object.keys(listeners).reduce(function (a, c) {
@@ -12221,7 +12245,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-67895aaf_0", {
+  inject("data-v-4725774b_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
@@ -12233,7 +12257,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-67895aaf";
+var __vue_module_identifier__ = "data-v-4725774b";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

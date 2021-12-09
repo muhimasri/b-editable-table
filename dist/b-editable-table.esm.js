@@ -11975,10 +11975,30 @@ var script = Vue.extend({
       })) : this.items.map(item => ({ ...item,
         isEdit: false
       })),
-      updatedTable: this.value
+      updateTableItems: true
     };
   },
 
+  watch: {
+    value(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    },
+
+    items(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    }
+
+  },
   methods: {
     handleEditCell(e, index, name) {
       e.stopPropagation();
@@ -12028,18 +12048,24 @@ var script = Vue.extend({
       }
 
       this.tableItems[data.index][key] = changedValue;
-      this.$emit('input-change', value, data); // If v-model is set then emit updated table
+      this.$emit("input-change", value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        this.updatedTable[data.index][key] = changedValue;
-        this.$emit('input', this.updatedTable);
+        // This flag will aboid the watcher from updating the data
+        this.updateTableItems = false;
+        this.$emit("input", this.tableItems.map(item => {
+          const newItem = { ...item
+          };
+          delete newItem.isEdit;
+          return newItem;
+        }));
       }
     },
 
     handleListeners(listeners) {
       // Exclude listeners that are not part of Bootstrap Vue
       const excludeEvents = {
-        "input": true,
+        input: true,
         "input-change": true
       };
       return Object.keys(listeners).reduce((a, c) => excludeEvents[c] ? a : { ...a,
@@ -12345,7 +12371,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-67895aaf_0", {
+  inject("data-v-4725774b_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
