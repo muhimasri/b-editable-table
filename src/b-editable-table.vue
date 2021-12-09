@@ -13,9 +13,9 @@
         v-focus="'date'"
         v-if="
           field.type === 'date' &&
-            tableItems[data.index].isEdit &&
-            selectedCell === field.key &&
-            field.editable
+          tableItems[data.index].isEdit &&
+          selectedCell === field.key &&
+          field.editable
         "
         :key="index"
         :type="field.type"
@@ -28,9 +28,9 @@
         v-focus
         v-else-if="
           field.type === 'select' &&
-            tableItems[data.index].isEdit &&
-            selectedCell === field.key &&
-            field.editable
+          tableItems[data.index].isEdit &&
+          selectedCell === field.key &&
+          field.editable
         "
         :key="index"
         :value="tableItems[data.index][field.key]"
@@ -42,9 +42,9 @@
         v-focus="'checkbox'"
         v-else-if="
           field.type === 'checkbox' &&
-            tableItems[data.index].isEdit &&
-            selectedCell === field.key &&
-            field.editable
+          tableItems[data.index].isEdit &&
+          selectedCell === field.key &&
+          field.editable
         "
         :key="index"
         :checked="tableItems[data.index][field.key]"
@@ -56,10 +56,10 @@
         v-focus
         v-else-if="
           field.type === 'rating' &&
-            field.type &&
-            tableItems[data.index].isEdit &&
-            selectedCell === field.key &&
-            field.editable
+          field.type &&
+          tableItems[data.index].isEdit &&
+          selectedCell === field.key &&
+          field.editable
         "
         :key="index"
         :type="field.type"
@@ -72,9 +72,9 @@
         v-focus
         v-else-if="
           field.type &&
-            tableItems[data.index].isEdit &&
-            selectedCell === field.key &&
-            field.editable
+          tableItems[data.index].isEdit &&
+          selectedCell === field.key &&
+          field.editable
         "
         :key="index"
         :type="field.type"
@@ -91,7 +91,7 @@
           :name="`cell-${field.key}`"
           v-bind="data"
         ></slot>
-        <template v-else>{{getValue(data, field)}}</template>
+        <template v-else>{{ getValue(data, field) }}</template>
       </span>
     </template>
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
@@ -124,11 +124,11 @@ export default Vue.extend({
   props: {
     fields: Array,
     items: Array,
-    value: Array
+    value: Array,
   },
   directives: {
     focus: {
-      inserted: function(el: any, event: any) {
+      inserted: function (el: any, event: any) {
         switch (event.value) {
           case "checkbox":
             el.children[0].focus();
@@ -140,8 +140,8 @@ export default Vue.extend({
       },
     },
     clickOutside: {
-      bind: function(el: any, binding: any, vnode: any) {
-        el.clickOutsideEvent = function(event: any) {
+      bind: function (el: any, binding: any, vnode: any) {
+        el.clickOutsideEvent = function (event: any) {
           if (!(el == event.target || el.contains(event.target))) {
             if (document.contains(event.target)) {
               vnode.context[binding.expression](event);
@@ -150,7 +150,7 @@ export default Vue.extend({
         };
         document.addEventListener("click", el.clickOutsideEvent);
       },
-      unbind: function(el: any) {
+      unbind: function (el: any) {
         document.removeEventListener("click", el.clickOutsideEvent);
       },
     },
@@ -161,16 +161,36 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: this.value ? this.value.map((item: any) => ({...item, isEdit: false})) : this.items.map((item: any) => ({...item, isEdit: false})),
-      updatedTable: this.value
+      tableItems: this.value
+        ? this.value.map((item: any) => ({ ...item, isEdit: false }))
+        : this.items.map((item: any) => ({ ...item, isEdit: false })),
+      updateTableItems: true,
     };
+  },
+  watch: {
+    value(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    },
+    items(newVal) {
+      if (this.updateTableItems) {
+        this.tableItems = newVal;
+        this.mapItems();
+      } else {
+        this.updateTableItems = true;
+      }
+    },
   },
   methods: {
     handleEditCell(e: any, index: number, name: string) {
       e.stopPropagation();
       this.mapItems();
       this.tableItems[index].isEdit = true;
-      this.selectedCell = name
+      this.selectedCell = name;
     },
     handleKeydown(e: any, index: number, data: any) {
       if (e.code === "Tab") {
@@ -203,41 +223,58 @@ export default Vue.extend({
       this.mapItems();
     },
     inputHandler(value: any, data: any, key: string, options: Array<any>) {
-        let changedValue = value;
-        // Handle select element with options
-        if (options) {
-          const selectedValue = options.find(item => item.value === value);
-          changedValue = selectedValue ? selectedValue.value : value;
-        }
-        this.tableItems[data.index][key] = changedValue;
-        this.$emit('input-change', value, data);
+      let changedValue = value;
+      // Handle select element with options
+      if (options) {
+        const selectedValue = options.find((item) => item.value === value);
+        changedValue = selectedValue ? selectedValue.value : value;
+      }
+      this.tableItems[data.index][key] = changedValue;
+      this.$emit("input-change", value, data);
 
-        // If v-model is set then emit updated table
-        if (this.value) {
-          this.updatedTable[data.index][key] = changedValue;
-          this.$emit('input', this.updatedTable);
-        }
+      // If v-model is set then emit updated table
+      if (this.value) {
+        // This flag will aboid the watcher from updating the data
+        this.updateTableItems = false;
+        this.$emit(
+          "input",
+          this.tableItems.map((item: any) => {
+            const newItem = { ...item };
+            delete newItem.isEdit;
+            return newItem;
+          })
+        );
+      }
     },
     handleListeners(listeners: any) {
       // Exclude listeners that are not part of Bootstrap Vue
       const excludeEvents: any = {
-        "input": true,
-        "input-change": true
-      }
-      return Object.keys(listeners).reduce((a: any, c: any) => excludeEvents[c] ? a : {...a, [c]: listeners[c]}, {});
+        input: true,
+        "input-change": true,
+      };
+      return Object.keys(listeners).reduce(
+        (a: any, c: any) =>
+          excludeEvents[c] ? a : { ...a, [c]: listeners[c] },
+        {}
+      );
     },
     getValue(data: any) {
-        let value = data.value;
-        // Handle select element with options
-        if (data.field.options) {
-          const selectedValue = data.field.options.find((item: any) => item.value === value);
-          value = selectedValue ? selectedValue.text : value;
-        }
-        return value;
+      let value = data.value;
+      // Handle select element with options
+      if (data.field.options) {
+        const selectedValue = data.field.options.find(
+          (item: any) => item.value === value
+        );
+        value = selectedValue ? selectedValue.text : value;
+      }
+      return value;
     },
     mapItems() {
-      this.tableItems = this.tableItems.map((item: any) => ({...item, isEdit: false}));
-    }
+      this.tableItems = this.tableItems.map((item: any) => ({
+        ...item,
+        isEdit: false,
+      }));
+    },
   },
 });
 </script>

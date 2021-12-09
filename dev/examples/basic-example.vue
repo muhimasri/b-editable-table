@@ -1,5 +1,6 @@
 <template>
 <div>
+    <button @click="addItem()">Add</button>
     <b-editable-table bordered :small="true" fixed class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
@@ -49,6 +50,9 @@ export default {
       handleInput(value, data) {
         console.log(data);
         // this.items[data.index][data.field.key] = value;
+      },
+      addItem() {
+        this.items.push({ age: 22, name: 'Elham', department: 2, dateOfBirth: '1964-10-19', isActive: true });
       }
   }
 };
