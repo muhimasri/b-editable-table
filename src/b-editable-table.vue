@@ -163,32 +163,21 @@ export default Vue.extend({
       },
       tableItems: this.value
         ? this.value.map((item: any) => ({ ...item, isEdit: false }))
-        : this.items.map((item: any) => ({ ...item, isEdit: false })),
-      updateTableItems: true,
+        : this.items.map((item: any) => ({ ...item, isEdit: false }))
     };
   },
   watch: {
     value(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
+      this.tableItems = this.createItems(newVal);
     },
     items(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
-    },
+      this.tableItems = this.createItems(newVal);
+    }
   },
   methods: {
     handleEditCell(e: any, index: number, name: string) {
       e.stopPropagation();
-      this.mapItems();
+      this.resetItems();
       this.tableItems[index].isEdit = true;
       this.selectedCell = name;
     },
@@ -210,17 +199,17 @@ export default Vue.extend({
         }
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.mapItems();
+        this.resetItems();
         this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.mapItems();
+        this.resetItems();
       }
     },
     handleClickOut() {
       this.selectedCell = null;
-      this.mapItems();
+      this.resetItems();
     },
     inputHandler(value: any, data: any, key: string, options: Array<any>) {
       let changedValue = value;
@@ -234,8 +223,6 @@ export default Vue.extend({
 
       // If v-model is set then emit updated table
       if (this.value) {
-        // This flag will aboid the watcher from updating the data
-        this.updateTableItems = false;
         this.$emit(
           "input",
           this.tableItems.map((item: any) => {
@@ -269,10 +256,16 @@ export default Vue.extend({
       }
       return value;
     },
-    mapItems() {
+    resetItems() {
       this.tableItems = this.tableItems.map((item: any) => ({
         ...item,
         isEdit: false,
+      }));
+    },
+    createItems(value: any) {
+      return value.map((item: any, index: any) => ({
+        ...item,
+        isEdit: this.tableItems[index] ? this.tableItems[index].isEdit : false,
       }));
     },
   },

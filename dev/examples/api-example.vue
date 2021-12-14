@@ -1,5 +1,6 @@
 <template>
 <div>
+    <button @click="handleAdd()">Add</button>
     <b-editable-table bordered :small="true" fixed class="editable-table" v-model="users" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
@@ -30,8 +31,13 @@ export default {
   },
   methods: {
       handleInput(value, data) {
-        console.log(data);
+        // const newRow = {...this.users[data.index], [data.field.key]: value};
+        // this.$set(this.users, data.index, newRow);
         // this.users[data.index][data.field.key] = value;
+      },
+      handleAdd() {
+        const newRow = {name: 'John Snow', email: 'jsnow@mail.com', phone: '123456789'};
+        this.users.unshift(newRow);
       }
   },
   async mounted() {
