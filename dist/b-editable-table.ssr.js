@@ -11869,32 +11869,21 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
           isEdit: false
         });
-      }),
-      updateTableItems: true
+      })
     };
   },
   watch: {
     value: function value(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
+      this.tableItems = this.createItems(newVal);
     },
     items: function items(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
+      this.tableItems = this.createItems(newVal);
     }
   },
   methods: {
     handleEditCell: function handleEditCell(e, index, name) {
       e.stopPropagation();
-      this.mapItems();
+      this.resetItems();
       this.tableItems[index].isEdit = true;
       this.selectedCell = name;
     },
@@ -11916,17 +11905,17 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.mapItems();
+        this.resetItems();
         this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.mapItems();
+        this.resetItems();
       }
     },
     handleClickOut: function handleClickOut() {
       this.selectedCell = null;
-      this.mapItems();
+      this.resetItems();
     },
     inputHandler: function inputHandler(value, data, key, options) {
       var changedValue = value; // Handle select element with options
@@ -11942,8 +11931,6 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
       this.$emit("input-change", value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        // This flag will aboid the watcher from updating the data
-        this.updateTableItems = false;
         this.$emit("input", this.tableItems.map(function (item) {
           var newItem = _objectSpread2$1({}, item);
 
@@ -11974,10 +11961,19 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
       return value;
     },
-    mapItems: function mapItems() {
+    resetItems: function resetItems() {
       this.tableItems = this.tableItems.map(function (item) {
         return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
           isEdit: false
+        });
+      });
+    },
+    createItems: function createItems(value) {
+      var _this = this;
+
+      return value.map(function (item, index) {
+        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
+          isEdit: _this.tableItems[index] ? _this.tableItems[index].isEdit : false
         });
       });
     }
@@ -12245,7 +12241,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-4725774b_0", {
+  inject("data-v-0240a2e6_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
@@ -12257,7 +12253,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-4725774b";
+var __vue_module_identifier__ = "data-v-0240a2e6";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
