@@ -11974,15 +11974,24 @@ var script = Vue.extend({
         isEdit: false
       })) : this.items.map(item => ({ ...item,
         isEdit: false
-      })),
-      updatedTable: this.value
+      }))
     };
   },
 
+  watch: {
+    value(newVal) {
+      this.tableItems = this.createItems(newVal);
+    },
+
+    items(newVal) {
+      this.tableItems = this.createItems(newVal);
+    }
+
+  },
   methods: {
     handleEditCell(e, index, name) {
       e.stopPropagation();
-      this.mapItems();
+      this.resetItems();
       this.tableItems[index].isEdit = true;
       this.selectedCell = name;
     },
@@ -12005,18 +12014,18 @@ var script = Vue.extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.mapItems();
+        this.resetItems();
         this.tableItems[rowIndex].isEdit = true;
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.mapItems();
+        this.resetItems();
       }
     },
 
     handleClickOut() {
       this.selectedCell = null;
-      this.mapItems();
+      this.resetItems();
     },
 
     inputHandler(value, data, key, options) {
@@ -12028,18 +12037,22 @@ var script = Vue.extend({
       }
 
       this.tableItems[data.index][key] = changedValue;
-      this.$emit('input-change', value, data); // If v-model is set then emit updated table
+      this.$emit("input-change", value, data); // If v-model is set then emit updated table
 
       if (this.value) {
-        this.updatedTable[data.index][key] = changedValue;
-        this.$emit('input', this.updatedTable);
+        this.$emit("input", this.tableItems.map(item => {
+          const newItem = { ...item
+          };
+          delete newItem.isEdit;
+          return newItem;
+        }));
       }
     },
 
     handleListeners(listeners) {
       // Exclude listeners that are not part of Bootstrap Vue
       const excludeEvents = {
-        "input": true,
+        input: true,
         "input-change": true
       };
       return Object.keys(listeners).reduce((a, c) => excludeEvents[c] ? a : { ...a,
@@ -12058,9 +12071,15 @@ var script = Vue.extend({
       return value;
     },
 
-    mapItems() {
+    resetItems() {
       this.tableItems = this.tableItems.map(item => ({ ...item,
         isEdit: false
+      }));
+    },
+
+    createItems(value) {
+      return value.map((item, index) => ({ ...item,
+        isEdit: this.tableItems[index] ? this.tableItems[index].isEdit : false
       }));
     }
 
@@ -12345,7 +12364,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-67895aaf_0", {
+  inject("data-v-0240a2e6_0", {
     source: ".data-cell{display:flex;width:100%}",
     map: undefined,
     media: undefined
