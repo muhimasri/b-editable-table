@@ -49,9 +49,9 @@ export default {
 </script>
 
 <style>
-.editable-table .data-cell {
+/* .editable-table .data-cell {
   padding: 0.4rem 0.4rem; 
-}
+} */
 
 .editable-table th, .editable-table td {
   vertical-align: middle !important;

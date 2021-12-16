@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+    <b-editable-table bordered class="editable-table" :items="items" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
@@ -28,7 +28,7 @@ export default {
           { value: 3, text: 'VP' },
           { value: 4, text: 'CEO'}
         ]},
-        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "name-col" },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "age-col" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, class: "date-col", locale: "en",
           "date-format-options": {
             year: "numeric",
@@ -47,42 +47,40 @@ export default {
   },
   methods: {
       handleInput(value, data) {
-        console.log(data);
-        // this.items[data.index][data.field.key] = value;
-      },
-      addItem() {
-        this.items.push({ age: 22, name: 'Elham', department: 2, dateOfBirth: '1964-10-19', isActive: true });
+        const updatedRow = {...this.items[data.index], [data.field.key]: value};
+        this.$set(this.items, data.index, updatedRow);
       }
   }
 };
 </script>
 
 <style>
-/* .editable-table {
-  width: 100%;
-} */
-.editable-table .data-cell {
-  padding: 0.4rem 0.4rem; 
+table.editable-table {
+  margin: auto;
 }
-
 .editable-table .data-cell {
+  padding: 8px;
   vertical-align: middle;
 }
 
-/* .editable-table .custom-checkbox {
-  margin-left: 7px;
-} */
+.editable-table .custom-checkbox {
+  width: 50px;
+}
 
 .name-col {
   width: 120px;
 }
 
 .department-col {
-  width: 300px;
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
 }
 
 .date-col {
-  width: 300px;
+  width: 200px;
 }
 
 .is-active-col {

@@ -18,8 +18,8 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <!-- <basic-example></basic-example> -->
+    <basic-example></basic-example>
     <!-- <complete-example></complete-example> -->
-    <ApiExample></ApiExample>
+    <!-- <ApiExample></ApiExample> -->
   </div>
 </template>

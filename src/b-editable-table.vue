@@ -4,7 +4,6 @@
     v-bind="{ ...$props, ...$attrs }"
     v-on="handleListeners($listeners)"
     :items="tableItems"
-    class="b-editable-table"
   >
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
@@ -81,7 +80,7 @@
         :type="field.type"
         :value="tableItems[data.index][field.key]"
       ></b-form-input>
-      <span
+      <div
         class="data-cell"
         @click="handleEditCell($event, data.index, field.key)"
         v-else
@@ -93,7 +92,7 @@
           v-bind="data"
         ></slot>
         <template v-else>{{ getValue(data, field) }}</template>
-      </span>
+      </div>
     </template>
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
       ><slot :name="slot" v-bind="scope"
@@ -274,11 +273,15 @@ export default Vue.extend({
 </script>
 
 <style>
-.b-editable-table.b-table {
+table.b-table {
   width: unset;
+}
+table.b-table td {
+  padding: 0;
 }
 .data-cell {
   display: flex;
   width: 100%;
+  height: 100%;
 }
 </style>
