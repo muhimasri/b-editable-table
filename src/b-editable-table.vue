@@ -5,6 +5,9 @@
     v-on="handleListeners($listeners)"
     :items="tableItems"
   >
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
+      ><slot :name="slot" v-bind="scope"
+    /></template>
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
         @keydown.native="handleKeydown($event, index, data)"
@@ -87,16 +90,13 @@
         :key="index"
       >
         <slot
-          v-if="$scopedSlots[`cell-${field.key}`]"
-          :name="`cell-${field.key}`"
+          v-if="$scopedSlots[`cell(${field.key})`]"
+          :name="`cell(${field.key})`"
           v-bind="data"
         ></slot>
         <template v-else>{{ getValue(data, field) }}</template>
       </div>
     </template>
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
-      ><slot :name="slot" v-bind="scope"
-    /></template>
   </b-table>
 </template>
 

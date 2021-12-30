@@ -1,6 +1,6 @@
 <template>
 <div>
-    <button @click="handleAdd()">Add</button>
+    <b-button @click="handleAdd()">Add</b-button>
     <b-editable-table bordered :small="true" fixed class="editable-table" v-model="users" :fields="fields" @input-change="handleInput">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
@@ -15,6 +15,7 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
+import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable

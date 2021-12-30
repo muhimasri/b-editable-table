@@ -1,9 +1,13 @@
 <template>
-<div>
-    <b-editable-table bordered class="editable-table" :items="items" :fields="fields" @input-change="handleInput">
-      <template #cell-isActive="data">
+<div class="table-container">
+    <b-button variant="success" @click="handleAdd()">Add</b-button>
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+      <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
+      </template>
+      <template #cell(delete)="data">
+        <b-button variant="danger" @click="handleDelete(data)">Remove</b-button>
       </template>
     </b-editable-table>
     <pre>
@@ -14,6 +18,7 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
+import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable
@@ -36,27 +41,37 @@ export default {
             day: "numeric",
           }, },
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
+        { key: "delete", label: "" }
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
           { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
           { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
   methods: {
       handleInput(value, data) {
-        const updatedRow = {...this.items[data.index], [data.field.key]: value};
-        this.$set(this.items, data.index, updatedRow);
+        // const updatedRow = {...this.items[data.index], [data.field.key]: value};
+        // this.$set(this.items, data.index, updatedRow);
+      },
+      handleAdd() {
+        this.items.unshift({});
+      },
+      handleDelete(data) {
+        this.items.splice(data.index, 1);
       }
   }
 };
 </script>
 
 <style>
+.table-container {
+  margin: 10px;
+}
 table.editable-table {
-  margin: auto;
+  margin-top: 10px;
 }
 .editable-table .data-cell {
   padding: 8px;
