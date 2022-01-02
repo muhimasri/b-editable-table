@@ -20,7 +20,7 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BButton, BSpinner} from 'bootstrap-vue';
+import {BSpinner} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable,

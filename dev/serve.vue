@@ -11,10 +11,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 export default Vue.extend({
   name: 'ServeDev',
   components: {
-    // CompleteExample,
-    // BasicExample,
-    // ApiExample,
-    // OneWayBindExample,
+    CompleteExample,
+    BasicExample,
+    ApiExample,
+    OneWayBindExample,
     AddRemoveExample
   }
 });

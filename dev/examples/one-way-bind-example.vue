@@ -14,7 +14,6 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable

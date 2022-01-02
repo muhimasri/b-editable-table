@@ -8,7 +8,6 @@
       </template>
       <template #cell(delete)="data">
           <BIconX class="remove-icon" @click="handleDelete(data)"></BIconX>
-        <!-- <b-button variant="danger" @click="handleDelete(data)">Remove</b-button> -->
       </template>
     </b-editable-table>
     <pre>
@@ -19,10 +18,11 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BButton, BIconX} from 'bootstrap-vue';
+import {BIconX} from 'bootstrap-vue';
 export default {
   components: {
-    BEditableTable
+    BEditableTable,
+    BIconX
   },
   data() {
     return {

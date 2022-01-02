@@ -12112,7 +12112,14 @@ var __vue_render__ = function __vue_render__() {
     attrs: {
       "items": _vm.tableItems
     },
-    scopedSlots: _vm._u([_vm._l(_vm.fields, function (field, index) {
+    scopedSlots: _vm._u([_vm._l(_vm.$scopedSlots, function (_, slot) {
+      return {
+        key: slot,
+        fn: function fn(scope) {
+          return [_vm._t(slot, null, null, scope)];
+        }
+      };
+    }), _vm._l(_vm.fields, function (field, index) {
       return {
         key: "cell(" + field.key + ")",
         fn: function fn(data) {
@@ -12214,7 +12221,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.inputHandler(value, data, field.key);
               }
             }
-          }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
+          }, 'b-form-input', Object.assign({}, field), false)) : _c('div', {
             key: index,
             staticClass: "data-cell",
             on: {
@@ -12222,14 +12229,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleEditCell($event, data.index, field.key);
               }
             }
-          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
-        }
-      };
-    }), _vm._l(_vm.$scopedSlots, function (_, slot) {
-      return {
-        key: slot,
-        fn: function fn(scope) {
-          return [_vm._t(slot, null, null, scope)];
+          }, [_vm.$scopedSlots["cell(" + field.key + ")"] ? _vm._t("cell(" + field.key + ")", null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
         }
       };
     })], null, true)
@@ -12241,8 +12241,8 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-0240a2e6_0", {
-    source: ".data-cell{display:flex;width:100%}",
+  inject("data-v-49acfc1c_0", {
+    source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
   });
@@ -12253,7 +12253,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-0240a2e6";
+var __vue_module_identifier__ = "data-v-49acfc1c";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

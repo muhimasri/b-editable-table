@@ -1,6 +1,3 @@
-
-
-
 # BootstrapVue Editable Table
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
@@ -19,10 +16,12 @@ If you'd like to contribute, please read this [introductory article](https://muh
 [Data Binding](#data-binding)<br/>
 [Form Elements](#form-elements) <br/>
 [Column Width](#column-width)<br/>
-[Styling](#styling)<br/>
+[Custom Styling](#custom-styling)<br/>
 [Keyboard Keys](#keyboard-keys)<br/>
 [Events](#events)<br/>
 [Custom Cell](#custom-cell)<br/>
+[Add and Remove Rows](#add-and-remove-rows)<br/>
+[Load Data via REST API](#load-data-via-rest-api)<br/>
 [Supported Version](#supported-version)<br/>
 [Roadmap](#roadmap)<br/>
  
@@ -60,7 +59,7 @@ Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more deta
 
 ## Usage
 
-```javascript
+```html
 <template>
     <b-editable-table v-model="items" :fields="fields"></b-editable-table>
 </template>
@@ -102,7 +101,7 @@ export default {
 </script>
 ```
 
-`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` and `editable` property in the `fields` object to indicate what element is required in every column and whether or not it should be editable. Also, `v-model` is supported for two way bind but you can still use `:items` instead and do your own update. More on that in the [Data Binding](#data-binding) section
+`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` and `editable` property in the `fields` object to indicate what element is required in every column and whether or not it should be editable. Also, `v-model` is supported for two-way binding but you can still use `:items` instead for one-way binding. More on that in the [Data Binding](#data-binding) section
 
 For `select` element, options can be passed as another property (as shown in the example above). Since this is a [Boostrap Form Select](https://bootstrap-vue.org/docs/components/form-select), it supports a list of strings or key/value objects:
 
@@ -124,7 +123,9 @@ When using `v-model` the data will be updated automatically:
 `<b-editable-table v-model="items" :fields="fields"></b-editable-table>`
 
 Otherwise, using `:items` prop to pass data will require updating the data manually on input change:
-```javascript
+
+[Run example on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
+```html
 <template>
 <div>
     <b-editable-table :items="items" :fields="fields" @input-change="handleInput">
@@ -140,7 +141,7 @@ Otherwise, using `:items` prop to pass data will require updating the data manua
 </template>
 
 <script>
-import BEditableTable from '@/b-editable-table.vue';
+import BEditableTable from 'bootstrap-vue-editable-table';
 export default {
   components: {
     BEditableTable
@@ -193,7 +194,7 @@ Every column requires a `type` and `editable` property in order to make the cell
   { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
 ]
 ```
-All Bootstrap form element's attributes and properties are supported by passing them directly through the `field` object. For example, you can add `size` and `locale` props to the date picker as follows:
+Elements' attributes and properties are supported by passing them directly through the `field` object. For example, you can add `size` and `locale` props to the date picker as follows:
 ```
 { key:  "dateOfBirth", label:  "Date Of Birth", size:"lg", locale:"fr", type: "date", editable: true }
 ```
@@ -215,9 +216,9 @@ All Bootstrap form element's attributes and properties are supported by passing 
 
 ## Column Width
 
-To set the width of specific columns, you can pass the `class` property in the `fields` object. This feature is part of Bootstrap Vue Table. You can learn more from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table).
+To set the width of any column, you can pass the `class` property in the `fields` object. This feature is part of Bootstrap Vue Table. You can learn more from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table).
 
-Below is an example to how you add a CSS class to some or all of the columns and then set the width and other styling required:
+Below is an example of how you set the width by adding a CSS class to the column:
 ```json
 fields: [
 	{ key: "name", label: "Name", type: "text", class: "name-col", editable: true, placeholder: "Enter Name..."},
@@ -235,7 +236,7 @@ fields: [
 </style>
 ```
 
-## Styling
+## Custom Styling
 
 There are no custom themes available yet but since it extends Bootstrap Vue Table, you can apply all options available from [Bootstrap Table Docs](https://bootstrap-vue.org/docs/components/table) as well as defining your own CSS class.
 
@@ -257,7 +258,7 @@ Here is an example of how to style and customize a table:
 </template>
 
 <script>
-import BEditableTable from '@/b-editable-table.vue';
+import BEditableTable from 'bootstrap-vue-editable-table';
 export default {
   components: {
     BEditableTable
@@ -338,24 +339,230 @@ table.editable-table {
 | input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
 
 ## Custom Cell
-To customize a none editable cell, you can use scoped slots to customize a particular field.
+To customize a none editable cell, you can use Bootstraps' scoped slots.
 
 **Example rendering a `boolean` field to `Yes` or `No` value:**
 
 ```javascript
-<b-editable-table :items="items" :fields="fields">
-	<template #cell-isActive="data">
-		<span v-if="data.value">Yes</span>
-		<span v-else>No</span>
-	</template>
+<b-editable-table v-model="items" :fields="fields">
+	<template #cell(isActive)="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+     </template>
 </b-editable-table>
 ```
+For more details about custom slots, please read [BootstrapVue Table documentation](https://bootstrap-vue.org/docs/components/table) 
 
-The slot name has to start with `cell-` then followed by the field key `cell-isActive`
+## Add and Remove Rows
+[Run example on CodeSandbox](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj)
+```html
+<template>
+<div class="table-container">
+    <b-button variant="success" @click="handleAdd()">Add</b-button>
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
+      <template #cell(isActive)="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+      </template>
+      <template #cell(delete)="data">
+          <BIconX class="remove-icon" @click="handleDelete(data)"></BIconX>
+      </template>
+    </b-editable-table>
+    <pre>
+      {{items}}
+    </pre>
+</div>
+</template>
 
-|Name | Description |
-|--|--|
-| `cell-{key}` &nbsp; &nbsp; &nbsp; &nbsp; | Scoped slot for custom data rendering of field data. '{key}' is the field's key name.
+<script>
+import BEditableTable from 'bootstrap-vue-editable-table';
+import {BIconX} from 'bootstrap-vue';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name...", class: "name-col"},
+        { key: "department", label: "Department", type: "select", editable: true, class: "department-col" , options: [
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ]},
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "age-col" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, class: "date-col", locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
+        { key: "delete", label: "" }
+      ],
+       items: [
+          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+        ]
+    };
+  },
+  methods: {
+      handleAdd() {
+        this.items.unshift({});
+      },
+      handleDelete(data) {
+        this.items.splice(data.index, 1);
+      }
+  }
+};
+</script>
+
+<style>
+.table-container {
+  margin: 10px;
+}
+
+table.editable-table {
+  margin-top: 10px;
+}
+
+table.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .data-cell {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.editable-table .custom-checkbox {
+  width: 50px;
+}
+
+.remove-icon {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
+}
+
+.date-col {
+  width: 200px;
+}
+
+.is-active-col {
+  width: 100px
+}
+</style>
+
+```
+
+## Load Data via REST API
+[Run example on CodeSandbox](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
+```html
+<template>
+<div>
+    <b-editable-table :busy="loading" bordered class="editable-table" v-model="users" :fields="fields">
+      <template #cell-isActive="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+      </template>
+      <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+    </b-editable-table>
+    <pre>
+      {{users}}
+    </pre>
+</div>
+</template>
+
+<script>
+import BEditableTable from 'bootstrap-vue-editable-table';
+import {BSpinner} from 'bootstrap-vue';
+export default {
+  components: {
+    BEditableTable,
+    BSpinner
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text", editable: true },
+        { key: "email", label: "Email", type: "email", editable: true },
+        { key: "phone", label: "Phone", type: "text", editable: true }
+      ],
+      users: [],
+      loading: false
+    };
+  },
+  async mounted() {
+    this.loading = true;
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await response.json();
+    this.users = users;
+    this.loading = false;
+  }
+};
+</script>
+
+<style>
+table.editable-table {
+  margin: auto;
+}
+
+table.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .data-cell {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.editable-table .custom-checkbox {
+  width: 50px;
+}
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
+}
+
+.date-col {
+  width: 200px;
+}
+
+.is-active-col {
+  width: 100px
+}
+</style>
+
+```
 
 ## Supported Version
 This has been tested on:
