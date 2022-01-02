@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+    <b-editable-table bordered class="editable-table" :items="items" :fields="fields" @input-change="handleInput">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
@@ -47,7 +47,10 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {}
+      handleInput(value, data) {
+        const updatedRow = {...this.items[data.index], [data.field.key]: value};
+        this.$set(this.items, data.index, updatedRow);
+      }
   }
 };
 </script>

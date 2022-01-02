@@ -1,10 +1,15 @@
 <template>
 <div>
-    <b-button @click="handleAdd()">Add</b-button>
-    <b-editable-table bordered :small="true" fixed class="editable-table" v-model="users" :fields="fields" @input-change="handleInput">
+    <b-editable-table :busy="loading" bordered class="editable-table" v-model="users" :fields="fields">
       <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
+      </template>
+      <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
       </template>
     </b-editable-table>
     <pre>
@@ -15,10 +20,11 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BButton} from 'bootstrap-vue';
+import {BButton, BSpinner} from 'bootstrap-vue';
 export default {
   components: {
-    BEditableTable
+    BEditableTable,
+    BSpinner
   },
   data() {
     return {
@@ -27,38 +33,55 @@ export default {
         { key: "email", label: "Email", type: "email", editable: true },
         { key: "phone", label: "Phone", type: "text", editable: true }
       ],
-      users: []
+      users: [],
+      loading: false
     };
   },
-  methods: {
-      handleInput(value, data) {
-        // const newRow = {...this.users[data.index], [data.field.key]: value};
-        // this.$set(this.users, data.index, newRow);
-        // this.users[data.index][data.field.key] = value;
-      },
-      handleAdd() {
-        const newRow = {name: 'John Snow', email: 'jsnow@mail.com', phone: '123456789'};
-        this.users.unshift(newRow);
-      }
-  },
   async mounted() {
+    this.loading = true;
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const users = await response.json();
     this.users = users;
+    this.loading = false;
   }
 };
 </script>
 
 <style>
-/* .editable-table .data-cell {
-  padding: 0.4rem 0.4rem; 
-} */
+table.editable-table {
+  margin: auto;
+}
 
-.editable-table th, .editable-table td {
-  vertical-align: middle !important;
+table.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .data-cell {
+  padding: 8px;
+  vertical-align: middle;
 }
 
 .editable-table .custom-checkbox {
-  margin-left: 7px;
+  width: 50px;
+}
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
+}
+
+.date-col {
+  width: 200px;
+}
+
+.is-active-col {
+  width: 100px
 }
 </style>

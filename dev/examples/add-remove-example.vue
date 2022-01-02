@@ -1,9 +1,14 @@
 <template>
-<div>
-    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
+<div class="table-container">
+    <b-button variant="success" @click="handleAdd()">Add</b-button>
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
+      </template>
+      <template #cell(delete)="data">
+          <BIconX class="remove-icon" @click="handleDelete(data)"></BIconX>
+        <!-- <b-button variant="danger" @click="handleDelete(data)">Remove</b-button> -->
       </template>
     </b-editable-table>
     <pre>
@@ -14,7 +19,7 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BButton} from 'bootstrap-vue';
+import {BButton, BIconX} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable
@@ -36,7 +41,8 @@ export default {
             month: "numeric",
             day: "numeric",
           }, },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
+        { key: "delete", label: "" }
       ],
        items: [
           { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
@@ -47,14 +53,23 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {}
+      handleAdd() {
+        this.items.unshift({});
+      },
+      handleDelete(data) {
+        this.items.splice(data.index, 1);
+      }
   }
 };
 </script>
 
 <style>
+.table-container {
+  margin: 10px;
+}
+
 table.editable-table {
-  margin: auto;
+  margin-top: 10px;
 }
 
 table.editable-table td {
@@ -68,6 +83,12 @@ table.editable-table td {
 
 .editable-table .custom-checkbox {
   width: 50px;
+}
+
+.remove-icon {
+    color: red;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 .name-col {
