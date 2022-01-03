@@ -58,7 +58,7 @@ Vue.use(IconsPlugin)
 Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more details.
 
 ## Usage
-
+[Run example on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
 ```html
 <template>
     <b-editable-table v-model="items" :fields="fields"></b-editable-table>
@@ -124,7 +124,7 @@ When using `v-model` the data will be updated automatically:
 
 Otherwise, using `:items` prop to pass data will require updating the data manually on input change:
 
-[Run example on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
+[Run example on CodeSandbox](https://codesandbox.io/s/vue-table-one-way-binding-ug039)
 ```html
 <template>
 <div>
