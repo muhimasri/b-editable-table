@@ -11906,7 +11906,10 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
         this.resetItems();
-        this.tableItems[rowIndex].isEdit = true;
+
+        if (this.tableItems[rowIndex]) {
+          this.tableItems[rowIndex].isEdit = true;
+        }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
@@ -12241,7 +12244,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-49acfc1c_0", {
+  inject("data-v-87d2cda4_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -12253,7 +12256,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-49acfc1c";
+var __vue_module_identifier__ = "data-v-87d2cda4";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

@@ -200,7 +200,9 @@ export default Vue.extend({
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
         this.resetItems();
-        this.tableItems[rowIndex].isEdit = true;
+        if (this.tableItems[rowIndex]) {
+          this.tableItems[rowIndex].isEdit = true;
+        }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;

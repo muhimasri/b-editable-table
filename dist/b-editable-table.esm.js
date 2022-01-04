@@ -12015,7 +12015,10 @@ var script = Vue.extend({
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
         this.resetItems();
-        this.tableItems[rowIndex].isEdit = true;
+
+        if (this.tableItems[rowIndex]) {
+          this.tableItems[rowIndex].isEdit = true;
+        }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
@@ -12364,7 +12367,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-49acfc1c_0", {
+  inject("data-v-87d2cda4_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
