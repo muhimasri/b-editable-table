@@ -1,3 +1,4 @@
+
 # BootstrapVue Editable Table
 BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
@@ -19,6 +20,7 @@ If you'd like to contribute, please read this [introductory article](https://muh
 [Custom Styling](#custom-styling)<br/>
 [Keyboard Keys](#keyboard-keys)<br/>
 [Events](#events)<br/>
+[Edit Properties](#edit-properties)<br/>
 [Custom Cell](#custom-cell)<br/>
 [Add and Remove Rows](#add-and-remove-rows)<br/>
 [Load Data via REST API](#load-data-via-rest-api)<br/>
@@ -385,6 +387,12 @@ table.editable-table td {
 |Event |Arguments | Description |
 |--|--|--|
 | input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
+
+## Edit Properties:
+|Event |Arguments | Description |
+|--|--|--|
+| editMode |`cell` - Edit one cell (default behavior) <br/> `row` - Edit all the cells of a row at once| Change edit mode
+| editTrigger|`click` - Edit on mouse click (default behavior) <br/> `dblclick` - Edit on mouse double click| Change edit trigger
 
 ## Custom Cell
 To customize a none editable cell, you can use Bootstraps' scoped slots.
