@@ -17,7 +17,7 @@
         v-if="
           field.type === 'date' &&
           tableItems[data.index].isEdit &&
-          selectedCell === field.key &&
+          (selectedCell === field.key || editMode === 'row') &&
           field.editable
         "
         :key="index"
@@ -32,7 +32,7 @@
         v-else-if="
           field.type === 'select' &&
           tableItems[data.index].isEdit &&
-          selectedCell === field.key &&
+          (selectedCell === field.key || editMode === 'row') &&
           field.editable
         "
         :key="index"
@@ -46,7 +46,7 @@
         v-else-if="
           field.type === 'checkbox' &&
           tableItems[data.index].isEdit &&
-          selectedCell === field.key &&
+          (selectedCell === field.key || editMode === 'row') &&
           field.editable
         "
         :key="index"
@@ -61,7 +61,7 @@
           field.type === 'rating' &&
           field.type &&
           tableItems[data.index].isEdit &&
-          selectedCell === field.key &&
+          (selectedCell === field.key || editMode === 'row') &&
           field.editable
         "
         :key="index"
@@ -76,7 +76,7 @@
         v-else-if="
           field.type &&
           tableItems[data.index].isEdit &&
-          selectedCell === field.key &&
+          (selectedCell === field.key || editMode === 'row') &&
           field.editable
         "
         :key="index"
@@ -85,7 +85,7 @@
       ></b-form-input>
       <div
         class="data-cell"
-        @click="handleEditCell($event, data.index, field.key)"
+        @[editTrigger]="handleEditCell($event, data.index, field.key)"
         v-else
         :key="index"
       >
@@ -125,6 +125,14 @@ export default Vue.extend({
     fields: Array,
     items: Array,
     value: Array,
+    editMode: {
+      type: String,
+      default: 'cell'
+    },
+    editTrigger: {
+      type: String,
+      default: 'click'
+    }
   },
   directives: {
     focus: {
@@ -182,7 +190,7 @@ export default Vue.extend({
       this.selectedCell = name;
     },
     handleKeydown(e: any, index: number, data: any) {
-      if (e.code === "Tab") {
+      if (e.code === "Tab" && this.editMode === 'cell') {
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         let rowIndex =
