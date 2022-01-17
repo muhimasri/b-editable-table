@@ -389,10 +389,10 @@ table.editable-table td {
 | input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
 
 ## Edit Properties:
-|Event |Arguments | Description |
-|--|--|--|
-| editMode |`cell` - Edit one cell (default behavior) <br/> `row` - Edit all the cells of a row at once| Change edit mode
-| editTrigger|`click` - Edit on mouse click (default behavior) <br/> `dblclick` - Edit on mouse double click| Change edit trigger
+|Property |Options| Default | Description |
+|--|--|--|--|
+| editMode |`cell` - Edit one cell <br/> `row` - Edit all the cells of a row at once| `cell`| Change edit mode
+| editTrigger|`click` - Edit on mouse click <br/> `dblclick` - Edit on mouse double click| `click`| Change edit trigger
 
 ## Custom Cell
 To customize a none editable cell, you can use Bootstraps' scoped slots.
