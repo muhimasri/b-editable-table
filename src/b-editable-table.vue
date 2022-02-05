@@ -14,74 +14,47 @@
         @input="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
         v-focus="'date'"
-        v-if="
-          field.type === 'date' &&
-          tableItems[data.index].isEdit &&
-          (selectedCell === field.key || editMode === 'row') &&
-          field.editable
-        "
+        v-if="showField(field, data, 'date')"
         :key="index"
         :type="field.type"
-        :value="tableItems[data.index][field.key]"
+        :value="getFieldValue(field, data)"
       ></b-form-datepicker>
       <b-form-select
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key, field.options)"
         v-bind="{ ...field }"
         v-focus
-        v-else-if="
-          field.type === 'select' &&
-          tableItems[data.index].isEdit &&
-          (selectedCell === field.key || editMode === 'row') &&
-          field.editable
-        "
+        v-else-if="showField(field, data, 'select')"
         :key="index"
-        :value="tableItems[data.index][field.key]"
+        :value="getFieldValue(field, data)"
       ></b-form-select>
       <b-form-checkbox
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
         v-focus="'checkbox'"
-        v-else-if="
-          field.type === 'checkbox' &&
-          tableItems[data.index].isEdit &&
-          (selectedCell === field.key || editMode === 'row') &&
-          field.editable
-        "
+        v-else-if="showField(field, data, 'checkbox')"
         :key="index"
-        :checked="tableItems[data.index][field.key]"
+        :checked="getFieldValue(field, data)"
       ></b-form-checkbox>
       <b-form-rating
         @keydown="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
         v-focus
-        v-else-if="
-          field.type === 'rating' &&
-          field.type &&
-          tableItems[data.index].isEdit &&
-          (selectedCell === field.key || editMode === 'row') &&
-          field.editable
-        "
+        v-else-if="showField(field, data, 'rating')"
         :key="index"
-        :type="field.type"
-        :value="tableItems[data.index][field.key]"
+        :value="getFieldValue(field, data)"
       ></b-form-rating>
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
         @input="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
         v-focus
-        v-else-if="
-          field.type &&
-          tableItems[data.index].isEdit &&
-          (selectedCell === field.key || editMode === 'row') &&
-          field.editable
-        "
+        v-else-if="showField(field, data, field.type)"
         :key="index"
         :type="field.type"
-        :value="tableItems[data.index][field.key]"
+        :value="getFieldValue(field, data)"
       ></b-form-input>
       <div
         class="data-cell"
@@ -94,13 +67,14 @@
           :name="`cell(${field.key})`"
           v-bind="data"
         ></slot>
-        <template v-else>{{ getValue(data, field) }}</template>
+        <template v-else>{{ getCellValue(data, field) }}</template>
       </div>
     </template>
   </b-table>
 </template>
 
 <script lang="ts">
+const hasValue = (obj: Object) => typeof obj !== 'undefined' && obj !== null && Object.keys(obj).length > 0;
 import {
   BTable,
   BFormDatepicker,
@@ -132,6 +106,14 @@ export default Vue.extend({
     editTrigger: {
       type: String,
       default: 'click'
+    },
+    cellMode: {
+      type: Object,
+      default: null
+    },
+    rowMode: {
+      type: Object,
+      default: null
     }
   },
   directives: {
@@ -169,9 +151,7 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: this.value
-        ? this.value.map((item: any) => ({ ...item, isEdit: false }))
-        : this.items.map((item: any) => ({ ...item, isEdit: false }))
+      tableItems: this.value.map((item: any) => ({...item}))
     };
   },
   watch: {
@@ -180,14 +160,25 @@ export default Vue.extend({
     },
     items(newVal) {
       this.tableItems = this.createItems(newVal);
+    },
+    cellMode(newVal) {
+      this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
+      this.selectedCell = newVal.field;
+      this.editMode = 'cell';
+    },
+    rowMode(newVal) {
+      this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
+      this.editMode = 'row';
     }
   },
   methods: {
     handleEditCell(e: any, index: number, name: string) {
-      e.stopPropagation();
-      this.resetItems();
-      this.tableItems[index].isEdit = true;
-      this.selectedCell = name;
+      if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
+        e.stopPropagation();
+        this.resetItems();
+        this.tableItems[index].isEdit = true;
+        this.selectedCell = name;
+      }
     },
     handleKeydown(e: any, index: number, data: any) {
       if (e.code === "Tab" && this.editMode === 'cell') {
@@ -218,8 +209,10 @@ export default Vue.extend({
       }
     },
     handleClickOut() {
-      this.selectedCell = null;
-      this.resetItems();
+      if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
+        this.selectedCell = null;
+        this.resetItems();
+      }
     },
     inputHandler(value: any, data: any, key: string, options: Array<any>) {
       let changedValue = value;
@@ -255,7 +248,7 @@ export default Vue.extend({
         {}
       );
     },
-    getValue(data: any) {
+    getCellValue(data: any) {
       let value = data.value;
       // Handle select element with options
       if (data.field.options) {
@@ -265,6 +258,15 @@ export default Vue.extend({
         value = selectedValue ? selectedValue.text : value;
       }
       return value;
+    },
+    showField(field: any, data: any, type: string) {
+      return field.type === type &&
+          this.tableItems[data.index].isEdit &&
+          (this.selectedCell === field.key || this.editMode === 'row') &&
+          field.editable;
+    },
+    getFieldValue(field: any, data: any) {
+      return this.tableItems[data.index][field.key]
     },
     resetItems() {
       this.tableItems = this.tableItems.map((item: any) => ({
@@ -278,6 +280,12 @@ export default Vue.extend({
         isEdit: this.tableItems[index] ? this.tableItems[index].isEdit : false,
       }));
     },
+    createTableItems(values: Array<any>) {
+      values.reduce((a, c) => ({...a, [c.id]: {
+        isEdit: false,
+        data: c
+      }}),{})
+    }
   },
 });
 </script>
