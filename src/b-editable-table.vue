@@ -48,7 +48,7 @@
       ></b-form-rating>
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
-        @input="(value) => inputHandler(value, data, field.key)"
+        @blur="(e) => inputHandler(e.target.value, data, field.key)"
         v-bind="{ ...field }"
         v-focus
         v-else-if="showField(field, data, field.type)"
@@ -74,7 +74,8 @@
 </template>
 
 <script lang="ts">
-const hasValue = (obj: Object) => typeof obj !== 'undefined' && obj !== null && Object.keys(obj).length > 0;
+const hasValue = (obj: Object) =>
+  typeof obj !== "undefined" && obj !== null && Object.keys(obj).length > 0;
 import {
   BTable,
   BFormDatepicker,
@@ -101,24 +102,24 @@ export default Vue.extend({
     value: Array,
     editMode: {
       type: String,
-      default: 'cell'
+      default: "cell",
     },
     editTrigger: {
       type: String,
-      default: 'click'
+      default: "click",
     },
     cellMode: {
       type: Object,
-      default: null
+      default: null,
     },
     rowMode: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   directives: {
     focus: {
-      inserted: function (el: any, event: any) {
+      inserted: function(el: any, event: any) {
         switch (event.value) {
           case "checkbox":
             el.children[0].focus();
@@ -130,8 +131,8 @@ export default Vue.extend({
       },
     },
     clickOutside: {
-      bind: function (el: any, binding: any, vnode: any) {
-        el.clickOutsideEvent = function (event: any) {
+      bind: function(el: any, binding: any, vnode: any) {
+        el.clickOutsideEvent = function(event: any) {
           if (!(el == event.target || el.contains(event.target))) {
             if (document.contains(event.target)) {
               vnode.context[binding.expression](event);
@@ -140,7 +141,7 @@ export default Vue.extend({
         };
         document.addEventListener("click", el.clickOutsideEvent);
       },
-      unbind: function (el: any) {
+      unbind: function(el: any) {
         document.removeEventListener("click", el.clickOutsideEvent);
       },
     },
@@ -151,12 +152,16 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: this.value.map((item: any) => ({...item}))
+      tableItems: [], // this.value.map((item: any) => ({ ...item })),
+      tableMap: {}
     };
+  },
+  mounted() {
+    this.tableItems = this.createTableItems(this.value);
   },
   watch: {
     value(newVal) {
-      this.tableItems = this.createItems(newVal);
+      this.tableItems = this.createTableItems(newVal);
     },
     items(newVal) {
       this.tableItems = this.createItems(newVal);
@@ -164,12 +169,12 @@ export default Vue.extend({
     cellMode(newVal) {
       this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
       this.selectedCell = newVal.field;
-      this.editMode = 'cell';
+      this.editMode = "cell";
     },
     rowMode(newVal) {
       this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
-      this.editMode = 'row';
-    }
+      this.editMode = "row";
+    },
   },
   methods: {
     handleEditCell(e: any, index: number, name: string) {
@@ -181,7 +186,7 @@ export default Vue.extend({
       }
     },
     handleKeydown(e: any, index: number, data: any) {
-      if (e.code === "Tab" && this.editMode === 'cell') {
+      if (e.code === "Tab" && this.editMode === "cell") {
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         let rowIndex =
@@ -248,8 +253,8 @@ export default Vue.extend({
         {}
       );
     },
-    getCellValue(data: any) {
-      let value = data.value;
+    getCellValue(data: any, field: any) {
+      let value = this.tableMap[data.item.data.id.value] ? this.tableMap[data.item.data.id.value].data[field.key].value : '';
       // Handle select element with options
       if (data.field.options) {
         const selectedValue = data.field.options.find(
@@ -260,13 +265,15 @@ export default Vue.extend({
       return value;
     },
     showField(field: any, data: any, type: string) {
-      return field.type === type &&
-          this.tableItems[data.index].isEdit &&
-          (this.selectedCell === field.key || this.editMode === 'row') &&
-          field.editable;
+      return (
+        field.type === type &&
+        this.tableItems[data.index].isEdit &&
+        (this.selectedCell === field.key || this.editMode === "row") &&
+        field.editable
+      );
     },
     getFieldValue(field: any, data: any) {
-      return this.tableItems[data.index][field.key]
+      return this.tableMap[data.item.data.id.value].data[field.key].value;
     },
     resetItems() {
       this.tableItems = this.tableItems.map((item: any) => ({
@@ -280,12 +287,25 @@ export default Vue.extend({
         isEdit: this.tableItems[index] ? this.tableItems[index].isEdit : false,
       }));
     },
-    createTableItems(values: Array<any>) {
-      values.reduce((a, c) => ({...a, [c.id]: {
-        isEdit: false,
-        data: c
-      }}),{})
-    }
+    createTableItems(data: Array<any>) {
+      this.tableMap = data.reduce(
+        (values, curValue) => ({
+          ...values,
+          [curValue.id]: {
+            isEdit: false,
+            data: Object.keys(curValue).reduce(
+              (fields, curField) => ({
+                ...fields,
+                [curField]: { value: curValue[curField] },
+              }),
+              {}
+            ),
+          },
+        }),
+        {}
+      );
+      return Object.values(this.tableMap);
+    },
   },
 });
 </script>

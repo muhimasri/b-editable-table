@@ -1,7 +1,7 @@
 <template>
 <div class="table-container">
     <b-button variant="success" @click="handleAdd()">Add</b-button>
-    <b-editable-table bordered :rowMode="rowMode" class="editable-table" v-model="items" :fields="fields">
+    <b-editable-table bordered :editMode="'row'" class="editable-table" v-model="items" :fields="fields">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
@@ -53,10 +53,10 @@ export default {
         { key: "edit", label: "" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+          { id:1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id:2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id:3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id:4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ],
         rowMode: {editable: true, rowIndex: 2, field: 'name'}
     };
