@@ -5,9 +5,9 @@
     v-on="handleListeners($listeners)"
     :items="tableItems"
   >
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
-      ><slot :name="slot" v-bind="scope"
-    /></template>
+    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+      <slot :name="slot" v-bind="scope"/>
+    </template>
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
         @keydown.native="handleKeydown($event, index, data)"
@@ -58,7 +58,7 @@
       ></b-form-input>
       <div
         class="data-cell"
-        @[editTrigger]="handleEditCell($event, data.index, field.key)"
+        @[editTrigger]="handleEditCell($event, data.item.id, field.key)"
         v-else
         :key="index"
       >
@@ -119,16 +119,18 @@ export default Vue.extend({
   },
   directives: {
     focus: {
-      inserted: function(el: any, event: any) {
-        switch (event.value) {
-          case "checkbox":
-            el.children[0].focus();
-          case "date":
-            el.children[0].focus();
-          default:
-            el.focus();
-        }
-      },
+      // // inserted: function(el: any, event: any) {
+      // //   if (this.editMode !== 'row') {
+      // //     switch (event.value) {
+      // //     case "checkbox":
+      // //       el.children[0].focus();
+      // //     case "date":
+      // //       el.children[0].focus();
+      // //     default:
+      // //       el.focus();
+      // //   } 
+      // //   }
+      // },
     },
     clickOutside: {
       bind: function(el: any, binding: any, vnode: any) {
@@ -152,12 +154,13 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: [], // this.value.map((item: any) => ({ ...item })),
+      tableItems: this.value.map((item: any) => ({ ...item })),
       tableMap: {}
     };
   },
   mounted() {
-    this.tableItems = this.createTableItems(this.value);
+    // this.tableItems = this.value;
+    this.createTableItems(this.value);
   },
   watch: {
     value(newVal) {
@@ -177,11 +180,12 @@ export default Vue.extend({
     },
   },
   methods: {
-    handleEditCell(e: any, index: number, name: string) {
+    handleEditCell(e: any, id: number, name: string) {
       if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
         e.stopPropagation();
-        this.resetItems();
-        this.tableItems[index].isEdit = true;
+        // this.resetItems();
+        // handle if properly and is edit every where
+        this.tableMap[id].isEdit = true;
         this.selectedCell = name;
       }
     },
@@ -226,18 +230,27 @@ export default Vue.extend({
         const selectedValue = options.find((item) => item.value === value);
         changedValue = selectedValue ? selectedValue.value : value;
       }
-      this.tableItems[data.index][key] = changedValue;
-      this.$emit("input-change", value, data);
+      this.tableMap[data.item.id].fields[key].value = changedValue;
+      
+      // Try using id instead of key
+      // this.$set(this.tableItems, data.index, this.tableMap[data.item.id])
+
+      // Fix object to include bootstrap data and b-editable row
+      this.$emit("input-change", value, {...data, tableRow: this.tableMap[data.item.id]});
+
+      // When dispatch $emit below, disable watch and see if the tamplates loops again
 
       // If v-model is set then emit updated table
       if (this.value) {
+        this.tableItems[data.index][key] = changedValue;
         this.$emit(
           "input",
-          this.tableItems.map((item: any) => {
-            const newItem = { ...item };
-            delete newItem.isEdit;
-            return newItem;
-          })
+          this.tableItems
+          // this.tableItems.map((item: any) => {
+          //   const newItem = { ...item };
+          //   // delete newItem.isEdit;
+          //   return newItem;
+          // })
         );
       }
     },
@@ -254,7 +267,8 @@ export default Vue.extend({
       );
     },
     getCellValue(data: any, field: any) {
-      let value = this.tableMap[data.item.data.id.value] ? this.tableMap[data.item.data.id.value].data[field.key].value : '';
+      const row = this.getRowById(data);
+      let value = row ? row.fields[field.key].value : '';
       // Handle select element with options
       if (data.field.options) {
         const selectedValue = data.field.options.find(
@@ -267,19 +281,22 @@ export default Vue.extend({
     showField(field: any, data: any, type: string) {
       return (
         field.type === type &&
-        this.tableItems[data.index].isEdit &&
+        this.tableMap[data.item.id].isEdit &&
         (this.selectedCell === field.key || this.editMode === "row") &&
         field.editable
       );
     },
     getFieldValue(field: any, data: any) {
-      return this.tableMap[data.item.data.id.value].data[field.key].value;
+      return this.getRowById(data).fields[field.key].value;
     },
     resetItems() {
       this.tableItems = this.tableItems.map((item: any) => ({
         ...item,
         isEdit: false,
       }));
+    },
+    getRowById(data: any) {
+      return this.tableMap[data.item.id];
     },
     createItems(value: any) {
       return value.map((item: any, index: any) => ({
@@ -289,14 +306,15 @@ export default Vue.extend({
     },
     createTableItems(data: Array<any>) {
       this.tableMap = data.reduce(
-        (values, curValue) => ({
-          ...values,
-          [curValue.id]: {
+        (rows, curRow) => ({
+          ...rows,
+          [curRow.id]: {
+            id: curRow.id,
             isEdit: false,
-            data: Object.keys(curValue).reduce(
-              (fields, curField) => ({
-                ...fields,
-                [curField]: { value: curValue[curField] },
+            fields: Object.keys(curRow).reduce(
+              (keys, curKey) => ({
+                ...keys,
+                [curKey]: { value: curRow[curKey] },
               }),
               {}
             ),
@@ -305,7 +323,7 @@ export default Vue.extend({
         {}
       );
       return Object.values(this.tableMap);
-    },
+    }
   },
 });
 </script>
