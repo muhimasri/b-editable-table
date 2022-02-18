@@ -1,7 +1,7 @@
 <template>
 <div class="table-container">
     <b-button variant="success" @click="handleAdd()">Add</b-button>
-    <b-editable-table bordered :editMode="'row'" class="editable-table" v-model="items" :fields="fields">
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>

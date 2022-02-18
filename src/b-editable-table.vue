@@ -119,18 +119,18 @@ export default Vue.extend({
   },
   directives: {
     focus: {
-      // // inserted: function(el: any, event: any) {
-      // //   if (this.editMode !== 'row') {
-      // //     switch (event.value) {
-      // //     case "checkbox":
-      // //       el.children[0].focus();
-      // //     case "date":
-      // //       el.children[0].focus();
-      // //     default:
-      // //       el.focus();
-      // //   } 
-      // //   }
-      // },
+      inserted: function(el: any, event: any) {
+       // if (this.editMode !== 'row') {
+            switch (event.value) {
+            case "checkbox":
+              el.children[0].focus();
+            case "date":
+              el.children[0].focus();
+            default:
+              el.focus();
+          } 
+        // }
+      },
     },
     clickOutside: {
       bind: function(el: any, binding: any, vnode: any) {
@@ -154,7 +154,7 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: this.value.map((item: any) => ({ ...item })),
+      tableItems: [], // this.value.map((item: any) => ({ ...item })),
       tableMap: {}
     };
   },
@@ -164,7 +164,7 @@ export default Vue.extend({
   },
   watch: {
     value(newVal) {
-      this.tableItems = this.createTableItems(newVal);
+      this.createTableItems(newVal);
     },
     items(newVal) {
       this.tableItems = this.createItems(newVal);
@@ -183,7 +183,7 @@ export default Vue.extend({
     handleEditCell(e: any, id: number, name: string) {
       if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
         e.stopPropagation();
-        // this.resetItems();
+        this.clearEditMode();
         // handle if properly and is edit every where
         this.tableMap[id].isEdit = true;
         this.selectedCell = name;
@@ -207,20 +207,21 @@ export default Vue.extend({
         }
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.resetItems();
-        if (this.tableItems[rowIndex]) {
-          this.tableItems[rowIndex].isEdit = true;
+        this.clearEditMode();
+        const rowId = this.tableItems[rowIndex]?.id;
+        if (this.tableMap[rowId]) {
+          this.tableMap[rowId].isEdit = true;
         }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.resetItems();
+        this.clearEditMode();
       }
     },
     handleClickOut() {
       if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
         this.selectedCell = null;
-        this.resetItems();
+        this.clearEditMode();
       }
     },
     inputHandler(value: any, data: any, key: string, options: Array<any>) {
@@ -245,13 +246,11 @@ export default Vue.extend({
         this.tableItems[data.index][key] = changedValue;
         this.$emit(
           "input",
+          // this.tableItems.map((item: any) => ({ ...item }))
           this.tableItems
-          // this.tableItems.map((item: any) => {
-          //   const newItem = { ...item };
-          //   // delete newItem.isEdit;
-          //   return newItem;
-          // })
         );
+      } else {
+        
       }
     },
     handleListeners(listeners: any) {
@@ -281,7 +280,7 @@ export default Vue.extend({
     showField(field: any, data: any, type: string) {
       return (
         field.type === type &&
-        this.tableMap[data.item.id].isEdit &&
+        this.tableMap[data.item.id]?.isEdit &&
         (this.selectedCell === field.key || this.editMode === "row") &&
         field.editable
       );
@@ -289,11 +288,10 @@ export default Vue.extend({
     getFieldValue(field: any, data: any) {
       return this.getRowById(data).fields[field.key].value;
     },
-    resetItems() {
-      this.tableItems = this.tableItems.map((item: any) => ({
-        ...item,
-        isEdit: false,
-      }));
+    clearEditMode() {
+      for (const key in this.tableMap) {
+        this.tableMap[key].isEdit = false;
+      }
     },
     getRowById(data: any) {
       return this.tableMap[data.item.id];
@@ -305,12 +303,13 @@ export default Vue.extend({
       }));
     },
     createTableItems(data: Array<any>) {
+      this.tableItems = data.map((item: any) => ({ ...item }));
       this.tableMap = data.reduce(
         (rows, curRow) => ({
           ...rows,
           [curRow.id]: {
             id: curRow.id,
-            isEdit: false,
+            isEdit: this.tableMap[curRow.id] ? this.tableMap[curRow.id].isEdit : false,
             fields: Object.keys(curRow).reduce(
               (keys, curKey) => ({
                 ...keys,
@@ -322,7 +321,6 @@ export default Vue.extend({
         }),
         {}
       );
-      return Object.values(this.tableMap);
     }
   },
 });
