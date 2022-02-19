@@ -1,9 +1,9 @@
 <script lang="ts">
 import Vue from 'vue';
-import CompleteExample from './examples/complete-example.vue';
-import BasicExample from './examples/basic-example.vue';
-import ApiExample from './examples/api-example.vue';
-import OneWayBindExample from './examples/one-way-bind-example.vue';
+// import CompleteExample from './examples/complete-example.vue';
+// import BasicExample from './examples/basic-example.vue';
+// import ApiExample from './examples/api-example.vue';
+// import OneWayBindExample from './examples/one-way-bind-example.vue';
 import AddRemoveExample from './examples/add-remove-example.vue';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -11,10 +11,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 export default Vue.extend({
   name: 'ServeDev',
   components: {
-    CompleteExample,
-    BasicExample,
-    ApiExample,
-    OneWayBindExample,
+    // CompleteExample,
+    // BasicExample,
+    // ApiExample,
+    // OneWayBindExample,
     AddRemoveExample
   }
 });

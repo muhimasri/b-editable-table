@@ -1,13 +1,13 @@
 <template>
 <div class="table-container">
     <b-button variant="success" @click="handleAdd()">Add</b-button>
-    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
+    <b-editable-table :disableDefaultEdit="true" :rowMode="rowMode" bordered class="editable-table" v-model="items" :fields="fields">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
       </template>
       <template #cell(edit)="data">
-          <div v-if="handleIf(data)">
+          <div v-if="data.isEdit">
             <BIconX class="edit-icon" @click="handleEdit(data, false)"></BIconX>
             <BIconCheck class="edit-icon" @click="handleEdit(data, false)"></BIconCheck>
           </div>
@@ -58,21 +58,18 @@ export default {
           { id:3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
           { id:4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ],
-        rowMode: {editable: true, rowIndex: 2, field: 'name'}
+        rowMode: {}
     };
   },
   methods: {
       handleAdd() {
-        this.items.unshift({});
+        this.items.unshift({id:5, age: 20, name: 'Peter', department: 3, dateOfBirth: '2004-05-20', isActive: false});
       },
       handleEdit(data, isEdit) {
-        this.rowMode = {editable: isEdit, rowIndex: data.index}
+        this.rowMode = {edit: isEdit, id: data.id}
       },
       handleDelete(data) {
         this.items.splice(data.index, 1);
-      },
-      handleIf(data) {
-        // debugger;
       }
   }
 };

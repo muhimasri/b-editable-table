@@ -38,16 +38,16 @@ export default {
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+          { id:1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id:2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id:3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id:4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
   methods: {
-      handleInput(value, data) {
-        const updatedRow = {...this.items[data.index], [data.field.key]: value};
+      handleInput(data) {
+        const updatedRow = {...this.items[data.index], [data.field.key]: data.value};
         this.$set(this.items, data.index, updatedRow);
       }
   }

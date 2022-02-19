@@ -65,7 +65,7 @@
         <slot
           v-if="$scopedSlots[`cell(${field.key})`]"
           :name="`cell(${field.key})`"
-          v-bind="data"
+          v-bind="getCellData(data)"
         ></slot>
         <template v-else>{{ getCellValue(data, field) }}</template>
       </div>
@@ -74,8 +74,6 @@
 </template>
 
 <script lang="ts">
-const hasValue = (obj: Object) =>
-  typeof obj !== "undefined" && obj !== null && Object.keys(obj).length > 0;
 import {
   BTable,
   BFormDatepicker,
@@ -108,27 +106,27 @@ export default Vue.extend({
       type: String,
       default: "click",
     },
-    cellMode: {
-      type: Object,
-      default: null,
-    },
     rowMode: {
       type: Object,
       default: null,
+    },
+    disableDefaultEdit: {
+      type: Boolean,
+      default: false,
     },
   },
   directives: {
     focus: {
       inserted: function(el: any, event: any) {
        // if (this.editMode !== 'row') {
-            switch (event.value) {
-            case "checkbox":
-              el.children[0].focus();
-            case "date":
-              el.children[0].focus();
-            default:
-              el.focus();
-          } 
+          //   switch (event.value) {
+          //   case "checkbox":
+          //     el.children[0].focus();
+          //   case "date":
+          //     el.children[0].focus();
+          //   default:
+          //     el.focus();
+          // } 
         // }
       },
     },
@@ -155,33 +153,35 @@ export default Vue.extend({
         default: null,
       },
       tableItems: [], // this.value.map((item: any) => ({ ...item })),
-      tableMap: {}
+      tableMap: {},
+      _editMode: null
     };
   },
   mounted() {
-    // this.tableItems = this.value;
-    this.createTableItems(this.value);
+    this._editMode = this.editMode;
+    this.createTableItems(this.value ? this.value : this.items);
   },
   watch: {
     value(newVal) {
       this.createTableItems(newVal);
     },
     items(newVal) {
-      this.tableItems = this.createItems(newVal);
+      this.createTableItems(newVal);
     },
-    cellMode(newVal) {
-      this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
-      this.selectedCell = newVal.field;
-      this.editMode = "cell";
+    editMode(newVal) {
+      this._editMode = newVal;
     },
-    rowMode(newVal) {
-      this.tableItems[newVal.rowIndex].isEdit = newVal.editable;
-      this.editMode = "row";
+    rowMode: {
+      handler(newVal) {
+        this.tableMap[newVal.id].isEdit = newVal.edit;
+        this._editMode = 'row';
+      },
+      deep: true
     },
   },
   methods: {
     handleEditCell(e: any, id: number, name: string) {
-      if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
+      if (!this.disableDefaultEdit) {
         e.stopPropagation();
         this.clearEditMode();
         // handle if properly and is edit every where
@@ -190,7 +190,7 @@ export default Vue.extend({
       }
     },
     handleKeydown(e: any, index: number, data: any) {
-      if (e.code === "Tab" && this.editMode === "cell") {
+      if (e.code === "Tab" && this._editMode === "cell") {
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         let rowIndex =
@@ -219,7 +219,7 @@ export default Vue.extend({
       }
     },
     handleClickOut() {
-      if (!hasValue(this.rowMode) && !hasValue(this.cellMode)) {
+      if (!this.disableDefaultEdit) {
         this.selectedCell = null;
         this.clearEditMode();
       }
@@ -231,26 +231,20 @@ export default Vue.extend({
         const selectedValue = options.find((item) => item.value === value);
         changedValue = selectedValue ? selectedValue.value : value;
       }
-      this.tableMap[data.item.id].fields[key].value = changedValue;
-      
-      // Try using id instead of key
-      // this.$set(this.tableItems, data.index, this.tableMap[data.item.id])
 
-      // Fix object to include bootstrap data and b-editable row
-      this.$emit("input-change", value, {...data, tableRow: this.tableMap[data.item.id]});
+      this.$emit("input-change", {...data, id: data.item.id, value: changedValue});
 
       // When dispatch $emit below, disable watch and see if the tamplates loops again
 
       // If v-model is set then emit updated table
       if (this.value) {
+        this.tableMap[data.item.id].fields[key].value = changedValue;
         this.tableItems[data.index][key] = changedValue;
         this.$emit(
           "input",
           // this.tableItems.map((item: any) => ({ ...item }))
           this.tableItems
         );
-      } else {
-        
       }
     },
     handleListeners(listeners: any) {
@@ -266,8 +260,8 @@ export default Vue.extend({
       );
     },
     getCellValue(data: any, field: any) {
-      const row = this.getRowById(data);
-      let value = row ? row.fields[field.key].value : '';
+      const row = this.tableMap[data.item.id];
+      let value = row && row.fields[field.key] ? row.fields[field.key].value : '';
       // Handle select element with options
       if (data.field.options) {
         const selectedValue = data.field.options.find(
@@ -277,30 +271,24 @@ export default Vue.extend({
       }
       return value;
     },
+    getCellData(data: any) {
+      return {...data, isEdit: this.tableMap[data.item.id].isEdit, id: data.item.id}
+    },
     showField(field: any, data: any, type: string) {
       return (
         field.type === type &&
         this.tableMap[data.item.id]?.isEdit &&
-        (this.selectedCell === field.key || this.editMode === "row") &&
+        (this.selectedCell === field.key || this._editMode === "row") &&
         field.editable
       );
     },
     getFieldValue(field: any, data: any) {
-      return this.getRowById(data).fields[field.key].value;
+      return this.tableMap[data.item.id].fields[field.key]?.value;
     },
     clearEditMode() {
       for (const key in this.tableMap) {
         this.tableMap[key].isEdit = false;
       }
-    },
-    getRowById(data: any) {
-      return this.tableMap[data.item.id];
-    },
-    createItems(value: any) {
-      return value.map((item: any, index: any) => ({
-        ...item,
-        isEdit: this.tableItems[index] ? this.tableItems[index].isEdit : false,
-      }));
     },
     createTableItems(data: Array<any>) {
       this.tableItems = data.map((item: any) => ({ ...item }));
