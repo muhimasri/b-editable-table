@@ -6,14 +6,14 @@
     :items="tableItems"
   >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
-      <slot :name="slot" v-bind="scope"/>
+      <slot :name="slot" v-bind="scope" />
     </template>
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <b-form-datepicker
         @keydown.native="handleKeydown($event, index, data)"
         @input="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-focus="'date'"
+        v-focus="enableFocus('date')"
         v-if="showField(field, data, 'date')"
         :key="index"
         :type="field.type"
@@ -23,7 +23,7 @@
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key, field.options)"
         v-bind="{ ...field }"
-        v-focus
+        v-focus="enableFocus()"
         v-else-if="showField(field, data, 'select')"
         :key="index"
         :value="getFieldValue(field, data)"
@@ -32,7 +32,7 @@
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-focus="'checkbox'"
+        v-focus="enableFocus('checkbox')"
         v-else-if="showField(field, data, 'checkbox')"
         :key="index"
         :checked="getFieldValue(field, data)"
@@ -41,16 +41,17 @@
         @keydown="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
-        v-focus
+        v-focus="enableFocus()"
         v-else-if="showField(field, data, 'rating')"
         :key="index"
         :value="getFieldValue(field, data)"
       ></b-form-rating>
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
-        @blur="(e) => inputHandler(e.target.value, data, field.key)"
+        @input="(value) => inputHandler(value, data, field.key)"
+        @blur="(e) => inputLeaveHandler(e.target.value, data, field.key)"
         v-bind="{ ...field }"
-        v-focus
+        v-focus="enableFocus()"
         v-else-if="showField(field, data, field.type)"
         :key="index"
         :type="field.type"
@@ -84,6 +85,7 @@ import {
 } from "bootstrap-vue";
 import Vue from "vue";
 
+let localChanges: any = {};
 export default Vue.extend({
   name: "BEditableTable",
   components: {
@@ -118,16 +120,17 @@ export default Vue.extend({
   directives: {
     focus: {
       inserted: function(el: any, event: any) {
-       // if (this.editMode !== 'row') {
-          //   switch (event.value) {
-          //   case "checkbox":
-          //     el.children[0].focus();
-          //   case "date":
-          //     el.children[0].focus();
-          //   default:
-          //     el.focus();
-          // } 
-        // }
+        switch (event.value) {
+          case false: {
+            return;
+          }
+          case "checkbox":
+            el.children[0].focus();
+          case "date":
+            el.children[0].focus();
+          default:
+            el.focus();
+        }
       },
     },
     clickOutside: {
@@ -152,9 +155,9 @@ export default Vue.extend({
         type: String,
         default: null,
       },
-      tableItems: [], // this.value.map((item: any) => ({ ...item })),
+      tableItems: [],
       tableMap: {},
-      _editMode: null
+      _editMode: null,
     };
   },
   mounted() {
@@ -163,6 +166,7 @@ export default Vue.extend({
   },
   watch: {
     value(newVal) {
+      console.log('Watcher Triggered!!!!!!!!!!!!!!!!!!!!!')
       this.createTableItems(newVal);
     },
     items(newVal) {
@@ -174,23 +178,31 @@ export default Vue.extend({
     rowMode: {
       handler(newVal) {
         this.tableMap[newVal.id].isEdit = newVal.edit;
-        this._editMode = 'row';
+        this._editMode = "row";
       },
-      deep: true
+      deep: true,
     },
   },
+  computed: {},
   methods: {
     handleEditCell(e: any, id: number, name: string) {
       if (!this.disableDefaultEdit) {
         e.stopPropagation();
         this.clearEditMode();
-        // handle if properly and is edit every where
+        this.updateData();
         this.tableMap[id].isEdit = true;
         this.selectedCell = name;
+        if (!localChanges[id]) {
+          localChanges[id] = {};
+        }
       }
     },
     handleKeydown(e: any, index: number, data: any) {
-      if (e.code === "Tab" && this._editMode === "cell") {
+      if (
+        (e.code === "Tab" || e.code === "Enter") &&
+        this._editMode === "cell" &&
+        !this.disableDefaultEdit
+      ) {
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         let rowIndex =
@@ -207,21 +219,24 @@ export default Vue.extend({
         }
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.clearEditMode();
+        this.clearEditMode(data.id);
         const rowId = this.tableItems[rowIndex]?.id;
         if (this.tableMap[rowId]) {
           this.tableMap[rowId].isEdit = true;
         }
+        this.updateData();
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.clearEditMode();
+        this.clearEditMode(data.id);
+        localChanges = {};
       }
     },
     handleClickOut() {
       if (!this.disableDefaultEdit) {
         this.selectedCell = null;
         this.clearEditMode();
+        this.updateData();
       }
     },
     inputHandler(value: any, data: any, key: string, options: Array<any>) {
@@ -232,20 +247,38 @@ export default Vue.extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      this.$emit("input-change", {...data, id: data.item.id, value: changedValue});
-
-      // When dispatch $emit below, disable watch and see if the tamplates loops again
-
-      // If v-model is set then emit updated table
-      if (this.value) {
-        this.tableMap[data.item.id].fields[key].value = changedValue;
-        this.tableItems[data.index][key] = changedValue;
-        this.$emit(
-          "input",
-          // this.tableItems.map((item: any) => ({ ...item }))
-          this.tableItems
-        );
+      if (!localChanges[data.item.id]) {
+        localChanges[data.item.id] = {};
       }
+      localChanges[data.item.id][key] = {
+        value: changedValue,
+        rowIndex: data.index,
+      };
+
+      this.$emit("input-change", {
+        ...data,
+        id: data.item.id,
+        value: changedValue,
+      });
+    },
+    inputLeaveHandler() {},
+    updateData() {
+      let isUpdate = false;
+      Object.keys(localChanges).forEach((id: any) => {
+        // If v-model is set then emit updated table
+        if (this.value) {
+          Object.keys(localChanges[id]).forEach((key: any) => {
+            isUpdate = true;
+            const cell = localChanges[id][key];
+            this.tableMap[id].fields[key].value = cell.value;
+            this.tableItems[cell.rowIndex][key] = cell.value;
+          });
+        }
+      });
+      if (isUpdate) {
+        this.$emit("input", this.tableItems);
+      }
+      localChanges = {};
     },
     handleListeners(listeners: any) {
       // Exclude listeners that are not part of Bootstrap Vue
@@ -261,7 +294,8 @@ export default Vue.extend({
     },
     getCellValue(data: any, field: any) {
       const row = this.tableMap[data.item.id];
-      let value = row && row.fields[field.key] ? row.fields[field.key].value : '';
+      let value =
+        row && row.fields[field.key] ? row.fields[field.key].value : "";
       // Handle select element with options
       if (data.field.options) {
         const selectedValue = data.field.options.find(
@@ -272,7 +306,11 @@ export default Vue.extend({
       return value;
     },
     getCellData(data: any) {
-      return {...data, isEdit: this.tableMap[data.item.id].isEdit, id: data.item.id}
+      return {
+        ...data,
+        isEdit: this.tableMap[data.item.id].isEdit,
+        id: data.item.id,
+      };
     },
     showField(field: any, data: any, type: string) {
       return (
@@ -285,9 +323,16 @@ export default Vue.extend({
     getFieldValue(field: any, data: any) {
       return this.tableMap[data.item.id].fields[field.key]?.value;
     },
-    clearEditMode() {
-      for (const key in this.tableMap) {
-        this.tableMap[key].isEdit = false;
+    enableFocus(type: string) {
+      return this._editMode === "cell" ? type : false;
+    },
+    clearEditMode(id: any) {
+      if (id) {
+        this.tableMap[id].isEdit = false;
+      } else {
+        for (const changeId in localChanges) {
+          this.tableMap[changeId].isEdit = false;
+        }
       }
     },
     createTableItems(data: Array<any>) {
@@ -297,7 +342,9 @@ export default Vue.extend({
           ...rows,
           [curRow.id]: {
             id: curRow.id,
-            isEdit: this.tableMap[curRow.id] ? this.tableMap[curRow.id].isEdit : false,
+            isEdit: this.tableMap[curRow.id]
+              ? this.tableMap[curRow.id].isEdit
+              : false,
             fields: Object.keys(curRow).reduce(
               (keys, curKey) => ({
                 ...keys,
@@ -309,7 +356,7 @@ export default Vue.extend({
         }),
         {}
       );
-    }
+    },
   },
 });
 </script>

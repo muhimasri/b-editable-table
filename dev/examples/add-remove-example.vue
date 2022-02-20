@@ -1,12 +1,12 @@
 <template>
 <div class="table-container">
     <b-button variant="success" @click="handleAdd()">Add</b-button>
-    <b-editable-table :disableDefaultEdit="true" :rowMode="rowMode" bordered class="editable-table" v-model="items" :fields="fields">
+    <b-editable-table :editMode="'row'" bordered class="editable-table" v-model="items" :fields="fields">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
       </template>
-      <template #cell(edit)="data">
+      <!-- <template #cell(edit)="data">
           <div v-if="data.isEdit">
             <BIconX class="edit-icon" @click="handleEdit(data, false)"></BIconX>
             <BIconCheck class="edit-icon" @click="handleEdit(data, false)"></BIconCheck>
@@ -15,7 +15,7 @@
       </template>
       <template #cell(delete)="data">
           <BIconTrash class="remove-icon" @click="handleDelete(data)"></BIconTrash>
-      </template>
+      </template> -->
     </b-editable-table>
     <pre>
       {{items}}
@@ -49,7 +49,7 @@ export default {
             month: "numeric",
             day: "numeric",
           }, },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: false, class: "is-active-col" },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
         { key: "edit", label: "" }
       ],
        items: [
