@@ -25,7 +25,7 @@
 
 <script>
 import BEditableTable from '@/b-editable-table.vue';
-import {BIconTrash, BIconPencil, BIconX, BIconCheck} from 'bootstrap-vue';
+import {BIconTrash, BIconPencil, BIconX, BIconCheck, BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable,
