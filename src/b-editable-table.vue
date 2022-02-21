@@ -59,7 +59,7 @@
       ></b-form-input>
       <div
         class="data-cell"
-        @[editTrigger]="handleEditCell($event, data.item.id, field.key)"
+        @[editTrigger]="handleEditCell($event, data.item.id, field.key, field.editable)"
         v-else
         :key="index"
       >
@@ -108,7 +108,7 @@ export default Vue.extend({
       type: String,
       default: "click",
     },
-    rowMode: {
+    rowUpdate: {
       type: Object,
       default: null,
     },
@@ -175,18 +175,29 @@ export default Vue.extend({
     editMode(newVal) {
       this._editMode = newVal;
     },
-    rowMode: {
+    rowUpdate: {
       handler(newVal) {
-        this.tableMap[newVal.id].isEdit = newVal.edit;
+        if (this.tableMap[newVal.id]) {
+          this.tableMap[newVal.id].isEdit = newVal.edit;
+        }
         this._editMode = "row";
+        if (newVal.action === 'update') {
+          this.updateData(newVal.id);
+        } else if (newVal.action === 'add') {
+          this.updateData(newVal.id, 'add', newVal.data, newVal.edit);
+        } else if (newVal.action === 'delete') {
+          this.updateData(newVal.id, 'delete');
+        } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
+          delete localChanges[newVal.id];
+        }
       },
       deep: true,
     },
   },
   computed: {},
   methods: {
-    handleEditCell(e: any, id: number, name: string) {
-      if (!this.disableDefaultEdit) {
+    handleEditCell(e: any, id: number, name: string, editable: Boolean) {
+      if (!this.disableDefaultEdit && editable) {
         e.stopPropagation();
         this.clearEditMode();
         this.updateData();
@@ -219,16 +230,16 @@ export default Vue.extend({
         }
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.clearEditMode(data.id);
+        this.clearEditMode(data.item.id);
         const rowId = this.tableItems[rowIndex]?.id;
         if (this.tableMap[rowId]) {
           this.tableMap[rowId].isEdit = true;
         }
-        this.updateData();
+        this.updateData(data.item.id);
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.clearEditMode(data.id);
+        this.clearEditMode(data.item.id);
         localChanges = {};
       }
     },
@@ -252,7 +263,7 @@ export default Vue.extend({
       }
       localChanges[data.item.id][key] = {
         value: changedValue,
-        rowIndex: data.index,
+        rowIndex: data.index
       };
 
       this.$emit("input-change", {
@@ -262,23 +273,35 @@ export default Vue.extend({
       });
     },
     inputLeaveHandler() {},
-    updateData() {
+    updateData(id : any, action: String, data: any, isEdit: Boolean) {
       let isUpdate = false;
-      Object.keys(localChanges).forEach((id: any) => {
+      const objId = id ? id : Object.keys(localChanges)[0];
+      if (action === 'add') {
+        isUpdate = true;
+        // Warning: if watcher don't trigger the new row will not update the tableMap properly
+        this.tableMap[id] = {id, isEdit, fields: {}};
+        this.tableItems.unshift(data);
+      } else if (action === 'delete') {
+        isUpdate = true;
+        delete this.tableMap[id];
+        this.tableItems = this.tableItems.filter((item: any) => item.id !== id);
+      } else {
+        const objValue = id ? localChanges[id] : Object.values(localChanges)[0];
+
         // If v-model is set then emit updated table
-        if (this.value) {
-          Object.keys(localChanges[id]).forEach((key: any) => {
-            isUpdate = true;
-            const cell = localChanges[id][key];
-            this.tableMap[id].fields[key].value = cell.value;
-            this.tableItems[cell.rowIndex][key] = cell.value;
-          });
-        }
-      });
+          if (this.value && objValue) {
+            Object.keys(objValue).forEach((key: any) => {
+              isUpdate = true;
+              const cell = objValue[key];
+              this.tableMap[objId].fields[key].value = cell.value;
+              this.tableItems[cell.rowIndex][key] = cell.value;
+            });
+          }
+      }
       if (isUpdate) {
         this.$emit("input", this.tableItems);
       }
-      localChanges = {};
+      delete localChanges[id ? id : objId];
     },
     handleListeners(listeners: any) {
       // Exclude listeners that are not part of Bootstrap Vue
