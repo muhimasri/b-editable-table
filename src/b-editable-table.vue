@@ -38,7 +38,7 @@
         :checked="getFieldValue(field, data)"
       ></b-form-checkbox>
       <b-form-rating
-        @keydown="handleKeydown($event, index, data)"
+        @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
         v-focus="enableFocus()"
@@ -156,35 +156,29 @@ export default Vue.extend({
         default: null,
       },
       tableItems: [],
-      tableMap: {},
-      _editMode: null,
+      tableMap: {}
     };
   },
   mounted() {
-    this._editMode = this.editMode;
+    this.editMode = this.editMode;
     this.createTableItems(this.value ? this.value : this.items);
   },
   watch: {
     value(newVal) {
-      console.log('Watcher Triggered!!!!!!!!!!!!!!!!!!!!!')
       this.createTableItems(newVal);
     },
     items(newVal) {
       this.createTableItems(newVal);
-    },
-    editMode(newVal) {
-      this._editMode = newVal;
     },
     rowUpdate: {
       handler(newVal) {
         if (this.tableMap[newVal.id]) {
           this.tableMap[newVal.id].isEdit = newVal.edit;
         }
-        this._editMode = "row";
         if (newVal.action === 'update') {
           this.updateData(newVal.id);
         } else if (newVal.action === 'add') {
-          this.updateData(newVal.id, 'add', newVal.data, newVal.edit);
+          this.updateData(newVal.id, 'add', {...newVal.data}, newVal.edit);
         } else if (newVal.action === 'delete') {
           this.updateData(newVal.id, 'delete');
         } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
@@ -211,7 +205,7 @@ export default Vue.extend({
     handleKeydown(e: any, index: number, data: any) {
       if (
         (e.code === "Tab" || e.code === "Enter") &&
-        this._editMode === "cell" &&
+        this.editMode === "cell" &&
         !this.disableDefaultEdit
       ) {
         e.preventDefault();
@@ -231,11 +225,15 @@ export default Vue.extend({
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
         this.clearEditMode(data.item.id);
+        this.updateData(data.item.id);
+
         const rowId = this.tableItems[rowIndex]?.id;
         if (this.tableMap[rowId]) {
           this.tableMap[rowId].isEdit = true;
+          if (!localChanges[rowId]) {
+            localChanges[rowId] = {};
+          }
         }
-        this.updateData(data.item.id);
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
@@ -339,7 +337,7 @@ export default Vue.extend({
       return (
         field.type === type &&
         this.tableMap[data.item.id]?.isEdit &&
-        (this.selectedCell === field.key || this._editMode === "row") &&
+        (this.selectedCell === field.key || this.editMode === "row") &&
         field.editable
       );
     },
@@ -347,7 +345,7 @@ export default Vue.extend({
       return this.tableMap[data.item.id].fields[field.key]?.value;
     },
     enableFocus(type: string) {
-      return this._editMode === "cell" ? type : false;
+      return this.editMode === "cell" ? type : false;
     },
     clearEditMode(id: any) {
       if (id) {
