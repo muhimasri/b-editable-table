@@ -256,13 +256,15 @@ export default Vue.extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      if (!localChanges[data.item.id]) {
-        localChanges[data.item.id] = {};
+      if (this.value) {
+        if (!localChanges[data.item.id]) {
+          localChanges[data.item.id] = {};
+        }
+        localChanges[data.item.id][key] = {
+          value: changedValue,
+          rowIndex: data.index
+        };
       }
-      localChanges[data.item.id][key] = {
-        value: changedValue,
-        rowIndex: data.index
-      };
 
       this.$emit("input-change", {
         ...data,

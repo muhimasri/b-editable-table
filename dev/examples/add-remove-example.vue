@@ -87,7 +87,7 @@ export default {
         {
           key: "age",
           label: "Age",
-          type: "number",
+          type:"range", min:"0", max:"100",
           editable: true,
           placeholder: "Enter Age...",
           class: "age-col",
