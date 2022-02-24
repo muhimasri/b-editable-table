@@ -154,7 +154,7 @@ export default {
   methods: {
     handleAdd() {
       this.rowUpdate = {
-        edit: false,
+        edit: true,
         id: Date.now(),
         action: "add",
         data: {
@@ -179,7 +179,7 @@ export default {
     },
     handleDelete(data) {
       this.rowUpdate = { id: data.id, action: "delete" };
-    },
+    }
   },
 };
 </script>

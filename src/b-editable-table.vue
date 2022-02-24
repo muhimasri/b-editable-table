@@ -49,7 +49,7 @@
       <b-form-input
         @keydown="handleKeydown($event, index, data)"
         @input="(value) => inputHandler(value, data, field.key)"
-        @blur="(e) => inputLeaveHandler(e.target.value, data, field.key)"
+        @change="(value) => changeHandler(value, data)"
         v-bind="{ ...field }"
         v-focus="enableFocus()"
         v-else-if="showField(field, data, field.type)"
@@ -59,7 +59,9 @@
       ></b-form-input>
       <div
         class="data-cell"
-        @[editTrigger]="handleEditCell($event, data.item.id, field.key, field.editable)"
+        @[editTrigger]="
+          handleEditCell($event, data.item.id, field.key, field.editable)
+        "
         v-else
         :key="index"
       >
@@ -119,7 +121,7 @@ export default Vue.extend({
   },
   directives: {
     focus: {
-      inserted: function(el: any, event: any) {
+      inserted: function (el: any, event: any) {
         switch (event.value) {
           case false: {
             return;
@@ -134,8 +136,8 @@ export default Vue.extend({
       },
     },
     clickOutside: {
-      bind: function(el: any, binding: any, vnode: any) {
-        el.clickOutsideEvent = function(event: any) {
+      bind: function (el: any, binding: any, vnode: any) {
+        el.clickOutsideEvent = function (event: any) {
           if (!(el == event.target || el.contains(event.target))) {
             if (document.contains(event.target)) {
               vnode.context[binding.expression](event);
@@ -144,7 +146,7 @@ export default Vue.extend({
         };
         document.addEventListener("click", el.clickOutsideEvent);
       },
-      unbind: function(el: any) {
+      unbind: function (el: any) {
         document.removeEventListener("click", el.clickOutsideEvent);
       },
     },
@@ -156,7 +158,7 @@ export default Vue.extend({
         default: null,
       },
       tableItems: [],
-      tableMap: {}
+      tableMap: {},
     };
   },
   mounted() {
@@ -175,13 +177,13 @@ export default Vue.extend({
         if (this.tableMap[newVal.id]) {
           this.tableMap[newVal.id].isEdit = newVal.edit;
         }
-        if (newVal.action === 'update') {
+        if (newVal.action === "update") {
           this.updateData(newVal.id);
-        } else if (newVal.action === 'add') {
-          this.updateData(newVal.id, 'add', {...newVal.data}, newVal.edit);
-        } else if (newVal.action === 'delete') {
-          this.updateData(newVal.id, 'delete');
-        } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
+        } else if (newVal.action === "add") {
+          this.updateData(newVal.id, "add", { ...newVal.data }, newVal.edit);
+        } else if (newVal.action === "delete") {
+          this.updateData(newVal.id, "delete");
+        } else if (newVal.action === "cancel" || newVal.isEdit === false) {
           delete localChanges[newVal.id];
         }
       },
@@ -262,26 +264,39 @@ export default Vue.extend({
         }
         localChanges[data.item.id][key] = {
           value: changedValue,
-          rowIndex: data.index
+          rowIndex: data.index,
         };
       }
-
+      const fieldType = data.field.type;
+      const excludeTypes: any = {
+        text: true,
+        range: true,
+        number: true
+      }
+      if (!excludeTypes[fieldType]) {
+        this.$emit("input-change", {
+          ...data,
+          id: data.item.id,
+          value: changedValue,
+        });
+      }
+    },
+    changeHandler(value: any, data: any) {
       this.$emit("input-change", {
         ...data,
         id: data.item.id,
-        value: changedValue,
+        value,
       });
     },
-    inputLeaveHandler() {},
-    updateData(id : any, action: String, data: any, isEdit: Boolean) {
+    updateData(id: any, action: String, data: any, isEdit: Boolean) {
       let isUpdate = false;
       const objId = id ? id : Object.keys(localChanges)[0];
-      if (action === 'add') {
+      if (action === "add") {
         isUpdate = true;
         // Warning: if watcher don't trigger the new row will not update the tableMap properly
-        this.tableMap[id] = {id, isEdit, fields: {}};
+        this.tableMap[id] = { id, isEdit, fields: {} };
         this.tableItems.unshift(data);
-      } else if (action === 'delete') {
+      } else if (action === "delete") {
         isUpdate = true;
         delete this.tableMap[id];
         this.tableItems = this.tableItems.filter((item: any) => item.id !== id);
@@ -289,14 +304,14 @@ export default Vue.extend({
         const objValue = id ? localChanges[id] : Object.values(localChanges)[0];
 
         // If v-model is set then emit updated table
-          if (this.value && objValue) {
-            Object.keys(objValue).forEach((key: any) => {
-              isUpdate = true;
-              const cell = objValue[key];
-              this.tableMap[objId].fields[key].value = cell.value;
-              this.tableItems[cell.rowIndex][key] = cell.value;
-            });
-          }
+        if (this.value && objValue) {
+          Object.keys(objValue).forEach((key: any) => {
+            isUpdate = true;
+            const cell = objValue[key];
+            this.tableMap[objId].fields[key].value = cell.value;
+            this.tableItems[cell.rowIndex][key] = cell.value;
+          });
+        }
       }
       if (isUpdate) {
         this.$emit("input", this.tableItems);
