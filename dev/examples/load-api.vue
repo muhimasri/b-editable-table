@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true },
-        { key: "email", label: "Email", type: "email", editable: true },
-        { key: "phone", label: "Phone", type: "text", editable: true }
+        {id: 1, key: "name", label: "Name", type: "text", editable: true },
+        {id: 2, key: "email", label: "Email", type: "email", editable: true },
+        {id: 3, key: "phone", label: "Phone", type: "text", editable: true }
       ],
       users: [],
       loading: false

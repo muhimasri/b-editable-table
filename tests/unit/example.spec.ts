@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import AddRemoveExample from '../../dev/examples/add-remove-example.vue'
+import AddRemoveExample from '../../dev/examples/add-remove-update.vue'
 
 describe('AddRemoveExample.vue', () => {
   it('Find name cell when passed', () => {

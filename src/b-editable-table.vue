@@ -87,7 +87,6 @@ import {
 } from "bootstrap-vue";
 import Vue from "vue";
 
-let localChanges: any = {};
 export default Vue.extend({
   name: "BEditableTable",
   components: {
@@ -159,6 +158,7 @@ export default Vue.extend({
       },
       tableItems: [],
       tableMap: {},
+      localChanges: {}
     };
   },
   mounted() {
@@ -184,7 +184,7 @@ export default Vue.extend({
         } else if (newVal.action === "delete") {
           this.updateData(newVal.id, "delete");
         } else if (newVal.action === "cancel" || newVal.isEdit === false) {
-          delete localChanges[newVal.id];
+          delete this.localChanges[newVal.id];
         }
       },
       deep: true,
@@ -199,8 +199,8 @@ export default Vue.extend({
         this.updateData();
         this.tableMap[id].isEdit = true;
         this.selectedCell = name;
-        if (!localChanges[id]) {
-          localChanges[id] = {};
+        if (!this.localChanges[id]) {
+          this.localChanges[id] = {};
         }
       }
     },
@@ -232,15 +232,15 @@ export default Vue.extend({
         const rowId = this.tableItems[rowIndex]?.id;
         if (this.tableMap[rowId]) {
           this.tableMap[rowId].isEdit = true;
-          if (!localChanges[rowId]) {
-            localChanges[rowId] = {};
+          if (!this.localChanges[rowId]) {
+            this.localChanges[rowId] = {};
           }
         }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
         this.clearEditMode(data.item.id);
-        localChanges = {};
+        this.localChanges = {};
       }
     },
     handleClickOut() {
@@ -259,10 +259,10 @@ export default Vue.extend({
       }
 
       if (this.value) {
-        if (!localChanges[data.item.id]) {
-          localChanges[data.item.id] = {};
+        if (!this.localChanges[data.item.id]) {
+          this.localChanges[data.item.id] = {};
         }
-        localChanges[data.item.id][key] = {
+        this.localChanges[data.item.id][key] = {
           value: changedValue,
           rowIndex: data.index,
         };
@@ -290,7 +290,7 @@ export default Vue.extend({
     },
     updateData(id: any, action: String, data: any, isEdit: Boolean) {
       let isUpdate = false;
-      const objId = id ? id : Object.keys(localChanges)[0];
+      const objId = id ? id : Object.keys(this.localChanges)[0];
       if (action === "add") {
         isUpdate = true;
         // Warning: if watcher don't trigger the new row will not update the tableMap properly
@@ -301,7 +301,7 @@ export default Vue.extend({
         delete this.tableMap[id];
         this.tableItems = this.tableItems.filter((item: any) => item.id !== id);
       } else {
-        const objValue = id ? localChanges[id] : Object.values(localChanges)[0];
+        const objValue = id ? this.localChanges[id] : Object.values(this.localChanges)[0];
 
         // If v-model is set then emit updated table
         if (this.value && objValue) {
@@ -316,7 +316,7 @@ export default Vue.extend({
       if (isUpdate) {
         this.$emit("input", this.tableItems);
       }
-      delete localChanges[id ? id : objId];
+      delete this.localChanges[id ? id : objId];
     },
     handleListeners(listeners: any) {
       // Exclude listeners that are not part of Bootstrap Vue
@@ -368,7 +368,7 @@ export default Vue.extend({
       if (id) {
         this.tableMap[id].isEdit = false;
       } else {
-        for (const changeId in localChanges) {
+        for (const changeId in this.localChanges) {
           this.tableMap[changeId].isEdit = false;
         }
       }
