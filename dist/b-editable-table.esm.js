@@ -11935,6 +11935,11 @@ var script = Vue.extend({
     focus: {
       inserted: function (el, event) {
         switch (event.value) {
+          case false:
+            {
+              return;
+            }
+
           case "checkbox":
             el.children[0].focus();
 
@@ -11979,6 +11984,11 @@ var script = Vue.extend({
     };
   },
 
+  mounted() {
+    this.editMode = this.editMode;
+    this.createTableItems(this.value ? this.value : this.items);
+  },
+
   watch: {
     value(newVal) {
       if (this.updateTableItems) {
@@ -11998,7 +12008,22 @@ var script = Vue.extend({
       }
     }
 
+        if (newVal.action === "update") {
+          this.updateData(newVal.id);
+        } else if (newVal.action === "add") {
+          this.updateData(newVal.id, "add", { ...newVal.data
+          }, newVal.edit);
+        } else if (newVal.action === "delete") {
+          this.updateData(newVal.id, "delete");
+        } else if (newVal.action === "cancel" || newVal.isEdit === false) {
+          delete this.localChanges[newVal.id];
+        }
+      },
+
+      deep: true
+    }
   },
+  computed: {},
   methods: {
     handleEditCell(e, index, name) {
       e.stopPropagation();
@@ -12047,9 +12072,6 @@ var script = Vue.extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      this.tableItems[data.index][key] = changedValue;
-      this.$emit("input-change", value, data); // If v-model is set then emit updated table
-
       if (this.value) {
         // This flag will aboid the watcher from updating the data
         this.updateTableItems = false;
@@ -12060,6 +12082,50 @@ var script = Vue.extend({
           return newItem;
         }));
       }
+    },
+
+    changeHandler(value, data) {
+      this.$emit("input-change", { ...data,
+        id: data.item.id,
+        value
+      });
+    },
+
+    updateData(id, action, data, isEdit) {
+      let isUpdate = false;
+      const objId = id ? id : Object.keys(this.localChanges)[0];
+
+      if (action === "add") {
+        isUpdate = true; // Warning: if watcher don't trigger the new row will not update the tableMap properly
+
+        this.tableMap[id] = {
+          id,
+          isEdit,
+          fields: {}
+        };
+        this.tableItems.unshift(data);
+      } else if (action === "delete") {
+        isUpdate = true;
+        delete this.tableMap[id];
+        this.tableItems = this.tableItems.filter(item => item.id !== id);
+      } else {
+        const objValue = id ? this.localChanges[id] : Object.values(this.localChanges)[0]; // If v-model is set then emit updated table
+
+        if (this.value && objValue) {
+          Object.keys(objValue).forEach(key => {
+            isUpdate = true;
+            const cell = objValue[key];
+            this.tableMap[objId].fields[key].value = cell.value;
+            this.tableItems[cell.rowIndex][key] = cell.value;
+          });
+        }
+      }
+
+      if (isUpdate) {
+        this.$emit("input", this.tableItems);
+      }
+
+      delete this.localChanges[id ? id : objId];
     },
 
     handleListeners(listeners) {
@@ -12073,8 +12139,9 @@ var script = Vue.extend({
       }, {});
     },
 
-    getValue(data) {
-      let value = data.value; // Handle select element with options
+    getCellValue(data, field) {
+      const row = this.tableMap[data.item.id];
+      let value = row && row.fields[field.key] ? row.fields[field.key].value : ""; // Handle select element with options
 
       if (data.field.options) {
         const selectedValue = data.field.options.find(item => item.value === value);
@@ -12250,13 +12317,13 @@ var __vue_render__ = function () {
             directives: [{
               name: "focus",
               rawName: "v-focus",
-              value: 'date',
-              expression: "'date'"
+              value: _vm.enableFocus('date'),
+              expression: "enableFocus('date')"
             }],
             key: index,
             attrs: {
               "type": field.type,
-              "value": _vm.tableItems[data.index][field.key]
+              "value": _vm.getFieldValue(field, data)
             },
             on: {
               "input": function (value) {
@@ -12271,11 +12338,13 @@ var __vue_render__ = function () {
           }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
-              rawName: "v-focus"
+              rawName: "v-focus",
+              value: _vm.enableFocus(),
+              expression: "enableFocus()"
             }],
             key: index,
             attrs: {
-              "value": _vm.tableItems[data.index][field.key]
+              "value": _vm.getFieldValue(field, data)
             },
             on: {
               "change": function (value) {
@@ -12291,12 +12360,12 @@ var __vue_render__ = function () {
             directives: [{
               name: "focus",
               rawName: "v-focus",
-              value: 'checkbox',
-              expression: "'checkbox'"
+              value: _vm.enableFocus('checkbox'),
+              expression: "enableFocus('checkbox')"
             }],
             key: index,
             attrs: {
-              "checked": _vm.tableItems[data.index][field.key]
+              "checked": _vm.getFieldValue(field, data)
             },
             on: {
               "change": function (value) {
@@ -12311,30 +12380,35 @@ var __vue_render__ = function () {
           }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
-              rawName: "v-focus"
+              rawName: "v-focus",
+              value: _vm.enableFocus(),
+              expression: "enableFocus()"
             }],
             key: index,
             attrs: {
-              "type": field.type,
-              "value": _vm.tableItems[data.index][field.key]
+              "value": _vm.getFieldValue(field, data)
             },
             on: {
-              "keydown": function ($event) {
-                return _vm.handleKeydown($event, index, data);
-              },
               "change": function (value) {
                 return _vm.inputHandler(value, data, field.key);
+              }
+            },
+            nativeOn: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
               }
             }
           }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
-              rawName: "v-focus"
+              rawName: "v-focus",
+              value: _vm.enableFocus(),
+              expression: "enableFocus()"
             }],
             key: index,
             attrs: {
               "type": field.type,
-              "value": _vm.tableItems[data.index][field.key]
+              "value": _vm.getFieldValue(field, data)
             },
             on: {
               "keydown": function ($event) {
@@ -12342,6 +12416,9 @@ var __vue_render__ = function () {
               },
               "input": function (value) {
                 return _vm.inputHandler(value, data, field.key);
+              },
+              "change": function (value) {
+                return _vm.changeHandler(value, data);
               }
             }
           }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
