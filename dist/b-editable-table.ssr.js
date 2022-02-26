@@ -11821,7 +11821,15 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
   props: {
     fields: Array,
     items: Array,
-    value: Array
+    value: Array,
+    editMode: {
+      type: String,
+      default: 'cell'
+    },
+    editTrigger: {
+      type: String,
+      default: 'click'
+    }
   },
   directives: {
     focus: {
@@ -11874,8 +11882,7 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
           isEdit: false
         });
-      }),
-      updateTableItems: true
+      })
     };
   },
   mounted: function mounted() {
@@ -11884,32 +11891,22 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
   },
   watch: {
     value: function value(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
+      this.tableItems = this.createItems(newVal);
     },
     items: function items(newVal) {
-      if (this.updateTableItems) {
-        this.tableItems = newVal;
-        this.mapItems();
-      } else {
-        this.updateTableItems = true;
-      }
+      this.tableItems = this.createItems(newVal);
     }
   },
   computed: {},
   methods: {
     handleEditCell: function handleEditCell(e, index, name) {
       e.stopPropagation();
-      this.mapItems();
+      this.resetItems();
       this.tableItems[index].isEdit = true;
       this.selectedCell = name;
     },
     handleKeydown: function handleKeydown(e, index, data) {
-      if (e.code === "Tab") {
+      if (e.code === "Tab" && this.editMode === 'cell') {
         e.preventDefault();
         var fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         var rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
@@ -11926,17 +11923,20 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.mapItems();
-        this.tableItems[rowIndex].isEdit = true;
+        this.resetItems();
+
+        if (this.tableItems[rowIndex]) {
+          this.tableItems[rowIndex].isEdit = true;
+        }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.mapItems();
+        this.resetItems();
       }
     },
     handleClickOut: function handleClickOut() {
       this.selectedCell = null;
-      this.mapItems();
+      this.resetItems();
     },
     inputHandler: function inputHandler(value, data, key, options) {
       var changedValue = value; // Handle select element with options
@@ -11949,8 +11949,6 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
       }
 
       if (this.value) {
-        // This flag will aboid the watcher from updating the data
-        this.updateTableItems = false;
         this.$emit("input", this.tableItems.map(function (item) {
           var newItem = _objectSpread2$1({}, item);
 
@@ -12030,10 +12028,19 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
       return value;
     },
-    mapItems: function mapItems() {
+    resetItems: function resetItems() {
       this.tableItems = this.tableItems.map(function (item) {
         return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
           isEdit: false
+        });
+      });
+    },
+    createItems: function createItems(value) {
+      var _this = this;
+
+      return value.map(function (item, index) {
+        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
+          isEdit: _this.tableItems[index] ? _this.tableItems[index].isEdit : false
         });
       });
     }
@@ -12172,11 +12179,18 @@ var __vue_render__ = function __vue_render__() {
     attrs: {
       "items": _vm.tableItems
     },
-    scopedSlots: _vm._u([_vm._l(_vm.fields, function (field, index) {
+    scopedSlots: _vm._u([_vm._l(_vm.$scopedSlots, function (_, slot) {
+      return {
+        key: slot,
+        fn: function fn(scope) {
+          return [_vm._t(slot, null, null, scope)];
+        }
+      };
+    }), _vm._l(_vm.fields, function (field, index) {
       return {
         key: "cell(" + field.key + ")",
         fn: function fn(data) {
-          return [field.type === 'date' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-datepicker', _vm._b({
+          return [field.type === 'date' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-datepicker', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12198,7 +12212,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-select', _vm._b({
+          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12219,7 +12233,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-checkbox', _vm._b({
+          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-checkbox', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12240,7 +12254,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-rating', _vm._b({
+          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12261,7 +12275,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && _vm.selectedCell === field.key && field.editable ? _c('b-form-input', _vm._b({
+          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12284,22 +12298,13 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.changeHandler(value, data);
               }
             }
-          }, 'b-form-input', Object.assign({}, field), false)) : _c('span', {
+          }, 'b-form-input', Object.assign({}, field), false)) : _c('div', {
             key: index,
             staticClass: "data-cell",
-            on: {
-              "click": function click($event) {
-                return _vm.handleEditCell($event, data.index, field.key);
-              }
-            }
-          }, [_vm.$scopedSlots["cell-" + field.key] ? _vm._t("cell-" + field.key, null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
-        }
-      };
-    }), _vm._l(_vm.$scopedSlots, function (_, slot) {
-      return {
-        key: slot,
-        fn: function fn(scope) {
-          return [_vm._t(slot, null, null, scope)];
+            on: _vm._d({}, [_vm.editTrigger, function ($event) {
+              return _vm.handleEditCell($event, data.index, field.key);
+            }])
+          }, [_vm.$scopedSlots["cell(" + field.key + ")"] ? _vm._t("cell(" + field.key + ")", null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
         }
       };
     })], null, true)
@@ -12311,8 +12316,8 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-4725774b_0", {
-    source: ".data-cell{display:flex;width:100%}",
+  inject("data-v-43311d3a_0", {
+    source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
   });
@@ -12323,7 +12328,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-4725774b";
+var __vue_module_identifier__ = "data-v-43311d3a";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
