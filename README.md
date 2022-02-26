@@ -1,14 +1,16 @@
 
-# BootstrapVue Editable Table
-BootstrapVue Editable Table is a Vue table component that enables cell editing and inherits/supports all other features from [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table).
 
-[Editable Demo on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
+# BootstrapVue Editable Table
+
+> **_NOTE:_** Starting from version 0.1.2-beta.4, a unique id for every row is required.
+
+**Demo**: [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue) | [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue) | [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue) | [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
 
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
-**This is still an early stage beta version so please help by creating issues with proper labels (bug, question, enhancement...).** Thank you in advance 🙏
+**This is a beta version with continuous changes and improvements, so please help by creating issues with proper labels (bug, question, enhancement...).** Thank you in advance 🙏
 
-If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/part-2-create-a-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, just create a pull request 👍
+If you'd like to contribute, please read this [introductory article](https://muhimasri.com/blogs/part-2-create-a-dynamic-table-with-bootstrap-vue/) to understand the basic code structure. Whenever you are ready, create a pull request 👍
 
 ## Table of Contents
 [Prerequisite](#prerequisite) <br/>
@@ -19,11 +21,11 @@ If you'd like to contribute, please read this [introductory article](https://muh
 [Column Width](#column-width)<br/>
 [Custom Styling](#custom-styling)<br/>
 [Keyboard Keys](#keyboard-keys)<br/>
-[Events](#events)<br/>
-[Edit Properties](#edit-properties)<br/>
 [Custom Cell](#custom-cell)<br/>
-[Add and Remove Rows](#add-and-remove-rows)<br/>
+[Row Editing](#row-editing)<br/>
+[Add, Update and Remove Rows](#add-update-and-remove-rows)<br/>
 [Load Data via REST API](#load-data-via-rest-api)<br/>
+[API](#api)<br/>
 [Supported Version](#supported-version)<br/>
 [Roadmap](#roadmap)<br/>
  
@@ -41,7 +43,6 @@ npm install bootstrap bootstrap-vue
 ```bash
 npm i bootstrap-vue-editable-table
 ```
-
 Since this is a BootstrapVue component, you need to set it up the same way. The easiest approach is to register BootstrapVue in your app entry point (typically app.js or main.js):
 
 ```javascript
@@ -75,6 +76,7 @@ Please refer to [BoostrapVue Docs](https://bootstrap-vue.org/docs) for more deta
 
 <script>
 import BEditableTable from 'bootstrap-vue-editable-table';
+import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable
@@ -99,10 +101,10 @@ export default {
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+          { id: 1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id: 2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id: 3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id: 4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
@@ -150,10 +152,8 @@ table.editable-table td {
   width: 100px
 }
 </style>
-
 ```
-
-`items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` and `editable` property in the `fields` object to indicate what element is required in every column and whether or not it should be editable. Also, `v-model` is supported for two-way binding but you can still use `:items` instead for one-way binding. More on that in the [Data Binding](#data-binding) section
+Each row requires a unique id. Otherwise, the table will not function properly. `items` and `fields` are the same properties used in BootstrapVue Table except we are introducing a new `type` and `editable` property in the `fields` object to indicate what element is required in every column and whether or not it should be editable. Also, `v-model` is supported for two-way binding, but you can still use `:items` instead for one-way binding. More on that in the [Data Binding](#data-binding) section.
 
 For `select` element, options can be passed as another property (as shown in the example above). Since this is a [Boostrap Form Select](https://bootstrap-vue.org/docs/components/form-select), it supports a list of strings or key/value objects:
 
@@ -180,11 +180,7 @@ Otherwise, using `:items` prop to pass data will require updating the data manua
 ```html
 <template>
 <div>
-    <b-editable-table :items="items" :fields="fields" @input-change="handleInput">
-      <template #cell(isActive)="data">
-        <span v-if="data.value">Yes</span>
-        <span v-else>No</span>
-      </template>
+    <b-editable-table bordered class="editable-table" :items="items" :fields="fields" @input-change="handleInput">
     </b-editable-table>
 </div>
 </template>
@@ -198,33 +194,33 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name..."},
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name...", class: "name-col"},
         { key: "department", label: "Department", type: "select", editable: true, class: "department-col" , options: [
           { value: 1, text: 'HR' },
           { value: 2, text: 'Engineer' },
           { value: 3, text: 'VP' },
           { value: 4, text: 'CEO'}
         ]},
-        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age..." },
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "age-col" },
         { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, class: "date-col", locale: "en",
           "date-format-options": {
             year: "numeric",
             month: "numeric",
             day: "numeric",
           }, },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: true },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true }
+          { id:1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id:2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id:3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id:4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
   methods: {
-      handleInput(value, data) {
-        const updatedRow = {...this.items[data.index], [data.field.key]: value};
+      handleInput(data) {
+        const updatedRow = {...this.items[data.index], [data.field.key]: data.value};
         this.$set(this.items, data.index, updatedRow);
       }
   }
@@ -232,7 +228,7 @@ export default {
 </script>
 ```
 ## Form Elements:
-Every column requires a `type` and `editable` property in order to make the cell editable:
+Every column requires a `type` and `editable` property to make the cell editable:
 
 ```json
 [
@@ -260,8 +256,9 @@ Elements' attributes and properties are supported by passing them directly throu
 ## Keyboard Keys:
 |Key |Behavior |
 |--|--|
-| Tab | Move to the next cell |
-| Esc | Exit edit mode |
+| Tab | Move to the next cell and commit changes (only on `cell` edit mode) |
+| Enter | Move to the next cell and commit changes (only on `cell` edit mode)|
+| Esc | Exit edit mode and cancel changes |
 
 ## Column Width
 
@@ -305,6 +302,7 @@ Here is an example of how to style and customize a table:
 
 <script>
 import BEditableTable from 'bootstrap-vue-editable-table';
+import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable
@@ -329,10 +327,10 @@ export default {
         { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+          { id: 1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id: 2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id: 3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id: 4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
@@ -383,17 +381,6 @@ table.editable-table td {
 ```
 `.data-cell` is an internal class used for the `div` element within every non-editable cell. You can customize it however you like. 
 
-## Events:
-|Event |Arguments | Description |
-|--|--|--|
-| input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |`value` - Current cell value <br/> `data` - Row data (the same object returned by Bootstrap)| Emitted when any cell input changes
-
-## Edit Properties:
-|Property |Options| Default | Description |
-|--|--|--|--|
-| editMode |`cell` - Edit one cell <br/> `row` - Edit all the cells of a row at once| `cell`| Change edit mode
-| editTrigger|`click` - Edit on mouse click <br/> `dblclick` - Edit on mouse double click| `click`| Change edit trigger
-
 ## Custom Cell
 To customize a none editable cell, you can use Bootstraps' scoped slots.
 
@@ -409,19 +396,17 @@ To customize a none editable cell, you can use Bootstraps' scoped slots.
 ```
 For more details about custom slots, please read [BootstrapVue Table documentation](https://bootstrap-vue.org/docs/components/table) 
 
-## Add and Remove Rows
-[Run example on CodeSandbox](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj)
+## Row Editing
+The default edit behavior is `cell` mode. To change to `row` mode, you can pass the `editMode` prop with the `row` value:
+
+[Run example on CodeSandbox](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue)
 ```html
 <template>
-<div class="table-container">
-    <b-button variant="success" @click="handleAdd()">Add</b-button>
-    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
+<div>
+    <b-editable-table bordered class="editable-table" :editMode="'row'" v-model="items" :fields="fields" @input-change="handleInput">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
-      </template>
-      <template #cell(delete)="data">
-          <BIconX class="remove-icon" @click="handleDelete(data)"></BIconX>
       </template>
     </b-editable-table>
 </div>
@@ -429,7 +414,7 @@ For more details about custom slots, please read [BootstrapVue Table documentati
 
 <script>
 import BEditableTable from 'bootstrap-vue-editable-table';
-import {BIconX} from 'bootstrap-vue';
+import {BButton} from 'bootstrap-vue';
 export default {
   components: {
     BEditableTable
@@ -451,25 +436,252 @@ export default {
             month: "numeric",
             day: "numeric",
           }, },
-        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" },
-        { key: "delete", label: "" }
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
       ],
        items: [
-          { age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
-          { age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
-          { age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
-          { age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+          { id: 1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id: 2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id: 3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id: 4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
         ]
     };
   },
   methods: {
-      handleAdd() {
-        this.items.unshift({});
-      },
-      handleDelete(data) {
-        this.items.splice(data.index, 1);
-      }
+      handleInput(value, data) {}
   }
+};
+</script>
+
+<style>
+table.editable-table {
+  margin: auto;
+}
+
+table.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .data-cell {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.editable-table .custom-checkbox {
+  width: 50px;
+}
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
+}
+
+.date-col {
+  width: 200px;
+}
+
+.is-active-col {
+  width: 100px
+}
+</style>
+
+```
+For more details about custom slots, please read [BootstrapVue Table documentation](https://bootstrap-vue.org/docs/components/table) 
+
+## Add, Update and Remove Rows
+To add, update and remove rows using external buttons, you need to pass the `rowUpdate` prop containing the row id and other required information. Below is a full example:
+
+[Run example on CodeSandbox](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj)
+```html
+<template>
+  <div class="table-container">
+    <b-button variant="success" @click="handleAdd()">Add</b-button>
+    <b-editable-table
+      disableDefaultEdit
+      :rowUpdate="rowUpdate"
+      :editMode="'row'"
+      bordered
+      class="editable-table"
+      v-model="items"
+      :fields="fields"
+    >
+      <template #cell(isActive)="data">
+        <span v-if="data.value">Yes</span>
+        <span v-else>No</span>
+      </template>
+      <template #cell(edit)="data">
+        <div v-if="data.isEdit">
+          <BIconX class="edit-icon" @click="handleSubmit(data, false)"></BIconX>
+          <BIconCheck
+            class="edit-icon"
+            @click="handleSubmit(data, true)"
+          ></BIconCheck>
+        </div>
+        <BIconPencil
+          v-else
+          class="edit-icon"
+          @click="handleEdit(data, true)"
+        ></BIconPencil>
+      </template>
+      <template #cell(delete)="data">
+        <BIconTrash
+          class="remove-icon"
+          @click="handleDelete(data)"
+        ></BIconTrash>
+      </template>
+    </b-editable-table>
+    <pre>
+      {{ items }}
+    </pre>
+  </div>
+</template>
+
+<script>
+import BEditableTable from "bootstrap-vue-editable-table";
+import {
+  BIconTrash,
+  BIconPencil,
+  BIconX,
+  BIconCheck,
+  BButton,
+} from "bootstrap-vue";
+export default {
+  components: {
+    BEditableTable,
+    BIconX,
+    BIconTrash,
+    BIconPencil,
+    BIconCheck,
+    BButton,
+  },
+  data() {
+    return {
+      fields: [
+        { key: "delete", label: "" },
+        {
+          key: "name",
+          label: "Name",
+          type: "text",
+          editable: true,
+          placeholder: "Enter Name...",
+          class: "name-col",
+        },
+        {
+          key: "department",
+          label: "Department",
+          type: "select",
+          editable: true,
+          class: "department-col",
+          options: [
+            { value: 1, text: "HR" },
+            { value: 2, text: "Engineer" },
+            { value: 3, text: "VP" },
+            { value: 4, text: "CEO" },
+          ],
+        },
+        {
+          key: "age",
+          label: "Age",
+          type:"range", min:"0", max:"100",
+          editable: true,
+          placeholder: "Enter Age...",
+          class: "age-col",
+        },
+        {
+          key: "dateOfBirth",
+          label: "Date Of Birth",
+          type: "date",
+          editable: true,
+          class: "date-col",
+          locale: "en",
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          },
+        },
+        {
+          key: "isActive",
+          label: "Is Active",
+          type: "checkbox",
+          editable: true,
+          class: "is-active-col",
+        },
+        { key: "edit", label: "" },
+      ],
+      items: [
+        {
+          id: 1,
+          age: 40,
+          name: "Dickerson",
+          department: 1,
+          dateOfBirth: "1984-05-20",
+          isActive: true,
+        },
+        {
+          id: 2,
+          age: 21,
+          name: "Larsen",
+          department: 2,
+          dateOfBirth: "1972-07-25",
+          isActive: false,
+        },
+        {
+          id: 3,
+          age: 89,
+          name: "Geneva",
+          department: 3,
+          dateOfBirth: "1981-02-02",
+          isActive: false,
+        },
+        {
+          id: 4,
+          age: 38,
+          name: "Jami",
+          department: 4,
+          dateOfBirth: "1964-10-19",
+          isActive: true,
+        },
+      ],
+      rowUpdate: {},
+    };
+  },
+  methods: {
+    handleAdd() {
+      this.rowUpdate = {
+        edit: true,
+        id: Date.now(),
+        action: "add",
+        data: {
+          id: Date.now(),
+          age: null,
+          name: "",
+          department: 1,
+          dateOfBirth: null,
+          isActive: false,
+        },
+      };
+    },
+    handleSubmit(data, update) {
+      this.rowUpdate = {
+        edit: false,
+        id: data.id,
+        action: update ? "update" : "cancel",
+      };
+    },
+    handleEdit(data) {
+      this.rowUpdate = { edit: true, id: data.id };
+    },
+    handleDelete(data) {
+      this.rowUpdate = { id: data.id, action: "delete" };
+    }
+  },
 };
 </script>
 
@@ -496,9 +708,15 @@ table.editable-table td {
 }
 
 .remove-icon {
-    color: red;
-    cursor: pointer;
-    font-size: 20px;
+  color: red;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.edit-icon {
+  color: rgb(4, 83, 158);
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .name-col {
@@ -518,10 +736,9 @@ table.editable-table td {
 }
 
 .is-active-col {
-  width: 100px
+  width: 100px;
 }
 </style>
-
 ```
 
 ## Load Data via REST API
@@ -530,7 +747,7 @@ table.editable-table td {
 <template>
 <div>
     <b-editable-table :busy="loading" bordered class="editable-table" v-model="users" :fields="fields">
-      <template #cell(isActive)="data">
+      <template #cell-isActive="data">
         <span v-if="data.value">Yes</span>
         <span v-else>No</span>
       </template>
@@ -541,6 +758,9 @@ table.editable-table td {
         </div>
       </template>
     </b-editable-table>
+    <pre>
+      {{users}}
+    </pre>
 </div>
 </template>
 
@@ -555,9 +775,9 @@ export default {
   data() {
     return {
       fields: [
-        { key: "name", label: "Name", type: "text", editable: true },
-        { key: "email", label: "Email", type: "email", editable: true },
-        { key: "phone", label: "Phone", type: "text", editable: true }
+        {id: 1, key: "name", label: "Name", type: "text", editable: true },
+        {id: 2, key: "email", label: "Email", type: "email", editable: true },
+        {id: 3, key: "phone", label: "Phone", type: "text", editable: true }
       ],
       users: [],
       loading: false
@@ -612,8 +832,22 @@ table.editable-table td {
 }
 </style>
 
-```
+</style>
 
+```
+## API
+### Events:
+|Event |Arguments | Description |
+|--|--|--|
+| input-change &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | `data` - The same object returned by Bootstrap with additional `id` property and the current changed `value` | Emitted when any input value changes
+
+### Properties:
+|Property |Options| Default | Description |
+|--|--|--|--|
+| editMode |`cell` - Edit one cell <br/> `row` - Edit all the cells of a row at once| `cell`| Change edit mode
+| editTrigger|`click` - Edit on mouse click <br/> `dblclick` - Edit on mouse double click| `click`| Change edit trigger
+| disableDefaultEdit|`true` - Disable default edit behavior. This is useful when wanting to change the edit manually through an external button <br/> `false` - Keep default edit behavior. This will make the cell editable as soon as clicking on the `cell` or `row`| `false`| Turn off default edit behavior
+| rowUpdate | | | Update a specified row. [Please refer to this section for usage example](#add-update-and-remove-rows) 
 ## Supported Version
 This has been tested on:
 
@@ -635,7 +869,7 @@ We are looking to support as many versions as possible so please create an issue
 	 * [x] Rating
 	 * [ ] Tags
 	 * [ ] File upload
- * [ ] Enable row editing (allows to edit all the cells of a row at once)
+ * [x] Enable row editing (allows to edit all the cells of a row at once)
  * [ ] Validation
  * [ ] Vue 3 support
  * [ ] Styling themes
