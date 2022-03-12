@@ -70,6 +70,7 @@ export default {
           editable: true,
           placeholder: "Enter Name...",
           class: "name-col",
+          validate: this.validateName
         },
         {
           key: "department",
@@ -179,7 +180,16 @@ export default {
     },
     handleDelete(data) {
       this.rowUpdate = { id: data.id, action: "delete" };
-    }
+    },
+    validateName(value) {
+        if (value === '') {
+          return {
+            valid: false,
+            errorMessage: 'Please enter name'
+          }
+        }
+        return {valid: true};
+      },
   },
 };
 </script>

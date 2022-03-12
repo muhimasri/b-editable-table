@@ -239,6 +239,12 @@ export default Vue.extend({
         this.updateData();
         this.tableMap[id].isEdit = true;
         this.selectedCell = name;
+        
+        // Clear validation for the selected row
+        for (const key in this.tableMap[id].fields) {
+          this.tableMap[id].fields[key].validity = {valid: true};
+        }
+
         if (!this.localChanges[id]) {
           this.localChanges[id] = {};
         }
@@ -304,7 +310,7 @@ export default Vue.extend({
       const fields = this.tableMap[data.item.id].fields;
       fields[key].validity.valid = true;
 
-      if (this.value && validity.valid === true) {
+      if (this.value && (!validity || validity?.valid === true)) {
         if (!this.localChanges[data.item.id]) {
           this.localChanges[data.item.id] = {};
         }

@@ -48,7 +48,7 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {
+      handleInput(data) {
       },
       validateName(value) {
         if (value === '') {
