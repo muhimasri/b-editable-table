@@ -9,26 +9,52 @@
       <slot :name="slot" v-bind="scope" />
     </template>
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
-      <b-form-datepicker
-        @keydown.native="handleKeydown($event, index, data)"
-        @input="(value) => inputHandler(value, data, field.key)"
-        v-bind="{ ...field }"
-        v-focus="enableFocus('date')"
-        v-if="showField(field, data, 'date')"
-        :key="index"
-        :type="field.type"
-        :value="getFieldValue(field, data)"
-      ></b-form-datepicker>
-      <b-form-select
-        @keydown.native="handleKeydown($event, index, data)"
-        @change="(value) => inputHandler(value, data, field.key, field.options)"
-        v-bind="{ ...field }"
-        v-focus="enableFocus()"
-        v-else-if="showField(field, data, 'select')"
-        :key="index"
-        :value="getFieldValue(field, data)"
-      ></b-form-select>
+      <div :key="index" v-if="showField(field, data, 'date')">
+        <b-form-datepicker
+          :id="`${field}-${index}`"
+          @keydown.native="handleKeydown($event, index, data)"
+          @input="(value) => inputHandler(value, data, field.key)"
+          v-bind="{ ...field }"
+          v-focus="enableFocus('date')"
+          :key="index"
+          :type="field.type"
+          :value="getFieldValue(field, data)"
+          :state="getValidity(data, field).valid ? null : false"
+        ></b-form-datepicker>
+        <b-tooltip
+          v-if="getValidity(data, field).errorMessage"
+          :target="`${field}-${index}`"
+          variant="danger"
+          :show="!getValidity(data, field).valid"
+          :disabled="true"
+        >
+          {{ getValidity(data, field).errorMessage }}
+        </b-tooltip>
+      </div>
+      <div :key="index" v-else-if="showField(field, data, 'select')">
+        <b-form-select
+          :id="`${field}-${index}`"
+          @keydown.native="handleKeydown($event, index, data)"
+          @change="
+            (value) => inputHandler(value, data, field.key, field.options)
+          "
+          v-bind="{ ...field }"
+          v-focus="enableFocus()"
+          :value="getFieldValue(field, data)"
+          :state="getValidity(data, field).valid ? null : false"
+        ></b-form-select>
+        <b-tooltip
+          v-if="getValidity(data, field).errorMessage"
+          :target="`${field}-${index}`"
+          variant="danger"
+          :show="!getValidity(data, field).valid"
+          :disabled="true"
+        >
+          {{ getValidity(data, field).errorMessage }}
+        </b-tooltip>
+      </div>
       <b-form-checkbox
+        :id="`${field}-${index}`"
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
@@ -38,6 +64,7 @@
         :checked="getFieldValue(field, data)"
       ></b-form-checkbox>
       <b-form-rating
+        :id="`${field}-${index}`"
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
@@ -46,17 +73,28 @@
         :key="index"
         :value="getFieldValue(field, data)"
       ></b-form-rating>
-      <b-form-input
-        @keydown="handleKeydown($event, index, data)"
-        @input="(value) => inputHandler(value, data, field.key)"
-        @change="(value) => changeHandler(value, data)"
-        v-bind="{ ...field }"
-        v-focus="enableFocus()"
-        v-else-if="showField(field, data, field.type)"
-        :key="index"
-        :type="field.type"
-        :value="getFieldValue(field, data)"
-      ></b-form-input>
+      <div :key="index" v-else-if="showField(field, data, field.type)">
+        <b-form-input
+          :id="`${field}-${index}`"
+          @keydown="handleKeydown($event, index, data)"
+          @input="(value) => inputHandler(value, data, field.key)"
+          @change="(value) => changeHandler(value, data, field.key)"
+          v-bind="{ ...field }"
+          v-focus="enableFocus()"
+          :type="field.type"
+          :value="getFieldValue(field, data)"
+          :state="getValidity(data, field).valid ? null : false"
+        ></b-form-input>
+        <b-tooltip
+          v-if="getValidity(data, field).errorMessage"
+          :target="`${field}-${index}`"
+          variant="danger"
+          :show="!getValidity(data, field).valid"
+          :disabled="true"
+        >
+          {{ getValidity(data, field).errorMessage }}
+        </b-tooltip>
+      </div>
       <div
         class="data-cell"
         @[editTrigger]="
@@ -84,6 +122,7 @@ import {
   BFormSelect,
   BFormCheckbox,
   BFormRating,
+  BTooltip,
 } from "bootstrap-vue";
 import Vue from "vue";
 
@@ -96,6 +135,7 @@ export default Vue.extend({
     BFormSelect,
     BFormCheckbox,
     BFormRating,
+    BTooltip,
   },
   props: {
     fields: Array,
@@ -158,7 +198,7 @@ export default Vue.extend({
       },
       tableItems: [],
       tableMap: {},
-      localChanges: {}
+      localChanges: {},
     };
   },
   mounted() {
@@ -258,7 +298,13 @@ export default Vue.extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      if (this.value) {
+      const validity = data.field.validate
+        ? data.field.validate(changedValue)
+        : { valid: true };
+      const fields = this.tableMap[data.item.id].fields;
+      fields[key].validity.valid = true;
+
+      if (this.value && validity.valid === true) {
         if (!this.localChanges[data.item.id]) {
           this.localChanges[data.item.id] = {};
         }
@@ -266,26 +312,31 @@ export default Vue.extend({
           value: changedValue,
           rowIndex: data.index,
         };
+      } else {
+        fields[key].validity = validity;
       }
       const fieldType = data.field.type;
       const excludeTypes: any = {
         text: true,
         range: true,
-        number: true
-      }
+        number: true,
+      };
       if (!excludeTypes[fieldType]) {
         this.$emit("input-change", {
           ...data,
           id: data.item.id,
           value: changedValue,
+          validity: { ...fields[key].validity },
+          // validity: Object.keys(fields).reduce((list: any, key: any) => ({...list, [key]: {valid: fields[key].valid}}), {})
         });
       }
     },
-    changeHandler(value: any, data: any) {
+    changeHandler(value: any, data: any, key: string) {
       this.$emit("input-change", {
         ...data,
         id: data.item.id,
         value,
+        validity: { ...this.tableMap[data.item.id].fields[key].validity },
       });
     },
     updateData(id: any, action: String, data: any, isEdit: Boolean) {
@@ -301,7 +352,9 @@ export default Vue.extend({
         delete this.tableMap[id];
         this.tableItems = this.tableItems.filter((item: any) => item.id !== id);
       } else {
-        const objValue = id ? this.localChanges[id] : Object.values(this.localChanges)[0];
+        const objValue = id
+          ? this.localChanges[id]
+          : Object.values(this.localChanges)[0];
 
         // If v-model is set then emit updated table
         if (this.value && objValue) {
@@ -350,6 +403,9 @@ export default Vue.extend({
         id: data.item.id,
       };
     },
+    getValidity(data: any, field: any) {
+      return this.tableMap[data.item.id].fields[field.key].validity;
+    },
     showField(field: any, data: any, type: string) {
       return (
         field.type === type &&
@@ -386,7 +442,7 @@ export default Vue.extend({
             fields: Object.keys(curRow).reduce(
               (keys, curKey) => ({
                 ...keys,
-                [curKey]: { value: curRow[curKey] },
+                [curKey]: { value: curRow[curKey], validity: { valid: true } },
               }),
               {}
             ),
