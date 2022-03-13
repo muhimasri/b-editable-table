@@ -335,8 +335,7 @@ export default Vue.extend({
           ...data,
           id: data.item.id,
           value: changedValue,
-          validity: { ...fields[key].validity },
-          // validity: Object.keys(fields).reduce((list: any, key: any) => ({...list, [key]: {valid: fields[key].valid}}), {})
+          validity: { ...fields[key].validity }
         });
       }
     },
