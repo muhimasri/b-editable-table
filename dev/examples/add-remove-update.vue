@@ -105,6 +105,7 @@ export default {
             month: "numeric",
             day: "numeric",
           },
+          validate: this.validateDate
         },
         {
           key: "isActive",
@@ -186,6 +187,16 @@ export default {
           return {
             valid: false,
             errorMessage: 'Please enter name'
+          }
+        }
+        return {valid: true};
+      },
+      validateDate(value) {
+        const year = new Date(value).getFullYear();
+        if (year > 2003) {
+          return {
+            valid: false,
+            errorMessage: 'Must be above 19'
           }
         }
         return {valid: true};

@@ -11,7 +11,7 @@
     <template v-for="(field, index) in fields" #[`cell(${field.key})`]="data">
       <div :key="index" v-if="showField(field, data, 'date')">
         <b-form-datepicker
-          :id="`${field}-${index}`"
+          :id="`${field.key}-${data.item.id}`"
           @keydown.native="handleKeydown($event, index, data)"
           @input="(value) => inputHandler(value, data, field.key)"
           v-bind="{ ...field }"
@@ -23,7 +23,7 @@
         ></b-form-datepicker>
         <b-tooltip
           v-if="getValidity(data, field).errorMessage"
-          :target="`${field}-${index}`"
+          :target="`${field.key}-${data.item.id}`"
           variant="danger"
           :show="!getValidity(data, field).valid"
           :disabled="true"
@@ -33,7 +33,7 @@
       </div>
       <div :key="index" v-else-if="showField(field, data, 'select')">
         <b-form-select
-          :id="`${field}-${index}`"
+          :id="`${field.key}-${data.item.id}`"
           @keydown.native="handleKeydown($event, index, data)"
           @change="
             (value) => inputHandler(value, data, field.key, field.options)
@@ -45,7 +45,7 @@
         ></b-form-select>
         <b-tooltip
           v-if="getValidity(data, field).errorMessage"
-          :target="`${field}-${index}`"
+          :target="`${field.key}-${data.item.id}`"
           variant="danger"
           :show="!getValidity(data, field).valid"
           :disabled="true"
@@ -54,7 +54,7 @@
         </b-tooltip>
       </div>
       <b-form-checkbox
-        :id="`${field}-${index}`"
+        :id="`${field.key}-${data.item.id}`"
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
@@ -64,7 +64,7 @@
         :checked="getFieldValue(field, data)"
       ></b-form-checkbox>
       <b-form-rating
-        :id="`${field}-${index}`"
+        :id="`${field.key}-${data.item.id}`"
         @keydown.native="handleKeydown($event, index, data)"
         @change="(value) => inputHandler(value, data, field.key)"
         v-bind="{ ...field }"
@@ -75,7 +75,7 @@
       ></b-form-rating>
       <div :key="index" v-else-if="showField(field, data, field.type)">
         <b-form-input
-          :id="`${field}-${index}`"
+          :id="`${field.key}-${data.item.id}`"
           @keydown="handleKeydown($event, index, data)"
           @input="(value) => inputHandler(value, data, field.key)"
           @change="(value) => changeHandler(value, data, field.key)"
@@ -87,7 +87,7 @@
         ></b-form-input>
         <b-tooltip
           v-if="getValidity(data, field).errorMessage"
-          :target="`${field}-${index}`"
+          :target="`${field.key}-${data.item.id}`"
           variant="danger"
           :show="!getValidity(data, field).valid"
           :disabled="true"
@@ -218,12 +218,14 @@ export default Vue.extend({
           this.tableMap[newVal.id].isEdit = newVal.edit;
         }
         if (newVal.action === "update") {
+          this.clearValidation(newVal.id);
           this.updateData(newVal.id);
         } else if (newVal.action === "add") {
           this.updateData(newVal.id, "add", { ...newVal.data }, newVal.edit);
         } else if (newVal.action === "delete") {
           this.updateData(newVal.id, "delete");
         } else if (newVal.action === "cancel" || newVal.isEdit === false) {
+          this.clearValidation(newVal.id);
           delete this.localChanges[newVal.id];
         }
       },
@@ -239,15 +241,16 @@ export default Vue.extend({
         this.updateData();
         this.tableMap[id].isEdit = true;
         this.selectedCell = name;
-        
-        // Clear validation for the selected row
-        for (const key in this.tableMap[id].fields) {
-          this.tableMap[id].fields[key].validity = {valid: true};
-        }
-
+        this.clearValidation(id);
         if (!this.localChanges[id]) {
           this.localChanges[id] = {};
         }
+      }
+    },
+    clearValidation(id: any) {
+      // Clear validation for the selected row
+      for (const key in this.tableMap[id].fields) {
+        this.tableMap[id].fields[key].validity = { valid: true };
       }
     },
     handleKeydown(e: any, index: number, data: any) {
@@ -448,7 +451,12 @@ export default Vue.extend({
             fields: Object.keys(curRow).reduce(
               (keys, curKey) => ({
                 ...keys,
-                [curKey]: { value: curRow[curKey], validity: { valid: true } },
+                [curKey]: {
+                  value: curRow[curKey],
+                  validity: this.tableMap[curRow.id]?.fields[curKey]?.validity
+                    ? this.tableMap[curRow.id].fields[curKey].validity
+                    : { valid: true },
+                },
               }),
               {}
             ),
