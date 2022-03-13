@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {}
+      handleInput(data) {}
   }
 };
 </script>
