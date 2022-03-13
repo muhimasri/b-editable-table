@@ -5,7 +5,7 @@
 
 > **_NOTE:_** Starting from version 0.1.2-beta.4, a unique id for every row is required.
 
-**Demo**: [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue) | [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue) | [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue) | [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
+**Demo**: [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue) | [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue) | [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue) | [Input Validation](https://codesandbox.io/s/vue-table-validation-pcysqz?file=/src/App.vue) | [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
 
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
