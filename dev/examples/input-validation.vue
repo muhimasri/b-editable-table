@@ -1,5 +1,16 @@
 <template>
 <div>
+  <ul>
+    <li>
+      <i>* Name can not be empty</i>
+    </li>
+    <li>
+      <i>* Must select a department</i>
+    </li>
+    <li>
+      <i>* Date of birth must be before 2003</i>
+    </li>
+  </ul>
     <b-editable-table bordered class="editable-table" v-model="items" :fields="fields" @input-change="handleInput">
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
@@ -84,7 +95,7 @@ export default {
 
 <style>
 table.editable-table {
-  margin: auto;
+  margin: 25px;
 }
 
 table.editable-table td {
@@ -118,5 +129,9 @@ table.editable-table td {
 
 .is-active-col {
   width: 100px
+}
+
+ul {
+  list-style: none;
 }
 </style>
