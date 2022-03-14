@@ -1,4 +1,4 @@
-'use strict';var Vue=require('vue');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var Vue__default=/*#__PURE__*/_interopDefaultLegacy(Vue);function ownKeys$w(object, enumerableOnly) {
+'use strict';var Vue=require('vue');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var Vue__default=/*#__PURE__*/_interopDefaultLegacy(Vue);function ownKeys$A(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
@@ -21,13 +21,13 @@ function _objectSpread2$1(target) {
     var source = arguments[i] != null ? arguments[i] : {};
 
     if (i % 2) {
-      ownKeys$w(Object(source), true).forEach(function (key) {
-        _defineProperty$C(target, key, source[key]);
+      ownKeys$A(Object(source), true).forEach(function (key) {
+        _defineProperty$H(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      ownKeys$w(Object(source)).forEach(function (key) {
+      ownKeys$A(Object(source)).forEach(function (key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
@@ -36,7 +36,7 @@ function _objectSpread2$1(target) {
   return target;
 }
 
-function _defineProperty$C(obj, key, value) {
+function _defineProperty$H(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -229,7 +229,7 @@ var HTMLElement = HAS_WINDOW_SUPPORT ? WINDOW.HTMLElement : /*#__PURE__*/functio
 }(Element);
 /* istanbul ignore next */
 
-HAS_WINDOW_SUPPORT ? WINDOW.SVGElement : /*#__PURE__*/function (_Element2) {
+var SVGElement = HAS_WINDOW_SUPPORT ? WINDOW.SVGElement : /*#__PURE__*/function (_Element2) {
   _inherits(SVGElement, _Element2);
 
   var _super3 = _createSuper(SVGElement);
@@ -314,11 +314,11 @@ var isRegExp = function isRegExp(value) {
 };
 var isPromise = function isPromise(value) {
   return !isUndefinedOrNull(value) && isFunction$1(value.then) && isFunction$1(value.catch);
-};function ownKeys$v(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+};function ownKeys$z(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$v(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$v(Object(source), true).forEach(function (key) { _defineProperty$B(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$v(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$z(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$z(Object(source), true).forEach(function (key) { _defineProperty$G(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$z(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$B(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$G(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var assign = function assign() {
   return Object.assign.apply(Object, arguments);
@@ -339,7 +339,7 @@ var hasOwnProperty = function hasOwnProperty(obj, prop) {
 // Shallow copy an object
 
 var clone = function clone(obj) {
-  return _objectSpread$v({}, obj);
+  return _objectSpread$z({}, obj);
 }; // Return a shallow copy of object with the specified properties only
 // See: https://gist.github.com/bisubus/2da8af7e801ffd813fab7ac221aa7afc
 
@@ -347,7 +347,7 @@ var pick = function pick(obj, props) {
   return keys(obj).filter(function (key) {
     return props.indexOf(key) !== -1;
   }).reduce(function (result, key) {
-    return _objectSpread$v(_objectSpread$v({}, result), {}, _defineProperty$B({}, key, obj[key]));
+    return _objectSpread$z(_objectSpread$z({}, result), {}, _defineProperty$G({}, key, obj[key]));
   }, {});
 }; // Return a shallow copy of object with the specified properties omitted
 // See: https://gist.github.com/bisubus/2da8af7e801ffd813fab7ac221aa7afc
@@ -356,7 +356,7 @@ var omit = function omit(obj, props) {
   return keys(obj).filter(function (key) {
     return props.indexOf(key) === -1;
   }).reduce(function (result, key) {
-    return _objectSpread$v(_objectSpread$v({}, result), {}, _defineProperty$B({}, key, obj[key]));
+    return _objectSpread$z(_objectSpread$z({}, result), {}, _defineProperty$G({}, key, obj[key]));
   }, {});
 }; // Merges two object deeply together
 // See: https://gist.github.com/Salakar/1d7137de9cb8b704e48a
@@ -371,7 +371,7 @@ var mergeDeep = function mergeDeep(target, source) {
 
         mergeDeep(target[key], source[key]);
       } else {
-        assign(target, _defineProperty$B({}, key, source[key]));
+        assign(target, _defineProperty$G({}, key, source[key]));
       }
     });
   }
@@ -381,7 +381,7 @@ var mergeDeep = function mergeDeep(target, source) {
 
 var sortKeys = function sortKeys(obj) {
   return keys(obj).sort().reduce(function (result, key) {
-    return _objectSpread$v(_objectSpread$v({}, result), {}, _defineProperty$B({}, key, obj[key]));
+    return _objectSpread$z(_objectSpread$z({}, result), {}, _defineProperty$G({}, key, obj[key]));
   }, {});
 }; // Convenience method to create a read-only descriptor
 
@@ -391,11 +391,11 @@ var readonlyDescriptor = function readonlyDescriptor() {
     configurable: false,
     writable: false
   };
-};function ownKeys$u(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+};function ownKeys$y(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$u(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$u(Object(source), true).forEach(function (key) { _defineProperty$A(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$u(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$y(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$y(Object(source), true).forEach(function (key) { _defineProperty$F(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$y(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$A(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$F(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray$4(arr) { return _arrayWithoutHoles$4(arr) || _iterableToArray$4(arr) || _unsupportedIterableToArray$5(arr) || _nonIterableSpread$4(); }
 
@@ -419,7 +419,7 @@ var cloneDeep = function cloneDeep(obj) {
 
   if (isPlainObject(obj)) {
     return keys(obj).reduce(function (result, key) {
-      return _objectSpread$u(_objectSpread$u({}, result), {}, _defineProperty$A({}, key, cloneDeep(obj[key], obj[key])));
+      return _objectSpread$y(_objectSpread$y({}, result), {}, _defineProperty$F({}, key, cloneDeep(obj[key], obj[key])));
     }, {});
   }
 
@@ -526,24 +526,40 @@ var NAME_FORM_SELECT_OPTION_GROUP = 'BFormSelectOptionGroup';
 var NAME_ICON = 'BIcon';
 var NAME_ICON_BASE = 'BIconBase';
 var NAME_LINK = 'BLink';
+var NAME_MODAL = 'BModal';
 var NAME_TABLE = 'BTable';
 var NAME_TABLE_CELL = 'BTableCell';
 var NAME_TBODY = 'BTbody';
 var NAME_TFOOT = 'BTfoot';
 var NAME_TH = 'BTh';
 var NAME_THEAD = 'BThead';
+var NAME_TOOLTIP = 'BTooltip';
 var NAME_TR = 'BTr'; // Helper component names
 var NAME_FORM_BUTTON_LABEL_CONTROL = 'BVFormBtnLabelControl';
-var NAME_FORM_RATING_STAR = 'BVFormRatingStar';var EVENT_NAME_BLUR = 'blur';
+var NAME_FORM_RATING_STAR = 'BVFormRatingStar';
+var NAME_POPPER = 'BVPopper';
+var NAME_TOOLTIP_HELPER = 'BVTooltip';
+var NAME_TOOLTIP_TEMPLATE = 'BVTooltipTemplate';
+var NAME_TRANSITION = 'BVTransition';var EVENT_NAME_BLUR = 'blur';
 var EVENT_NAME_CHANGE = 'change';
 var EVENT_NAME_CLICK = 'click';
+var EVENT_NAME_CLOSE = 'close';
 var EVENT_NAME_CONTEXT = 'context';
 var EVENT_NAME_CONTEXT_CHANGED = 'context-changed';
+var EVENT_NAME_DISABLE = 'disable';
+var EVENT_NAME_DISABLED = 'disabled';
+var EVENT_NAME_ENABLE = 'enable';
+var EVENT_NAME_ENABLED = 'enabled';
 var EVENT_NAME_FILTERED = 'filtered';
+var EVENT_NAME_FOCUSIN = 'focusin';
+var EVENT_NAME_FOCUSOUT = 'focusout';
 var EVENT_NAME_HEAD_CLICKED = 'head-clicked';
 var EVENT_NAME_HIDDEN = 'hidden';
 var EVENT_NAME_HIDE = 'hide';
 var EVENT_NAME_INPUT = 'input';
+var EVENT_NAME_MOUSEENTER = 'mouseenter';
+var EVENT_NAME_MOUSELEAVE = 'mouseleave';
+var EVENT_NAME_OPEN = 'open';
 var EVENT_NAME_REFRESH = 'refresh';
 var EVENT_NAME_REFRESHED = 'refreshed';
 var EVENT_NAME_ROW_CLICKED = 'row-clicked';
@@ -560,6 +576,7 @@ var EVENT_NAME_SORT_CHANGED = 'sort-changed';
 var EVENT_NAME_TOGGLE = 'toggle';
 var EVENT_NAME_UPDATE = 'update';
 var HOOK_EVENT_NAME_BEFORE_DESTROY = 'hook:beforeDestroy';
+var HOOK_EVENT_NAME_DESTROYED = 'hook:destroyed';
 var MODEL_EVENT_NAME_PREFIX = 'update:';
 var ROOT_EVENT_NAME_PREFIX = 'bv';
 var ROOT_EVENT_NAME_SEPARATOR = '::';
@@ -584,6 +601,7 @@ var PROP_TYPE_ARRAY_STRING = [PROP_TYPE_ARRAY, PROP_TYPE_STRING];
 var PROP_TYPE_BOOLEAN_STRING = [PROP_TYPE_BOOLEAN, PROP_TYPE_STRING];
 var PROP_TYPE_DATE_STRING = [PROP_TYPE_DATE, PROP_TYPE_STRING];
 var PROP_TYPE_NUMBER_STRING = [PROP_TYPE_NUMBER, PROP_TYPE_STRING];
+var PROP_TYPE_NUMBER_OBJECT_STRING = [PROP_TYPE_NUMBER, PROP_TYPE_OBJECT, PROP_TYPE_STRING];
 var PROP_TYPE_OBJECT_FUNCTION = [PROP_TYPE_OBJECT, PROP_TYPE_FUNCTION];
 var PROP_TYPE_OBJECT_STRING = [PROP_TYPE_OBJECT, PROP_TYPE_STRING];var SLOT_NAME_BOTTOM_ROW = 'bottom-row';
 var SLOT_NAME_BUTTON_CONTENT = 'button-content';
@@ -758,6 +776,10 @@ var isVisible = function isVisible(el) {
   return !!(bcr && bcr.height > 0 && bcr.width > 0);
 }; // Determine if an element is disabled
 
+var isDisabled = function isDisabled(el) {
+  return !isElement(el) || el.disabled || hasAttr(el, 'disabled') || hasClass(el, 'disabled');
+}; // Cause/wait-for an element to reflow its content (adjusting its height/width)
+
 var selectAll = function selectAll(selector, root) {
   return from((isElement(root) ? root : DOCUMENT).querySelectorAll(selector));
 }; // Select a single element, returns `null` if not found
@@ -809,11 +831,39 @@ var removeClass = function removeClass(el, className) {
     el.classList.remove(className);
   }
 }; // Test if an element has a class
+
+var hasClass = function hasClass(el, className) {
+  // We are checking for `el.classList` existence here since IE 11
+  // returns `undefined` for some elements (e.g. SVG elements)
+  // See https://github.com/bootstrap-vue/bootstrap-vue/issues/2713
+  if (className && isElement(el) && el.classList) {
+    return el.classList.contains(className);
+  }
+
+  return false;
+}; // Set an attribute on an element
+
+var setAttr = function setAttr(el, attr, value) {
+  if (attr && isElement(el)) {
+    el.setAttribute(attr, value);
+  }
+}; // Remove an attribute from an element
+
+var removeAttr = function removeAttr(el, attr) {
+  if (attr && isElement(el)) {
+    el.removeAttribute(attr);
+  }
+}; // Get an attribute value from an element
 // Returns `null` if not found
 
 var getAttr = function getAttr(el, attr) {
   return attr && isElement(el) ? el.getAttribute(attr) : null;
 }; // Determine if an attribute exists on an element
+// Returns `true` or `false`, or `null` if element not found
+
+var hasAttr = function hasAttr(el, attr) {
+  return attr && isElement(el) ? el.hasAttribute(attr) : null;
+}; // Set an style property on an element
 // Returns `null` if not found
 
 var getStyle = function getStyle(el, prop) {
@@ -826,6 +876,13 @@ var getStyle = function getStyle(el, prop) {
 var getBCR = function getBCR(el) {
   return isElement(el) ? el.getBoundingClientRect() : null;
 }; // Get computed style object for an element
+
+/* istanbul ignore next: getComputedStyle() doesn't work in JSDOM */
+
+var getCS = function getCS(el) {
+  var getComputedStyle = WINDOW.getComputedStyle;
+  return getComputedStyle && isElement(el) ? getComputedStyle(el) : {};
+}; // Returns a `Selection` object representing the range of text selected
 // Returns `null` if no window support is given
 
 /* istanbul ignore next: getSelection() doesn't work in JSDOM */
@@ -866,11 +923,11 @@ var getComponentConfig = function getComponentConfig(key) {
   // otherwise we return the full config (or an empty object if not found)
   return propKey ? getConfigValue("".concat(key, ".").concat(propKey), defaultValue) : getConfigValue(key, {});
 }; // Get all breakpoint names
-function ownKeys$t(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$x(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$t(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$t(Object(source), true).forEach(function (key) { _defineProperty$z(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$t(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$x(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$x(Object(source), true).forEach(function (key) { _defineProperty$E(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$x(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$z(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$E(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var makeProp = function makeProp() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : PROP_TYPE_ANY;
@@ -879,7 +936,7 @@ var makeProp = function makeProp() {
   var validator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
   var required = requiredOrValidator === true;
   validator = required ? validator : requiredOrValidator;
-  return _objectSpread$t(_objectSpread$t(_objectSpread$t({}, type ? {
+  return _objectSpread$x(_objectSpread$x(_objectSpread$x({}, type ? {
     type: type
   } : {}), required ? {
     required: required
@@ -905,7 +962,7 @@ var pluckProps = function pluckProps(keysToPluck, objToPluck) {
 // call that falls back to the current default value of the prop
 
 var makePropConfigurable = function makePropConfigurable(prop, key, componentKey) {
-  return _objectSpread$t(_objectSpread$t({}, cloneDeep(prop)), {}, {
+  return _objectSpread$x(_objectSpread$x({}, cloneDeep(prop)), {}, {
     default: function bvConfigurablePropDefault() {
       var value = getComponentConfig(componentKey, key, prop.default);
       return isFunction$1(value) ? value() : value;
@@ -917,7 +974,7 @@ var makePropConfigurable = function makePropConfigurable(prop, key, componentKey
 
 var makePropsConfigurable = function makePropsConfigurable(props, componentKey) {
   return keys(props).reduce(function (result, key) {
-    return _objectSpread$t(_objectSpread$t({}, result), {}, _defineProperty$z({}, key, makePropConfigurable(props[key], key, componentKey)));
+    return _objectSpread$x(_objectSpread$x({}, result), {}, _defineProperty$E({}, key, makePropConfigurable(props[key], key, componentKey)));
   }, {});
 }; // Get function name we use in `makePropConfigurable()`
 // for the prop default value override to compare
@@ -928,7 +985,7 @@ var configurablePropDefaultFnName = makePropConfigurable({}, '', '').default.nam
 
 var hasPropFunction = function hasPropFunction(fn) {
   return isFunction$1(fn) && fn.name !== configurablePropDefaultFnName;
-};function _defineProperty$y(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+};function _defineProperty$D(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var makeModelMixin = function makeModelMixin(prop) {
   var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
       _ref$type = _ref.type,
@@ -940,7 +997,7 @@ var makeModelMixin = function makeModelMixin(prop) {
       _ref$event = _ref.event,
       event = _ref$event === void 0 ? EVENT_NAME_INPUT : _ref$event;
 
-  var props = _defineProperty$y({}, prop, makeProp(type, defaultValue, validator)); // @vue/component
+  var props = _defineProperty$D({}, prop, makeProp(type, defaultValue, validator)); // @vue/component
 
 
   var mixin = Vue__default['default'].extend({
@@ -1102,7 +1159,77 @@ var getRootEventName = function getRootEventName(name, eventName) {
 
 var getRootActionEventName = function getRootActionEventName(name, actionName) {
   return [ROOT_EVENT_NAME_PREFIX, actionName, getBaseEventName(name)].join(ROOT_EVENT_NAME_SEPARATOR);
-};// Math utilty functions
+};function ownKeys$w(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$w(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$w(Object(source), true).forEach(function (key) { _defineProperty$C(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$w(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$C(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var NO_FADE_PROPS = {
+  name: '',
+  enterClass: '',
+  enterActiveClass: '',
+  enterToClass: 'show',
+  leaveClass: 'show',
+  leaveActiveClass: '',
+  leaveToClass: ''
+};
+
+var FADE_PROPS = _objectSpread$w(_objectSpread$w({}, NO_FADE_PROPS), {}, {
+  enterActiveClass: 'fade',
+  leaveActiveClass: 'fade'
+}); // --- Props ---
+
+
+var props$Q = {
+  // Has no effect if `trans-props` provided
+  appear: makeProp(PROP_TYPE_BOOLEAN, false),
+  // Can be overridden by user supplied `trans-props`
+  mode: makeProp(PROP_TYPE_STRING),
+  // Only applicable to the built in transition
+  // Has no effect if `trans-props` provided
+  noFade: makeProp(PROP_TYPE_BOOLEAN, false),
+  // For user supplied transitions (if needed)
+  transProps: makeProp(PROP_TYPE_OBJECT)
+}; // --- Main component ---
+// @vue/component
+
+var BVTransition = /*#__PURE__*/Vue__default['default'].extend({
+  name: NAME_TRANSITION,
+  functional: true,
+  props: props$Q,
+  render: function render(h, _ref) {
+    var children = _ref.children,
+        data = _ref.data,
+        props = _ref.props;
+    var transProps = props.transProps;
+
+    if (!isPlainObject(transProps)) {
+      transProps = props.noFade ? NO_FADE_PROPS : FADE_PROPS;
+
+      if (props.appear) {
+        // Default the appear classes to equal the enter classes
+        transProps = _objectSpread$w(_objectSpread$w({}, transProps), {}, {
+          appear: true,
+          appearClass: transProps.enterClass,
+          appearActiveClass: transProps.enterActiveClass,
+          appearToClass: transProps.enterToClass
+        });
+      }
+    }
+
+    transProps = _objectSpread$w(_objectSpread$w({
+      mode: props.mode
+    }, transProps), {}, {
+      // We always need `css` true
+      css: true
+    });
+    return h('transition', // Any transition event listeners will get merged here
+    a(data, {
+      props: transProps
+    }), children);
+  }
+});// Math utilty functions
 var mathMin = Math.min;
 var mathMax = Math.max;var ANCHOR_TAG = 'a'; // Method to replace reserved chars
 
@@ -1222,7 +1349,7 @@ var computeHref = function computeHref() {
 
 
   return fallback;
-};function _defineProperty$x(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+};function _defineProperty$B(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // Base attributes needed on all icons
 
 var BASE_ATTRS = {
@@ -1242,7 +1369,7 @@ var STACKED_ATTRS = {
   'aria-label': null
 }; // --- Props ---
 
-var props$M = {
+var props$P = {
   animation: makeProp(PROP_TYPE_STRING),
   content: makeProp(PROP_TYPE_STRING),
   flipH: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -1262,7 +1389,7 @@ var props$M = {
 var BVIconBase = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_ICON_BASE,
   functional: true,
-  props: props$M,
+  props: props$P,
   render: function render(h, _ref) {
     var _class;
 
@@ -1318,7 +1445,7 @@ var BVIconBase = /*#__PURE__*/Vue__default['default'].extend({
     var $content = [$title, $inner].filter(identity);
     return h('svg', a({
       staticClass: 'b-icon bi',
-      class: (_class = {}, _defineProperty$x(_class, "text-".concat(variant), variant), _defineProperty$x(_class, "b-icon-animation-".concat(animation), animation), _class),
+      class: (_class = {}, _defineProperty$B(_class, "text-".concat(variant), variant), _defineProperty$B(_class, "b-icon-animation-".concat(animation), animation), _class),
       attrs: BASE_ATTRS,
       style: stacked ? {} : {
         fontSize: fontScale === 1 ? null : "".concat(fontScale * 100, "%")
@@ -1335,11 +1462,11 @@ var BVIconBase = /*#__PURE__*/Vue__default['default'].extend({
       }
     }), $content);
   }
-});function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$v(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$s(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$s(Object(source), true).forEach(function (key) { _defineProperty$w(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$s(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$v(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$v(Object(source), true).forEach(function (key) { _defineProperty$A(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$v(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$w(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$A(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /**
  * Icon component generator function
  *
@@ -1359,7 +1486,7 @@ var makeIcon = function makeIcon(name, content) {
   return /*#__PURE__*/Vue__default['default'].extend({
     name: iconName,
     functional: true,
-    props: omit(props$M, ['content']),
+    props: omit(props$P, ['content']),
     render: function render(h, _ref) {
       var data = _ref.data,
           props = _ref.props;
@@ -1375,7 +1502,7 @@ var makeIcon = function makeIcon(name, content) {
       data, // Required data
       {
         staticClass: iconNameClass,
-        props: _objectSpread$s(_objectSpread$s({}, props), {}, {
+        props: _objectSpread$v(_objectSpread$v({}, props), {}, {
           content: svgContent
         })
       }));
@@ -1395,11 +1522,11 @@ var BIconStarFill=/*#__PURE__*/makeIcon('StarFill','<path d="M3.612 15.443c-.386
 var BIconStarHalf=/*#__PURE__*/makeIcon('StarHalf','<path d="M5.354 5.119L7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.55.55 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.519.519 0 0 1-.146.05c-.341.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.171-.403.59.59 0 0 1 .084-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027c.08 0 .16.018.232.056l3.686 1.894-.694-3.957a.564.564 0 0 1 .163-.505l2.906-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.002 2.223 8 2.226v9.8z"/>');// eslint-disable-next-line
 var BIconX=/*#__PURE__*/makeIcon('X','<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>');// eslint-disable-next-line
 // --- END AUTO-GENERATED FILE ---
-function ownKeys$r(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$u(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$r(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$r(Object(source), true).forEach(function (key) { _defineProperty$v(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$r(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$u(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$u(Object(source), true).forEach(function (key) { _defineProperty$z(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$u(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$z(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var findIconComponent = function findIconComponent(ctx, iconName) {
   if (!ctx) {
@@ -1412,8 +1539,8 @@ var findIconComponent = function findIconComponent(ctx, iconName) {
 }; // --- Props ---
 
 
-var iconProps = omit(props$M, ['content']);
-var props$L = makePropsConfigurable(sortKeys(_objectSpread$r(_objectSpread$r({}, iconProps), {}, {
+var iconProps = omit(props$P, ['content']);
+var props$O = makePropsConfigurable(sortKeys(_objectSpread$u(_objectSpread$u({}, iconProps), {}, {
   icon: makeProp(PROP_TYPE_STRING)
 })), NAME_ICON); // --- Main component ---
 // Helper BIcon component
@@ -1423,7 +1550,7 @@ var props$L = makePropsConfigurable(sortKeys(_objectSpread$r(_objectSpread$r({},
 var BIcon = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_ICON,
   functional: true,
-  props: props$L,
+  props: props$O,
   render: function render(h, _ref) {
     var data = _ref.data,
         props = _ref.props,
@@ -1514,7 +1641,7 @@ var looseEqual = function looseEqual(a, b) {
   }
 
   return String(a) === String(b);
-};function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+};function _defineProperty$y(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var isEmpty = function isEmpty(value) {
   return !value || keys(value).length === 0;
@@ -1547,9 +1674,9 @@ var makePropWatcher = function makePropWatcher(propName) {
 var makePropCacheMixin = function makePropCacheMixin(propName, proxyPropName) {
   return Vue__default['default'].extend({
     data: function data() {
-      return _defineProperty$u({}, proxyPropName, cloneDeep(this[propName]));
+      return _defineProperty$y({}, proxyPropName, cloneDeep(this[propName]));
     },
-    watch: _defineProperty$u({}, propName, makePropWatcher(proxyPropName))
+    watch: _defineProperty$y({}, propName, makePropWatcher(proxyPropName))
   });
 };var attrsMixin = makePropCacheMixin('$attrs', 'bvAttrs');var listenOnRootMixin = Vue__default['default'].extend({
   methods: {
@@ -1627,11 +1754,11 @@ function _arrayWithoutHoles$3(arr) { if (Array.isArray(arr)) return _arrayLikeTo
 
 function _arrayLikeToArray$4(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$t(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$q(Object(source), true).forEach(function (key) { _defineProperty$t(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$t(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$t(Object(source), true).forEach(function (key) { _defineProperty$x(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$t(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$x(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var ROOT_EVENT_NAME_CLICKED = getRootEventName(NAME_LINK, 'clicked'); // --- Props ---
 // `<router-link>` specific props
@@ -1658,7 +1785,7 @@ var nuxtLinkProps = {
   prefetch: makeProp(PROP_TYPE_BOOLEAN, null)
 }; // All `<b-link>` props
 
-var props$K = makePropsConfigurable(sortKeys(_objectSpread$q(_objectSpread$q(_objectSpread$q({}, nuxtLinkProps), routerLinkProps), {}, {
+var props$N = makePropsConfigurable(sortKeys(_objectSpread$t(_objectSpread$t(_objectSpread$t({}, nuxtLinkProps), routerLinkProps), {}, {
   active: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   href: makeProp(PROP_TYPE_STRING),
@@ -1678,7 +1805,7 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
   // Mixin order is important!
   mixins: [attrsMixin, listenersMixin, listenOnRootMixin, normalizeSlotMixin],
   inheritAttrs: false,
-  props: props$K,
+  props: props$N,
   computed: {
     computedTag: function computedTag() {
       // We don't pass `this` as the first arg as we need reactivity of the props
@@ -1714,7 +1841,7 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
     },
     computedProps: function computedProps() {
       var prefetch = this.prefetch;
-      return this.isRouterLink ? _objectSpread$q(_objectSpread$q({}, pluckProps(_objectSpread$q(_objectSpread$q({}, routerLinkProps), nuxtLinkProps), this)), {}, {
+      return this.isRouterLink ? _objectSpread$t(_objectSpread$t({}, pluckProps(_objectSpread$t(_objectSpread$t({}, routerLinkProps), nuxtLinkProps), this)), {}, {
         // Coerce `prefetch` value `null` to be `undefined`
         prefetch: isBoolean(prefetch) ? prefetch : undefined,
         // Pass `router-tag` as `tag` prop
@@ -1729,7 +1856,7 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
           target = this.target,
           routerTag = this.routerTag,
           isRouterLink = this.isRouterLink;
-      return _objectSpread$q(_objectSpread$q(_objectSpread$q(_objectSpread$q({}, bvAttrs), href ? {
+      return _objectSpread$t(_objectSpread$t(_objectSpread$t(_objectSpread$t({}, bvAttrs), href ? {
         href: href
       } : {}), isRouterLink && !isTag(routerTag, 'a') ? {} : {
         rel: rel,
@@ -1740,7 +1867,7 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
       });
     },
     computedListeners: function computedListeners() {
-      return _objectSpread$q(_objectSpread$q({}, this.bvListeners), {}, {
+      return _objectSpread$t(_objectSpread$t({}, this.bvListeners), {}, {
         // We want to overwrite any click handler since our callback
         // will invoke the user supplied handler(s) if `!this.disabled`
         click: this.onClick
@@ -1799,7 +1926,7 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
   render: function render(h) {
     var active = this.active,
         disabled = this.disabled;
-    return h(this.computedTag, _defineProperty$t({
+    return h(this.computedTag, _defineProperty$x({
       class: {
         active: active,
         disabled: disabled
@@ -1808,16 +1935,16 @@ var BLink = /*#__PURE__*/Vue__default['default'].extend({
       props: this.computedProps
     }, this.isRouterLink ? 'nativeOn' : 'on', this.computedListeners), this.normalizeSlot());
   }
-});function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$s(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$p(Object(source), true).forEach(function (key) { _defineProperty$s(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$s(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$s(Object(source), true).forEach(function (key) { _defineProperty$w(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$s(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$w(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var linkProps = omit(props$K, ['event', 'routerTag']);
+var linkProps = omit(props$N, ['event', 'routerTag']);
 delete linkProps.href.default;
 delete linkProps.to.default;
-var props$J = makePropsConfigurable(sortKeys(_objectSpread$p(_objectSpread$p({}, linkProps), {}, {
+var props$M = makePropsConfigurable(sortKeys(_objectSpread$s(_objectSpread$s({}, linkProps), {}, {
   block: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   pill: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -1866,7 +1993,7 @@ var isNonStandardTag = function isNonStandardTag(props) {
 var computeClass = function computeClass(props) {
   var _ref;
 
-  return ["btn-".concat(props.variant || 'secondary'), (_ref = {}, _defineProperty$s(_ref, "btn-".concat(props.size), props.size), _defineProperty$s(_ref, 'btn-block', props.block), _defineProperty$s(_ref, 'rounded-pill', props.pill), _defineProperty$s(_ref, 'rounded-0', props.squared && !props.pill), _defineProperty$s(_ref, "disabled", props.disabled), _defineProperty$s(_ref, "active", props.pressed), _ref)];
+  return ["btn-".concat(props.variant || 'secondary'), (_ref = {}, _defineProperty$w(_ref, "btn-".concat(props.size), props.size), _defineProperty$w(_ref, 'btn-block', props.block), _defineProperty$w(_ref, 'rounded-pill', props.pill), _defineProperty$w(_ref, 'rounded-0', props.squared && !props.pill), _defineProperty$w(_ref, "disabled", props.disabled), _defineProperty$w(_ref, "active", props.pressed), _ref)];
 }; // Compute the link props to pass to b-link (if required)
 
 
@@ -1917,7 +2044,7 @@ var computeAttrs = function computeAttrs(props, data) {
 var BButton = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_BUTTON,
   functional: true,
-  props: props$J,
+  props: props$M,
   render: function render(h, _ref2) {
     var props = _ref2.props,
         data = _ref2.data,
@@ -2157,13 +2284,13 @@ var isLocaleRTL = function isLocaleRTL(locale) {
   return arrayIncludes(RTL_LANGS, locale1) || arrayIncludes(RTL_LANGS, locale2);
 };// SSR safe client-side ID attribute generation
 
-var props$I = {
+var props$L = {
   id: makeProp(PROP_TYPE_STRING)
 }; // --- Mixin ---
 // @vue/component
 
 var idMixin = Vue__default['default'].extend({
-  props: props$I,
+  props: props$L,
   data: function data() {
     return {
       localId_: null
@@ -2199,13 +2326,13 @@ var idMixin = Vue__default['default'].extend({
       _this.localId_ = "__BVID__".concat(_this[COMPONENT_UID_KEY]);
     });
   }
-});var _watch$4;
+});var _watch$5;
 
-function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$r(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$o(Object(source), true).forEach(function (key) { _defineProperty$r(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$r(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$r(Object(source), true).forEach(function (key) { _defineProperty$v(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$r(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _makeModelMixin$6 = makeModelMixin('value', {
   type: PROP_TYPE_DATE_STRING
@@ -2216,7 +2343,7 @@ var _makeModelMixin$6 = makeModelMixin('value', {
     MODEL_EVENT_NAME$5 = _makeModelMixin$6.event; // --- Props ---
 
 
-var props$H = makePropsConfigurable(sortKeys(_objectSpread$o(_objectSpread$o(_objectSpread$o({}, props$I), modelProps$5), {}, {
+var props$K = makePropsConfigurable(sortKeys(_objectSpread$r(_objectSpread$r(_objectSpread$r({}, props$L), modelProps$5), {}, {
   ariaControls: makeProp(PROP_TYPE_STRING),
   // Makes calendar the full width of its parent container
   block: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -2302,7 +2429,7 @@ var BCalendar = Vue__default['default'].extend({
   name: NAME_CALENDAR,
   // Mixin order is important!
   mixins: [attrsMixin, idMixin, modelMixin$5, normalizeSlotMixin],
-  props: props$H,
+  props: props$K,
   data: function data() {
     var selected = formatYMD(this[MODEL_PROP_NAME$5]) || '';
     return {
@@ -2493,7 +2620,7 @@ var BCalendar = Vue__default['default'].extend({
     // Computed props that return date formatter functions
     formatDateString: function formatDateString() {
       // Returns a date formatter function
-      return createDateFormatter(this.calendarLocale, _objectSpread$o(_objectSpread$o({
+      return createDateFormatter(this.calendarLocale, _objectSpread$r(_objectSpread$r({
         // Ensure we have year, month, day shown for screen readers/ARIA
         // If users really want to leave one of these out, they can
         // pass `undefined` for the property value
@@ -2608,7 +2735,7 @@ var BCalendar = Vue__default['default'].extend({
           /* istanbul ignore next */
           {
             class: dateInfo
-          } : isPlainObject(dateInfo) ? _objectSpread$o({
+          } : isPlainObject(dateInfo) ? _objectSpread$r({
             class: ''
           }, dateInfo) :
           /* istanbul ignore next */
@@ -2642,7 +2769,7 @@ var BCalendar = Vue__default['default'].extend({
       });
     }
   },
-  watch: (_watch$4 = {}, _defineProperty$r(_watch$4, MODEL_PROP_NAME$5, function (newValue, oldValue) {
+  watch: (_watch$5 = {}, _defineProperty$v(_watch$5, MODEL_PROP_NAME$5, function (newValue, oldValue) {
     var selected = formatYMD(newValue) || '';
     var old = formatYMD(oldValue) || '';
 
@@ -2650,23 +2777,23 @@ var BCalendar = Vue__default['default'].extend({
       this.activeYMD = selected || this.activeYMD;
       this.selectedYMD = selected;
     }
-  }), _defineProperty$r(_watch$4, "selectedYMD", function selectedYMD(newYMD, oldYMD) {
+  }), _defineProperty$v(_watch$5, "selectedYMD", function selectedYMD(newYMD, oldYMD) {
     // TODO:
     //   Should we compare to `formatYMD(this.value)` and emit
     //   only if they are different?
     if (newYMD !== oldYMD) {
       this.$emit(MODEL_EVENT_NAME$5, this.valueAsDate ? parseYMD(newYMD) || null : newYMD || '');
     }
-  }), _defineProperty$r(_watch$4, "context", function context(newValue, oldValue) {
+  }), _defineProperty$v(_watch$5, "context", function context(newValue, oldValue) {
     if (!looseEqual(newValue, oldValue)) {
       this.$emit(EVENT_NAME_CONTEXT, newValue);
     }
-  }), _defineProperty$r(_watch$4, "hidden", function hidden(newValue) {
+  }), _defineProperty$v(_watch$5, "hidden", function hidden(newValue) {
     // Reset the active focused day when hidden
     this.activeYMD = this.selectedYMD || formatYMD(this[MODEL_PROP_NAME$5] || this.constrainDate(this.initialDate || this.getToday())); // Enable/disable the live regions
 
     this.setLive(!newValue);
-  }), _watch$4),
+  }), _watch$5),
   created: function created() {
     var _this3 = this;
 
@@ -2954,11 +3081,11 @@ var BCalendar = Vue__default['default'].extend({
       shiftV: 0.5
     };
 
-    var navPrevProps = _objectSpread$o(_objectSpread$o({}, navProps), {}, {
+    var navPrevProps = _objectSpread$r(_objectSpread$r({}, navProps), {}, {
       flipH: isRTL
     });
 
-    var navNextProps = _objectSpread$o(_objectSpread$o({}, navProps), {}, {
+    var navNextProps = _objectSpread$r(_objectSpread$r({}, navProps), {}, {
       flipH: !isRTL
     });
 
@@ -3071,7 +3198,7 @@ var BCalendar = Vue__default['default'].extend({
             // Styling
             disabled: day.isDisabled || disabled,
             active: isSelected
-          }, _defineProperty$r(_class, _this6.computedVariant, isSelected), _defineProperty$r(_class, _this6.computedTodayVariant, isToday && highlightToday && !isSelected && day.isThisMonth), _defineProperty$r(_class, 'btn-outline-light', !(isToday && highlightToday) && !isSelected && !isActive), _defineProperty$r(_class, 'btn-light', !(isToday && highlightToday) && !isSelected && isActive), _defineProperty$r(_class, 'text-muted', !day.isThisMonth && !isSelected), _defineProperty$r(_class, 'text-dark', !(isToday && highlightToday) && !isSelected && !isActive && day.isThisMonth), _defineProperty$r(_class, 'font-weight-bold', (isSelected || day.isThisMonth) && !day.isDisabled), _class),
+          }, _defineProperty$v(_class, _this6.computedVariant, isSelected), _defineProperty$v(_class, _this6.computedTodayVariant, isToday && highlightToday && !isSelected && day.isThisMonth), _defineProperty$v(_class, 'btn-outline-light', !(isToday && highlightToday) && !isSelected && !isActive), _defineProperty$v(_class, 'btn-light', !(isToday && highlightToday) && !isSelected && isActive), _defineProperty$v(_class, 'text-muted', !day.isThisMonth && !isSelected), _defineProperty$v(_class, 'text-dark', !(isToday && highlightToday) && !isSelected && !isActive && day.isThisMonth), _defineProperty$v(_class, 'font-weight-bold', (isSelected || day.isThisMonth) && !day.isDisabled), _class),
           on: {
             click: function click() {
               return _this6.onClickDay(day);
@@ -5956,11 +6083,11 @@ var BvEvent = /*#__PURE__*/function () {
       }
     }
   }
-});function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$q(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$n(Object(source), true).forEach(function (key) { _defineProperty$q(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$q(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$q(Object(source), true).forEach(function (key) { _defineProperty$u(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$q(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var ROOT_EVENT_NAME_SHOWN = getRootEventName(NAME_DROPDOWN, EVENT_NAME_SHOWN);
 var ROOT_EVENT_NAME_HIDDEN = getRootEventName(NAME_DROPDOWN, EVENT_NAME_HIDDEN); // CSS selectors
@@ -5976,7 +6103,7 @@ var filterVisibles = function filterVisibles(els) {
 }; // --- Props ---
 
 
-var props$G = makePropsConfigurable(sortKeys(_objectSpread$n(_objectSpread$n({}, props$I), {}, {
+var props$J = makePropsConfigurable(sortKeys(_objectSpread$q(_objectSpread$q({}, props$L), {}, {
   // String: `scrollParent`, `window` or `viewport`
   // HTMLElement: HTML Element reference
   boundary: makeProp([HTMLElement, PROP_TYPE_STRING], 'scrollParent'),
@@ -6010,7 +6137,7 @@ var dropdownMixin = Vue__default['default'].extend({
       default: null
     }
   },
-  props: props$G,
+  props: props$J,
   data: function data() {
     return {
       visible: false,
@@ -6411,7 +6538,7 @@ var dropdownMixin = Vue__default['default'].extend({
   }
 });var OPTIONS_OBJECT_DEPRECATED_MSG = 'Setting prop "options" to an object is deprecated. Use the array format instead.'; // --- Props ---
 
-var props$F = makePropsConfigurable({
+var props$I = makePropsConfigurable({
   disabledField: makeProp(PROP_TYPE_STRING, 'disabled'),
   htmlField: makeProp(PROP_TYPE_STRING, 'html'),
   options: makeProp(PROP_TYPE_ARRAY_OBJECT, []),
@@ -6421,7 +6548,7 @@ var props$F = makePropsConfigurable({
 // @vue/component
 
 var formOptionsMixin = Vue__default['default'].extend({
-  props: props$F,
+  props: props$I,
   computed: {
     formOptions: function formOptions() {
       return this.normalizeOptions(this.options);
@@ -6483,7 +6610,7 @@ var formOptionsMixin = Vue__default['default'].extend({
   return -1;
 };var SELECTOR = 'input, textarea, select'; // --- Props ---
 
-var props$E = makePropsConfigurable({
+var props$H = makePropsConfigurable({
   autofocus: makeProp(PROP_TYPE_BOOLEAN, false),
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   form: makeProp(PROP_TYPE_STRING),
@@ -6494,7 +6621,7 @@ var props$E = makePropsConfigurable({
 // @vue/component
 
 var formControlMixin = Vue__default['default'].extend({
-  props: props$E,
+  props: props$H,
   mounted: function mounted() {
     this.handleAutofocus();
   },
@@ -6522,25 +6649,25 @@ var formControlMixin = Vue__default['default'].extend({
       });
     }
   }
-});var props$D = makePropsConfigurable({
+});var props$G = makePropsConfigurable({
   plain: makeProp(PROP_TYPE_BOOLEAN, false)
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
 var formCustomMixin = Vue__default['default'].extend({
-  props: props$D,
+  props: props$G,
   computed: {
     custom: function custom() {
       return !this.plain;
     }
   }
-});var props$C = makePropsConfigurable({
+});var props$F = makePropsConfigurable({
   size: makeProp(PROP_TYPE_STRING)
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
 var formSizeMixin = Vue__default['default'].extend({
-  props: props$C,
+  props: props$F,
   computed: {
     sizeFormClass: function sizeFormClass() {
       return [this.size ? "form-control-".concat(this.size) : null];
@@ -6555,14 +6682,14 @@ var formSizeMixin = Vue__default['default'].extend({
  *  - null for no contextual state
  */
 
-var props$B = makePropsConfigurable({
+var props$E = makePropsConfigurable({
   // Tri-state prop: true, false, null (or undefined)
   state: makeProp(PROP_TYPE_BOOLEAN, null)
 }, 'formState'); // --- Mixin ---
 // @vue/component
 
 var formStateMixin = Vue__default['default'].extend({
-  props: props$B,
+  props: props$E,
   computed: {
     computedState: function computedState() {
       // If not a boolean, ensure that value is null
@@ -6582,13 +6709,13 @@ var formStateMixin = Vue__default['default'].extend({
       return this.computedState === false ? 'true' : ariaInvalid;
     }
   }
-});var _watch$3, _methods;
+});var _watch$4, _methods;
 
-function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$p(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$m(Object(source), true).forEach(function (key) { _defineProperty$p(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$p(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$p(Object(source), true).forEach(function (key) { _defineProperty$t(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$p(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _makeModelMixin$5 = makeModelMixin('checked', {
   defaultValue: null
@@ -6598,7 +6725,7 @@ var _makeModelMixin$5 = makeModelMixin('checked', {
     MODEL_PROP_NAME$4 = _makeModelMixin$5.prop,
     MODEL_EVENT_NAME$4 = _makeModelMixin$5.event;
 
-var props$A = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m({}, props$I), modelProps$4), props$E), props$C), props$B), props$D), {}, {
+var props$D = makePropsConfigurable(sortKeys(_objectSpread$p(_objectSpread$p(_objectSpread$p(_objectSpread$p(_objectSpread$p(_objectSpread$p(_objectSpread$p({}, props$L), modelProps$4), props$H), props$F), props$E), props$G), {}, {
   ariaLabel: makeProp(PROP_TYPE_STRING),
   ariaLabelledby: makeProp(PROP_TYPE_STRING),
   // Only applicable in standalone mode (non group)
@@ -6613,7 +6740,7 @@ var props$A = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m(_ob
 var formRadioCheckMixin = Vue__default['default'].extend({
   mixins: [attrsMixin, idMixin, modelMixin$4, normalizeSlotMixin, formControlMixin, formSizeMixin, formStateMixin, formCustomMixin],
   inheritAttrs: false,
-  props: props$A,
+  props: props$D,
   data: function data() {
     return {
       localChecked: this.isGroup ? this.bvGroup[MODEL_PROP_NAME$4] : this[MODEL_PROP_NAME$4],
@@ -6701,12 +6828,12 @@ var formRadioCheckMixin = Vue__default['default'].extend({
       var _ref;
 
       var computedSize = this.computedSize;
-      return ['btn', "btn-".concat(this.computedButtonVariant), (_ref = {}, _defineProperty$p(_ref, "btn-".concat(computedSize), computedSize), _defineProperty$p(_ref, "disabled", this.isDisabled), _defineProperty$p(_ref, "active", this.isChecked), _defineProperty$p(_ref, "focus", this.hasFocus), _ref)];
+      return ['btn', "btn-".concat(this.computedButtonVariant), (_ref = {}, _defineProperty$t(_ref, "btn-".concat(computedSize), computedSize), _defineProperty$t(_ref, "disabled", this.isDisabled), _defineProperty$t(_ref, "active", this.isChecked), _defineProperty$t(_ref, "focus", this.hasFocus), _ref)];
     },
     computedAttrs: function computedAttrs() {
       var disabled = this.isDisabled,
           required = this.isRequired;
-      return _objectSpread$m(_objectSpread$m({}, this.bvAttrs), {}, {
+      return _objectSpread$p(_objectSpread$p({}, this.bvAttrs), {}, {
         id: this.safeId(),
         type: this.isRadio ? 'radio' : 'checkbox',
         name: this.computedName,
@@ -6719,20 +6846,20 @@ var formRadioCheckMixin = Vue__default['default'].extend({
       });
     }
   },
-  watch: (_watch$3 = {}, _defineProperty$p(_watch$3, MODEL_PROP_NAME$4, function () {
+  watch: (_watch$4 = {}, _defineProperty$t(_watch$4, MODEL_PROP_NAME$4, function () {
     this["".concat(MODEL_PROP_NAME$4, "Watcher")].apply(this, arguments);
-  }), _defineProperty$p(_watch$3, "computedLocalChecked", function computedLocalChecked() {
+  }), _defineProperty$t(_watch$4, "computedLocalChecked", function computedLocalChecked() {
     this.computedLocalCheckedWatcher.apply(this, arguments);
-  }), _watch$3),
-  methods: (_methods = {}, _defineProperty$p(_methods, "".concat(MODEL_PROP_NAME$4, "Watcher"), function Watcher(newValue) {
+  }), _watch$4),
+  methods: (_methods = {}, _defineProperty$t(_methods, "".concat(MODEL_PROP_NAME$4, "Watcher"), function Watcher(newValue) {
     if (!looseEqual(newValue, this.computedLocalChecked)) {
       this.computedLocalChecked = newValue;
     }
-  }), _defineProperty$p(_methods, "computedLocalCheckedWatcher", function computedLocalCheckedWatcher(newValue, oldValue) {
+  }), _defineProperty$t(_methods, "computedLocalCheckedWatcher", function computedLocalCheckedWatcher(newValue, oldValue) {
     if (!looseEqual(newValue, oldValue)) {
       this.$emit(MODEL_EVENT_NAME$4, newValue);
     }
-  }), _defineProperty$p(_methods, "handleChange", function handleChange(_ref2) {
+  }), _defineProperty$t(_methods, "handleChange", function handleChange(_ref2) {
     var _this = this;
 
     var checked = _ref2.target.checked;
@@ -6749,7 +6876,7 @@ var formRadioCheckMixin = Vue__default['default'].extend({
         _this.bvGroup.$emit(EVENT_NAME_CHANGE, localChecked);
       }
     });
-  }), _defineProperty$p(_methods, "handleFocus", function handleFocus(event) {
+  }), _defineProperty$t(_methods, "handleFocus", function handleFocus(event) {
     // When in buttons mode, we need to add 'focus' class to label when input focused
     // As it is the hidden input which has actual focus
     if (event.target) {
@@ -6759,11 +6886,11 @@ var formRadioCheckMixin = Vue__default['default'].extend({
         this.hasFocus = false;
       }
     }
-  }), _defineProperty$p(_methods, "focus", function focus() {
+  }), _defineProperty$t(_methods, "focus", function focus() {
     if (!this.isDisabled) {
       attemptFocus(this.$refs.input);
     }
-  }), _defineProperty$p(_methods, "blur", function blur() {
+  }), _defineProperty$t(_methods, "blur", function blur() {
     if (!this.isDisabled) {
       attemptBlur(this.$refs.input);
     }
@@ -6794,7 +6921,7 @@ var formRadioCheckMixin = Vue__default['default'].extend({
         value: this.value,
         checked: this.isChecked
       },
-      on: _objectSpread$m({
+      on: _objectSpread$p({
         change: this.handleChange
       }, isBtnMode ? {
         focus: this.handleFocus,
@@ -6837,7 +6964,7 @@ var formRadioCheckMixin = Vue__default['default'].extend({
     }
 
     return h('div', {
-      class: [_defineProperty$p({
+      class: [_defineProperty$t({
         'form-check': isPlain,
         'form-check-inline': isPlain && isInline,
         'custom-control': isCustom,
@@ -6851,16 +6978,16 @@ var formRadioCheckMixin = Vue__default['default'].extend({
   }
 });var _objectSpread2;
 
-function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$o(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$l(Object(source), true).forEach(function (key) { _defineProperty$o(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$o(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$o(Object(source), true).forEach(function (key) { _defineProperty$s(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$o(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var MODEL_PROP_NAME_INDETERMINATE = 'indeterminate';
 var MODEL_EVENT_NAME_INDETERMINATE = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_INDETERMINATE; // --- Props ---
 
-var props$z = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l({}, props$A), {}, (_objectSpread2 = {}, _defineProperty$o(_objectSpread2, MODEL_PROP_NAME_INDETERMINATE, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$o(_objectSpread2, "switch", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$o(_objectSpread2, "uncheckedValue", makeProp(PROP_TYPE_ANY, false)), _defineProperty$o(_objectSpread2, "value", makeProp(PROP_TYPE_ANY, true)), _objectSpread2))), NAME_FORM_CHECKBOX); // --- Main component ---
+var props$C = makePropsConfigurable(sortKeys(_objectSpread$o(_objectSpread$o({}, props$D), {}, (_objectSpread2 = {}, _defineProperty$s(_objectSpread2, MODEL_PROP_NAME_INDETERMINATE, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$s(_objectSpread2, "switch", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$s(_objectSpread2, "uncheckedValue", makeProp(PROP_TYPE_ANY, false)), _defineProperty$s(_objectSpread2, "value", makeProp(PROP_TYPE_ANY, true)), _objectSpread2))), NAME_FORM_CHECKBOX); // --- Main component ---
 // @vue/component
 
 var BFormCheckbox = /*#__PURE__*/Vue__default['default'].extend({
@@ -6872,7 +6999,7 @@ var BFormCheckbox = /*#__PURE__*/Vue__default['default'].extend({
       default: null
     }
   },
-  props: props$z,
+  props: props$C,
   computed: {
     isChecked: function isChecked() {
       var value = this.value,
@@ -6883,7 +7010,7 @@ var BFormCheckbox = /*#__PURE__*/Vue__default['default'].extend({
       return false;
     }
   },
-  watch: _defineProperty$o({}, MODEL_PROP_NAME_INDETERMINATE, function (newValue, oldValue) {
+  watch: _defineProperty$s({}, MODEL_PROP_NAME_INDETERMINATE, function (newValue, oldValue) {
     if (!looseEqual(newValue, oldValue)) {
       this.setIndeterminate(newValue);
     }
@@ -7008,13 +7135,13 @@ var VBHover = {
       value: null
     });
   }
-};function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+};function ownKeys$n(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$k(Object(source), true).forEach(function (key) { _defineProperty$n(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$n(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$n(Object(source), true).forEach(function (key) { _defineProperty$r(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$n(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$y = sortKeys(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k({}, props$I), props$C), props$B), omit(props$G, ['disabled'])), omit(props$E, ['autofocus'])), {}, {
+var props$B = sortKeys(_objectSpread$n(_objectSpread$n(_objectSpread$n(_objectSpread$n(_objectSpread$n(_objectSpread$n({}, props$L), props$F), props$E), omit(props$J, ['disabled'])), omit(props$H, ['autofocus'])), {}, {
   // When `true`, renders a `btn-group` wrapper and visually hides the label
   buttonOnly: makeProp(PROP_TYPE_BOOLEAN, false),
   // Applicable in button mode only
@@ -7042,7 +7169,7 @@ var BVFormBtnLabelControl = /*#__PURE__*/Vue__default['default'].extend({
     'b-hover': VBHover
   },
   mixins: [idMixin, formSizeMixin, formStateMixin, dropdownMixin, normalizeSlotMixin],
-  props: props$y,
+  props: props$B,
   data: function data() {
     return {
       isHovered: false,
@@ -7113,7 +7240,7 @@ var BVFormBtnLabelControl = /*#__PURE__*/Vue__default['default'].extend({
     };
     var $button = h('button', {
       staticClass: 'btn',
-      class: (_class = {}, _defineProperty$n(_class, "btn-".concat(buttonVariant), buttonOnly), _defineProperty$n(_class, "btn-".concat(size), size), _defineProperty$n(_class, 'h-auto', !buttonOnly), _defineProperty$n(_class, 'dropdown-toggle', buttonOnly), _defineProperty$n(_class, 'dropdown-toggle-no-caret', buttonOnly), _class),
+      class: (_class = {}, _defineProperty$r(_class, "btn-".concat(buttonVariant), buttonOnly), _defineProperty$r(_class, "btn-".concat(size), size), _defineProperty$r(_class, 'h-auto', !buttonOnly), _defineProperty$r(_class, 'dropdown-toggle', buttonOnly), _defineProperty$r(_class, 'dropdown-toggle-no-caret', buttonOnly), _class),
       attrs: {
         id: idButton,
         type: 'button',
@@ -7235,13 +7362,13 @@ var BVFormBtnLabelControl = /*#__PURE__*/Vue__default['default'].extend({
       }
     }, [$button, $hidden, $menu, $label]);
   }
-});var _watch$2;
+});var _watch$3;
 
-function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$m(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$j(Object(source), true).forEach(function (key) { _defineProperty$m(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$j(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$m(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$m(Object(source), true).forEach(function (key) { _defineProperty$q(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$m(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$m(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _makeModelMixin$4 = makeModelMixin('value', {
   type: PROP_TYPE_DATE_STRING
@@ -7252,9 +7379,9 @@ var _makeModelMixin$4 = makeModelMixin('value', {
     MODEL_EVENT_NAME$3 = _makeModelMixin$4.event; // --- Props ---
 
 
-var calendarProps = omit(props$H, ['block', 'hidden', 'id', 'noKeyNav', 'roleDescription', 'value', 'width']);
-var formBtnLabelControlProps = omit(props$y, ['formattedValue', 'id', 'lang', 'rtl', 'value']);
-var props$x = makePropsConfigurable(sortKeys(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j({}, props$I), modelProps$3), calendarProps), formBtnLabelControlProps), {}, {
+var calendarProps = omit(props$K, ['block', 'hidden', 'id', 'noKeyNav', 'roleDescription', 'value', 'width']);
+var formBtnLabelControlProps = omit(props$B, ['formattedValue', 'id', 'lang', 'rtl', 'value']);
+var props$A = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m(_objectSpread$m({}, props$L), modelProps$3), calendarProps), formBtnLabelControlProps), {}, {
   // Width of the calendar dropdown
   calendarWidth: makeProp(PROP_TYPE_STRING, '270px'),
   closeButton: makeProp(PROP_TYPE_BOOLEAN, false),
@@ -7276,7 +7403,7 @@ var props$x = makePropsConfigurable(sortKeys(_objectSpread$j(_objectSpread$j(_ob
 var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_FORM_DATEPICKER,
   mixins: [idMixin, modelMixin$3],
-  props: props$x,
+  props: props$A,
   data: function data() {
     return {
       // We always use `YYYY-MM-DD` value internally
@@ -7303,14 +7430,14 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
       return formatYMD(constrainDate(this.resetValue)) || '';
     }
   },
-  watch: (_watch$2 = {}, _defineProperty$m(_watch$2, MODEL_PROP_NAME$3, function (newValue) {
+  watch: (_watch$3 = {}, _defineProperty$q(_watch$3, MODEL_PROP_NAME$3, function (newValue) {
     this.localYMD = formatYMD(newValue) || '';
-  }), _defineProperty$m(_watch$2, "localYMD", function localYMD(newValue) {
+  }), _defineProperty$q(_watch$3, "localYMD", function localYMD(newValue) {
     // We only update the v-model when the datepicker is open
     if (this.isVisible) {
       this.$emit(MODEL_EVENT_NAME$3, this.valueAsDate ? parseYMD(newValue) || null : newValue || '');
     }
-  }), _defineProperty$m(_watch$2, "calendarYM", function calendarYM(newValue, oldValue) {
+  }), _defineProperty$q(_watch$3, "calendarYM", function calendarYM(newValue, oldValue) {
     // Displayed calendar month has changed
     // So possibly the calendar height has changed...
     // We need to update popper computed position
@@ -7319,7 +7446,7 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
         this.$refs.control.updatePopper();
       } catch (_unused) {}
     }
-  }), _watch$2),
+  }), _watch$3),
   methods: {
     // Public methods
     focus: function focus() {
@@ -7482,7 +7609,7 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
 
     var $calendar = h(BCalendar, {
       staticClass: 'b-form-date-calendar w-100',
-      props: _objectSpread$j(_objectSpread$j({}, pluckProps(calendarProps, $props)), {}, {
+      props: _objectSpread$m(_objectSpread$m({}, pluckProps(calendarProps, $props)), {}, {
         hidden: !this.isVisible,
         value: localYMD,
         valueAsDate: false,
@@ -7499,7 +7626,7 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
     }, $footer);
     return h(BVFormBtnLabelControl, {
       staticClass: 'b-form-datepicker',
-      props: _objectSpread$j(_objectSpread$j({}, pluckProps(formBtnLabelControlProps, $props)), {}, {
+      props: _objectSpread$m(_objectSpread$m({}, pluckProps(formBtnLabelControlProps, $props)), {}, {
         formattedValue: localYMD ? this.formattedValue : '',
         id: this.safeId(),
         lang: this.computedLang,
@@ -7516,7 +7643,7 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
         shown: this.onShown,
         hidden: this.onHidden
       },
-      scopedSlots: _defineProperty$m({}, SLOT_NAME_BUTTON_CONTENT, $scopedSlots[SLOT_NAME_BUTTON_CONTENT] || this.defaultButtonFn),
+      scopedSlots: _defineProperty$q({}, SLOT_NAME_BUTTON_CONTENT, $scopedSlots[SLOT_NAME_BUTTON_CONTENT] || this.defaultButtonFn),
       ref: 'control'
     }, [$calendar]);
   }
@@ -7590,11 +7717,11 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
       (_this$$refs$input3 = this.$refs.input).setRangeText.apply(_this$$refs$input3, arguments);
     }
   }
-});function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$l(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$i(Object(source), true).forEach(function (key) { _defineProperty$l(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$l(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$l(Object(source), true).forEach(function (key) { _defineProperty$p(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$l(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$l(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _makeModelMixin$3 = makeModelMixin('value', {
   type: PROP_TYPE_NUMBER_STRING,
@@ -7606,7 +7733,7 @@ var _makeModelMixin$3 = makeModelMixin('value', {
     MODEL_PROP_NAME$2 = _makeModelMixin$3.prop,
     MODEL_EVENT_NAME$2 = _makeModelMixin$3.event;
 
-var props$w = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i({}, modelProps$2), {}, {
+var props$z = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l({}, modelProps$2), {}, {
   ariaInvalid: makeProp(PROP_TYPE_BOOLEAN_STRING, false),
   autocomplete: makeProp(PROP_TYPE_STRING),
   // Debounce timeout (in ms). Not applicable with `lazy` prop
@@ -7625,7 +7752,7 @@ var props$w = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i({},
 
 var formTextMixin = Vue__default['default'].extend({
   mixins: [modelMixin$2],
-  props: props$w,
+  props: props$z,
   data: function data() {
     var value = this[MODEL_PROP_NAME$2];
     return {
@@ -7657,7 +7784,7 @@ var formTextMixin = Vue__default['default'].extend({
       return hasPropFunction(this.formatter);
     }
   },
-  watch: _defineProperty$l({}, MODEL_PROP_NAME$2, function (newValue) {
+  watch: _defineProperty$p({}, MODEL_PROP_NAME$2, function (newValue) {
     var stringifyValue = toString(newValue);
     var modifiedValue = this.modifyValue(newValue);
 
@@ -7891,16 +8018,16 @@ var formTextMixin = Vue__default['default'].extend({
       return (_this$$refs$input3 = this.$refs.input).reportValidity.apply(_this$$refs$input3, arguments);
     }
   }
-});function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$k(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$h(Object(source), true).forEach(function (key) { _defineProperty$k(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$k(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$k(Object(source), true).forEach(function (key) { _defineProperty$o(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$k(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$k(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // Valid supported input types
 
 var TYPES = ['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'range', 'color', 'date', 'time', 'datetime', 'datetime-local', 'month', 'week']; // --- Props ---
 
-var props$v = makePropsConfigurable(sortKeys(_objectSpread$h(_objectSpread$h(_objectSpread$h(_objectSpread$h(_objectSpread$h(_objectSpread$h({}, props$I), props$E), props$C), props$B), props$w), {}, {
+var props$y = makePropsConfigurable(sortKeys(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k(_objectSpread$k({}, props$L), props$H), props$F), props$E), props$z), {}, {
   list: makeProp(PROP_TYPE_STRING),
   max: makeProp(PROP_TYPE_NUMBER_STRING),
   min: makeProp(PROP_TYPE_NUMBER_STRING),
@@ -7917,7 +8044,7 @@ var BFormInput = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_FORM_INPUT,
   // Mixin order is important!
   mixins: [listenersMixin, idMixin, formControlMixin, formSizeMixin, formStateMixin, formTextMixin, formSelectionMixin, formValidityMixin],
-  props: props$v,
+  props: props$y,
   computed: {
     localType: function localType() {
       // We only allow certain types
@@ -7953,7 +8080,7 @@ var BFormInput = /*#__PURE__*/Vue__default['default'].extend({
       };
     },
     computedListeners: function computedListeners() {
-      return _objectSpread$h(_objectSpread$h({}, this.bvListeners), {}, {
+      return _objectSpread$k(_objectSpread$k({}, this.bvListeners), {}, {
         input: this.onInput,
         change: this.onChange,
         blur: this.onBlur
@@ -8023,13 +8150,13 @@ var BFormInput = /*#__PURE__*/Vue__default['default'].extend({
       ref: 'input'
     });
   }
-});var _watch$1;
+});var _watch$2;
 
-function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$j(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$g(Object(source), true).forEach(function (key) { _defineProperty$j(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$j(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$j(Object(source), true).forEach(function (key) { _defineProperty$n(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$j(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$j(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _makeModelMixin$2 = makeModelMixin('value', {
   type: PROP_TYPE_NUMBER_STRING,
@@ -8113,7 +8240,7 @@ var BVFormRatingStar = Vue__default['default'].extend({
   }
 }); // --- Props ---
 
-var props$u = makePropsConfigurable(sortKeys(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g({}, props$I), modelProps$1), omit(props$E, ['required', 'autofocus'])), props$C), {}, {
+var props$x = makePropsConfigurable(sortKeys(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j(_objectSpread$j({}, props$L), modelProps$1), omit(props$H, ['required', 'autofocus'])), props$F), {}, {
   // CSS color string (overrides variant)
   color: makeProp(PROP_TYPE_STRING),
   iconClear: makeProp(PROP_TYPE_STRING, 'x'),
@@ -8146,7 +8273,7 @@ var BFormRating = /*#__PURE__*/Vue__default['default'].extend({
     BIconX: BIconX
   },
   mixins: [idMixin, modelMixin$1, formSizeMixin],
-  props: props$u,
+  props: props$x,
   data: function data() {
     var value = toFloat(this[MODEL_PROP_NAME$1], null);
     var stars = computeStars(this.stars);
@@ -8191,21 +8318,21 @@ var BFormRating = /*#__PURE__*/Vue__default['default'].extend({
       return showValueMax ? "".concat(value, "/").concat(stars) : value;
     }
   },
-  watch: (_watch$1 = {}, _defineProperty$j(_watch$1, MODEL_PROP_NAME$1, function (newValue, oldValue) {
+  watch: (_watch$2 = {}, _defineProperty$n(_watch$2, MODEL_PROP_NAME$1, function (newValue, oldValue) {
     if (newValue !== oldValue) {
       var value = toFloat(newValue, null);
       this.localValue = isNull(value) ? null : clampValue(value, 0, this.computedStars);
     }
-  }), _defineProperty$j(_watch$1, "localValue", function localValue(newValue, oldValue) {
+  }), _defineProperty$n(_watch$2, "localValue", function localValue(newValue, oldValue) {
     if (newValue !== oldValue && newValue !== (this.value || 0)) {
       this.$emit(MODEL_EVENT_NAME$1, newValue || null);
     }
-  }), _defineProperty$j(_watch$1, "disabled", function disabled(newValue) {
+  }), _defineProperty$n(_watch$2, "disabled", function disabled(newValue) {
     if (newValue) {
       this.hasFocus = false;
       this.blur();
     }
-  }), _watch$1),
+  }), _watch$2),
   methods: {
     // --- Public methods ---
     focus: function focus() {
@@ -8400,15 +8527,15 @@ var BFormRating = /*#__PURE__*/Vue__default['default'].extend({
   }
 });var _makeModelMixin$1 = makeModelMixin('value'),
     mixin = _makeModelMixin$1.mixin,
-    props$t = _makeModelMixin$1.props,
+    props$w = _makeModelMixin$1.props,
     prop = _makeModelMixin$1.prop,
-    event = _makeModelMixin$1.event;function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+    event = _makeModelMixin$1.event;function ownKeys$i(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$f(Object(source), true).forEach(function (key) { _defineProperty$i(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$i(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$i(Object(source), true).forEach(function (key) { _defineProperty$m(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$i(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$i(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$m(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$s = makePropsConfigurable(sortKeys(_objectSpread$f(_objectSpread$f({}, props$F), {}, {
+var props$v = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i({}, props$I), {}, {
   labelField: makeProp(PROP_TYPE_STRING, 'label'),
   optionsField: makeProp(PROP_TYPE_STRING, 'options')
 })), 'formOptions'); // --- Mixin ---
@@ -8416,7 +8543,7 @@ var props$s = makePropsConfigurable(sortKeys(_objectSpread$f(_objectSpread$f({},
 
 var optionsMixin = Vue__default['default'].extend({
   mixins: [formOptionsMixin],
-  props: props$s,
+  props: props$v,
   methods: {
     normalizeOption: function normalizeOption(option) {
       var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -8451,7 +8578,7 @@ var optionsMixin = Vue__default['default'].extend({
       };
     }
   }
-});var props$r = makePropsConfigurable({
+});var props$u = makePropsConfigurable({
   disabled: makeProp(PROP_TYPE_BOOLEAN, false),
   value: makeProp(PROP_TYPE_ANY, undefined, true) // Required
 
@@ -8461,7 +8588,7 @@ var optionsMixin = Vue__default['default'].extend({
 var BFormSelectOption = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_FORM_SELECT_OPTION,
   functional: true,
-  props: props$r,
+  props: props$u,
   render: function render(h, _ref) {
     var props = _ref.props,
         data = _ref.data,
@@ -8477,13 +8604,13 @@ var BFormSelectOption = /*#__PURE__*/Vue__default['default'].extend({
       }
     }), children);
   }
-});function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$h(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$e(Object(source), true).forEach(function (key) { _defineProperty$h(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$h(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$h(Object(source), true).forEach(function (key) { _defineProperty$l(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$h(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$h(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$l(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$q = makePropsConfigurable(sortKeys(_objectSpread$e(_objectSpread$e({}, props$F), {}, {
+var props$t = makePropsConfigurable(sortKeys(_objectSpread$h(_objectSpread$h({}, props$I), {}, {
   label: makeProp(PROP_TYPE_STRING, undefined, true) // Required
 
 })), NAME_FORM_SELECT_OPTION_GROUP); // --- Main component ---
@@ -8492,7 +8619,7 @@ var props$q = makePropsConfigurable(sortKeys(_objectSpread$e(_objectSpread$e({},
 var BFormSelectOptionGroup = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_FORM_SELECT_OPTION_GROUP,
   mixins: [normalizeSlotMixin, formOptionsMixin],
-  props: props$q,
+  props: props$t,
   render: function render(h) {
     var label = this.label;
     var $options = this.formOptions.map(function (option, index) {
@@ -8515,13 +8642,13 @@ var BFormSelectOptionGroup = /*#__PURE__*/Vue__default['default'].extend({
       }
     }, [this.normalizeSlot(SLOT_NAME_FIRST), $options, this.normalizeSlot()]);
   }
-});function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+});function ownKeys$g(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$d(Object(source), true).forEach(function (key) { _defineProperty$g(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$g(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$g(Object(source), true).forEach(function (key) { _defineProperty$k(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$g(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty$g(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty$k(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props$p = makePropsConfigurable(sortKeys(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d(_objectSpread$d({}, props$I), props$t), props$E), props$D), props$C), props$B), {}, {
+var props$s = makePropsConfigurable(sortKeys(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g(_objectSpread$g({}, props$L), props$w), props$H), props$G), props$F), props$E), {}, {
   ariaInvalid: makeProp(PROP_TYPE_BOOLEAN_STRING, false),
   multiple: makeProp(PROP_TYPE_BOOLEAN, false),
   // Browsers default size to `0`, which shows 4 rows in most browsers in multiple mode
@@ -8533,7 +8660,7 @@ var props$p = makePropsConfigurable(sortKeys(_objectSpread$d(_objectSpread$d(_ob
 var BFormSelect = /*#__PURE__*/Vue__default['default'].extend({
   name: NAME_FORM_SELECT,
   mixins: [idMixin, mixin, formControlMixin, formSizeMixin, formStateMixin, formCustomMixin, optionsMixin, normalizeSlotMixin],
-  props: props$p,
+  props: props$s,
   data: function data() {
     return {
       localValue: this[prop]
@@ -8628,6 +8755,1589 @@ var BFormSelect = /*#__PURE__*/Vue__default['default'].extend({
       }],
       ref: 'input'
     }, [this.normalizeSlot(SLOT_NAME_FIRST), $options, this.normalizeSlot()]);
+  }
+});// This method returns a component's scoped style attribute name: `data-v-xxxxxxx`
+// The `_scopeId` options property is added by vue-loader when using scoped styles
+// and will be `undefined` if no scoped styles are in use
+var getScopeId = function getScopeId(vm) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  return vm ? vm.$options._scopeId || defaultValue : defaultValue;
+};function _defineProperty$j(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var scopedStyleMixin = Vue__default['default'].extend({
+  computed: {
+    scopedStyleAttrs: function scopedStyleAttrs() {
+      var scopeId = getScopeId(this.$parent);
+      return scopeId ? _defineProperty$j({}, scopeId, '') : {};
+    }
+  }
+});// Base on-demand component for tooltip / popover templates
+
+var AttachmentMap = {
+  AUTO: 'auto',
+  TOP: 'top',
+  RIGHT: 'right',
+  BOTTOM: 'bottom',
+  LEFT: 'left',
+  TOPLEFT: 'top',
+  TOPRIGHT: 'top',
+  RIGHTTOP: 'right',
+  RIGHTBOTTOM: 'right',
+  BOTTOMLEFT: 'bottom',
+  BOTTOMRIGHT: 'bottom',
+  LEFTTOP: 'left',
+  LEFTBOTTOM: 'left'
+};
+var OffsetMap = {
+  AUTO: 0,
+  TOPLEFT: -1,
+  TOP: 0,
+  TOPRIGHT: +1,
+  RIGHTTOP: -1,
+  RIGHT: 0,
+  RIGHTBOTTOM: +1,
+  BOTTOMLEFT: -1,
+  BOTTOM: 0,
+  BOTTOMRIGHT: +1,
+  LEFTTOP: -1,
+  LEFT: 0,
+  LEFTBOTTOM: +1
+}; // --- Props ---
+
+var props$r = {
+  // The minimum distance (in `px`) from the edge of the
+  // tooltip/popover that the arrow can be positioned
+  arrowPadding: makeProp(PROP_TYPE_NUMBER_STRING, 6),
+  // 'scrollParent', 'viewport', 'window', or `Element`
+  boundary: makeProp([HTMLElement, PROP_TYPE_STRING], 'scrollParent'),
+  // Tooltip/popover will try and stay away from
+  // boundary edge by this many pixels
+  boundaryPadding: makeProp(PROP_TYPE_NUMBER_STRING, 5),
+  fallbackPlacement: makeProp(PROP_TYPE_ARRAY_STRING, 'flip'),
+  offset: makeProp(PROP_TYPE_NUMBER_STRING, 0),
+  placement: makeProp(PROP_TYPE_STRING, 'top'),
+  // Element that the tooltip/popover is positioned relative to
+  target: makeProp([HTMLElement, SVGElement])
+}; // --- Main component ---
+// @vue/component
+
+var BVPopper = /*#__PURE__*/Vue__default['default'].extend({
+  name: NAME_POPPER,
+  props: props$r,
+  data: function data() {
+    return {
+      // reactive props set by parent
+      noFade: false,
+      // State related data
+      localShow: true,
+      attachment: this.getAttachment(this.placement)
+    };
+  },
+  computed: {
+    /* istanbul ignore next */
+    templateType: function templateType() {
+      // Overridden by template component
+      return 'unknown';
+    },
+    popperConfig: function popperConfig() {
+      var _this = this;
+
+      var placement = this.placement;
+      return {
+        placement: this.getAttachment(placement),
+        modifiers: {
+          offset: {
+            offset: this.getOffset(placement)
+          },
+          flip: {
+            behavior: this.fallbackPlacement
+          },
+          // `arrow.element` can also be a reference to an HTML Element
+          // maybe we should make this a `$ref` in the templates?
+          arrow: {
+            element: '.arrow'
+          },
+          preventOverflow: {
+            padding: this.boundaryPadding,
+            boundariesElement: this.boundary
+          }
+        },
+        onCreate: function onCreate(data) {
+          // Handle flipping arrow classes
+          if (data.originalPlacement !== data.placement) {
+            /* istanbul ignore next: can't test in JSDOM */
+            _this.popperPlacementChange(data);
+          }
+        },
+        onUpdate: function onUpdate(data) {
+          // Handle flipping arrow classes
+          _this.popperPlacementChange(data);
+        }
+      };
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    // Note: We are created on-demand, and should be guaranteed that
+    // DOM is rendered/ready by the time the created hook runs
+    this.$_popper = null; // Ensure we show as we mount
+
+    this.localShow = true; // Create popper instance before shown
+
+    this.$on(EVENT_NAME_SHOW, function (el) {
+      _this2.popperCreate(el);
+    }); // Self destruct handler
+
+    var handleDestroy = function handleDestroy() {
+      _this2.$nextTick(function () {
+        // In a `requestAF()` to release control back to application
+        requestAF(function () {
+          _this2.$destroy();
+        });
+      });
+    }; // Self destruct if parent destroyed
+
+
+    this.$parent.$once(HOOK_EVENT_NAME_DESTROYED, handleDestroy); // Self destruct after hidden
+
+    this.$once(EVENT_NAME_HIDDEN, handleDestroy);
+  },
+  beforeMount: function beforeMount() {
+    // Ensure that the attachment position is correct before mounting
+    // as our propsData is added after `new Template({...})`
+    this.attachment = this.getAttachment(this.placement);
+  },
+  updated: function updated() {
+    // Update popper if needed
+    // TODO: Should this be a watcher on `this.popperConfig` instead?
+    this.updatePopper();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.destroyPopper();
+  },
+  destroyed: function destroyed() {
+    // Make sure template is removed from DOM
+    var el = this.$el;
+    el && el.parentNode && el.parentNode.removeChild(el);
+  },
+  methods: {
+    // "Public" method to trigger hide template
+    hide: function hide() {
+      this.localShow = false;
+    },
+    // Private
+    getAttachment: function getAttachment(placement) {
+      return AttachmentMap[String(placement).toUpperCase()] || 'auto';
+    },
+    getOffset: function getOffset(placement) {
+      if (!this.offset) {
+        // Could set a ref for the arrow element
+        var arrow = this.$refs.arrow || select('.arrow', this.$el);
+        var arrowOffset = toFloat(getCS(arrow).width, 0) + toFloat(this.arrowPadding, 0);
+
+        switch (OffsetMap[String(placement).toUpperCase()] || 0) {
+          /* istanbul ignore next: can't test in JSDOM */
+          case +1:
+            /* istanbul ignore next: can't test in JSDOM */
+            return "+50%p - ".concat(arrowOffset, "px");
+
+          /* istanbul ignore next: can't test in JSDOM */
+
+          case -1:
+            /* istanbul ignore next: can't test in JSDOM */
+            return "-50%p + ".concat(arrowOffset, "px");
+
+          default:
+            return 0;
+        }
+      }
+      /* istanbul ignore next */
+
+
+      return this.offset;
+    },
+    popperCreate: function popperCreate(el) {
+      this.destroyPopper(); // We use `el` rather than `this.$el` just in case the original
+      // mountpoint root element type was changed by the template
+
+      this.$_popper = new Popper(this.target, el, this.popperConfig);
+    },
+    destroyPopper: function destroyPopper() {
+      this.$_popper && this.$_popper.destroy();
+      this.$_popper = null;
+    },
+    updatePopper: function updatePopper() {
+      this.$_popper && this.$_popper.scheduleUpdate();
+    },
+    popperPlacementChange: function popperPlacementChange(data) {
+      // Callback used by popper to adjust the arrow placement
+      this.attachment = this.getAttachment(data.placement);
+    },
+
+    /* istanbul ignore next */
+    renderTemplate: function renderTemplate(h) {
+      // Will be overridden by templates
+      return h('div');
+    }
+  },
+  render: function render(h) {
+    var _this3 = this;
+
+    var noFade = this.noFade; // Note: 'show' and 'fade' classes are only appled during transition
+
+    return h(BVTransition, {
+      // Transitions as soon as mounted
+      props: {
+        appear: true,
+        noFade: noFade
+      },
+      on: {
+        // Events used by parent component/instance
+        beforeEnter: function beforeEnter(el) {
+          return _this3.$emit(EVENT_NAME_SHOW, el);
+        },
+        afterEnter: function afterEnter(el) {
+          return _this3.$emit(EVENT_NAME_SHOWN, el);
+        },
+        beforeLeave: function beforeLeave(el) {
+          return _this3.$emit(EVENT_NAME_HIDE, el);
+        },
+        afterLeave: function afterLeave(el) {
+          return _this3.$emit(EVENT_NAME_HIDDEN, el);
+        }
+      }
+    }, [this.localShow ? this.renderTemplate(h) : h()]);
+  }
+});function ownKeys$f(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$f(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$f(Object(source), true).forEach(function (key) { _defineProperty$i(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$f(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$i(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var props$q = {
+  // Used only by the directive versions
+  html: makeProp(PROP_TYPE_BOOLEAN, false),
+  // Other non-reactive (while open) props are pulled in from BVPopper
+  id: makeProp(PROP_TYPE_STRING)
+}; // --- Main component ---
+// @vue/component
+
+var BVTooltipTemplate = /*#__PURE__*/Vue__default['default'].extend({
+  name: NAME_TOOLTIP_TEMPLATE,
+  extends: BVPopper,
+  mixins: [scopedStyleMixin],
+  props: props$q,
+  data: function data() {
+    // We use data, rather than props to ensure reactivity
+    // Parent component will directly set this data
+    return {
+      title: '',
+      content: '',
+      variant: null,
+      customClass: null,
+      interactive: true
+    };
+  },
+  computed: {
+    templateType: function templateType() {
+      return 'tooltip';
+    },
+    templateClasses: function templateClasses() {
+      var _ref;
+
+      var variant = this.variant,
+          attachment = this.attachment,
+          templateType = this.templateType;
+      return [(_ref = {
+        // Disables pointer events to hide the tooltip when the user
+        // hovers over its content
+        noninteractive: !this.interactive
+      }, _defineProperty$i(_ref, "b-".concat(templateType, "-").concat(variant), variant), _defineProperty$i(_ref, "bs-".concat(templateType, "-").concat(attachment), attachment), _ref), this.customClass];
+    },
+    templateAttributes: function templateAttributes() {
+      var id = this.id;
+      return _objectSpread$f(_objectSpread$f({}, this.$parent.$parent.$attrs), {}, {
+        id: id,
+        role: 'tooltip',
+        tabindex: '-1'
+      }, this.scopedStyleAttrs);
+    },
+    templateListeners: function templateListeners() {
+      var _this = this;
+
+      // Used for hover/focus trigger listeners
+      return {
+        mouseenter:
+        /* istanbul ignore next */
+        function mouseenter(event) {
+          _this.$emit(EVENT_NAME_MOUSEENTER, event);
+        },
+        mouseleave:
+        /* istanbul ignore next */
+        function mouseleave(event) {
+          _this.$emit(EVENT_NAME_MOUSELEAVE, event);
+        },
+        focusin:
+        /* istanbul ignore next */
+        function focusin(event) {
+          _this.$emit(EVENT_NAME_FOCUSIN, event);
+        },
+        focusout:
+        /* istanbul ignore next */
+        function focusout(event) {
+          _this.$emit(EVENT_NAME_FOCUSOUT, event);
+        }
+      };
+    }
+  },
+  methods: {
+    renderTemplate: function renderTemplate(h) {
+      var title = this.title; // Title can be a scoped slot function
+
+      var $title = isFunction$1(title) ? title({}) : title; // Directive versions only
+
+      var domProps = this.html && !isFunction$1(title) ? {
+        innerHTML: title
+      } : {};
+      return h('div', {
+        staticClass: 'tooltip b-tooltip',
+        class: this.templateClasses,
+        attrs: this.templateAttributes,
+        on: this.templateListeners
+      }, [h('div', {
+        staticClass: 'arrow',
+        ref: 'arrow'
+      }), h('div', {
+        staticClass: 'tooltip-inner',
+        domProps: domProps
+      }, [$title])]);
+    }
+  }
+});function ownKeys$e(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$e(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$e(Object(source), true).forEach(function (key) { _defineProperty$h(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$e(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$h(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+// Modal container selector for appending tooltip/popover
+
+var MODAL_SELECTOR = '.modal-content'; // Modal `$root` hidden event
+
+var ROOT_EVENT_NAME_MODAL_HIDDEN = getRootEventName(NAME_MODAL, EVENT_NAME_HIDDEN); // Sidebar container selector for appending tooltip/popover
+
+var SIDEBAR_SELECTOR = '.b-sidebar'; // For finding the container to append to
+
+var CONTAINER_SELECTOR = [MODAL_SELECTOR, SIDEBAR_SELECTOR].join(', '); // For dropdown sniffing
+
+var DROPDOWN_CLASS = 'dropdown';
+var DROPDOWN_OPEN_SELECTOR = '.dropdown-menu.show'; // Data attribute to temporary store the `title` attribute's value
+
+var DATA_TITLE_ATTR = 'data-original-title'; // Data specific to popper and template
+// We don't use props, as we need reactivity (we can't pass reactive props)
+
+var templateData = {
+  // Text string or Scoped slot function
+  title: '',
+  // Text string or Scoped slot function
+  content: '',
+  // String
+  variant: null,
+  // String, Array, Object
+  customClass: null,
+  // String or array of Strings (overwritten by BVPopper)
+  triggers: '',
+  // String (overwritten by BVPopper)
+  placement: 'auto',
+  // String or array of strings
+  fallbackPlacement: 'flip',
+  // Element or Component reference (or function that returns element) of
+  // the element that will have the trigger events bound, and is also
+  // default element for positioning
+  target: null,
+  // HTML ID, Element or Component reference
+  container: null,
+  // 'body'
+  // Boolean
+  noFade: false,
+  // 'scrollParent', 'viewport', 'window', Element, or Component reference
+  boundary: 'scrollParent',
+  // Tooltip/popover will try and stay away from
+  // boundary edge by this many pixels (Number)
+  boundaryPadding: 5,
+  // Arrow offset (Number)
+  offset: 0,
+  // Hover/focus delay (Number or Object)
+  delay: 0,
+  // Arrow of Tooltip/popover will try and stay away from
+  // the edge of tooltip/popover edge by this many pixels
+  arrowPadding: 6,
+  // Interactive state (Boolean)
+  interactive: true,
+  // Disabled state (Boolean)
+  disabled: false,
+  // ID to use for tooltip/popover
+  id: null,
+  // Flag used by directives only, for HTML content
+  html: false
+}; // --- Main component ---
+// @vue/component
+
+var BVTooltip = /*#__PURE__*/Vue__default['default'].extend({
+  name: NAME_TOOLTIP_HELPER,
+  mixins: [listenOnRootMixin],
+  data: function data() {
+    return _objectSpread$e(_objectSpread$e({}, templateData), {}, {
+      // State management data
+      activeTrigger: {
+        // manual: false,
+        hover: false,
+        click: false,
+        focus: false
+      },
+      localShow: false
+    });
+  },
+  computed: {
+    templateType: function templateType() {
+      // Overwritten by BVPopover
+      return 'tooltip';
+    },
+    computedId: function computedId() {
+      return this.id || "__bv_".concat(this.templateType, "_").concat(this[COMPONENT_UID_KEY], "__");
+    },
+    computedDelay: function computedDelay() {
+      // Normalizes delay into object form
+      var delay = {
+        show: 0,
+        hide: 0
+      };
+
+      if (isPlainObject(this.delay)) {
+        delay.show = mathMax(toInteger(this.delay.show, 0), 0);
+        delay.hide = mathMax(toInteger(this.delay.hide, 0), 0);
+      } else if (isNumber(this.delay) || isString(this.delay)) {
+        delay.show = delay.hide = mathMax(toInteger(this.delay, 0), 0);
+      }
+
+      return delay;
+    },
+    computedTriggers: function computedTriggers() {
+      // Returns the triggers in sorted array form
+      // TODO: Switch this to object form for easier lookup
+      return concat(this.triggers).filter(identity).join(' ').trim().toLowerCase().split(/\s+/).sort();
+    },
+    isWithActiveTrigger: function isWithActiveTrigger() {
+      for (var trigger in this.activeTrigger) {
+        if (this.activeTrigger[trigger]) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    computedTemplateData: function computedTemplateData() {
+      var title = this.title,
+          content = this.content,
+          variant = this.variant,
+          customClass = this.customClass,
+          noFade = this.noFade,
+          interactive = this.interactive;
+      return {
+        title: title,
+        content: content,
+        variant: variant,
+        customClass: customClass,
+        noFade: noFade,
+        interactive: interactive
+      };
+    }
+  },
+  watch: {
+    computedTriggers: function computedTriggers(newTriggers, oldTriggers) {
+      var _this = this;
+
+      // Triggers have changed, so re-register them
+
+      /* istanbul ignore next */
+      if (!looseEqual(newTriggers, oldTriggers)) {
+        this.$nextTick(function () {
+          // Disable trigger listeners
+          _this.unListen(); // Clear any active triggers that are no longer in the list of triggers
+
+
+          oldTriggers.forEach(function (trigger) {
+            if (!arrayIncludes(newTriggers, trigger)) {
+              if (_this.activeTrigger[trigger]) {
+                _this.activeTrigger[trigger] = false;
+              }
+            }
+          }); // Re-enable the trigger listeners
+
+          _this.listen();
+        });
+      }
+    },
+    computedTemplateData: function computedTemplateData() {
+      // If any of the while open reactive "props" change,
+      // ensure that the template updates accordingly
+      this.handleTemplateUpdate();
+    },
+    title: function title(newValue, oldValue) {
+      // Make sure to hide the tooltip when the title is set empty
+      if (newValue !== oldValue && !newValue) {
+        this.hide();
+      }
+    },
+    disabled: function disabled(newValue) {
+      if (newValue) {
+        this.disable();
+      } else {
+        this.enable();
+      }
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    // Create non-reactive properties
+    this.$_tip = null;
+    this.$_hoverTimeout = null;
+    this.$_hoverState = '';
+    this.$_visibleInterval = null;
+    this.$_enabled = !this.disabled;
+    this.$_noop = noop.bind(this); // Destroy ourselves when the parent is destroyed
+
+    if (this.$parent) {
+      this.$parent.$once(HOOK_EVENT_NAME_BEFORE_DESTROY, function () {
+        _this2.$nextTick(function () {
+          // In a `requestAF()` to release control back to application
+          requestAF(function () {
+            _this2.$destroy();
+          });
+        });
+      });
+    }
+
+    this.$nextTick(function () {
+      var target = _this2.getTarget();
+
+      if (target && contains(document.body, target)) {
+        // Copy the parent's scoped style attribute
+        _this2.scopeId = getScopeId(_this2.$parent); // Set up all trigger handlers and listeners
+
+        _this2.listen();
+      } else {
+        /* istanbul ignore next */
+        warn(isString(_this2.target) ? "Unable to find target element by ID \"#".concat(_this2.target, "\" in document.") : 'The provided target is no valid HTML element.', _this2.templateType);
+      }
+    });
+  },
+
+  /* istanbul ignore next */
+  updated: function updated() {
+    // Usually called when the slots/data changes
+    this.$nextTick(this.handleTemplateUpdate);
+  },
+
+  /* istanbul ignore next */
+  deactivated: function deactivated() {
+    // In a keepalive that has been deactivated, so hide
+    // the tooltip/popover if it is showing
+    this.forceHide();
+  },
+  beforeDestroy: function beforeDestroy() {
+    // Remove all handler/listeners
+    this.unListen();
+    this.setWhileOpenListeners(false); // Clear any timeouts/intervals
+
+    this.clearHoverTimeout();
+    this.clearVisibilityInterval(); // Destroy the template
+
+    this.destroyTemplate(); // Remove any other private properties created during create
+
+    this.$_noop = null;
+  },
+  methods: {
+    // --- Methods for creating and destroying the template ---
+    getTemplate: function getTemplate() {
+      // Overridden by BVPopover
+      return BVTooltipTemplate;
+    },
+    updateData: function updateData() {
+      var _this3 = this;
+
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      // Method for updating popper/template data
+      // We only update data if it exists, and has not changed
+      var titleUpdated = false;
+      keys(templateData).forEach(function (prop) {
+        if (!isUndefined(data[prop]) && _this3[prop] !== data[prop]) {
+          _this3[prop] = data[prop];
+
+          if (prop === 'title') {
+            titleUpdated = true;
+          }
+        }
+      }); // If the title has updated, we may need to handle the `title`
+      // attribute on the trigger target
+      // We only do this while the template is open
+
+      if (titleUpdated && this.localShow) {
+        this.fixTitle();
+      }
+    },
+    createTemplateAndShow: function createTemplateAndShow() {
+      // Creates the template instance and show it
+      var container = this.getContainer();
+      var Template = this.getTemplate();
+      var $tip = this.$_tip = new Template({
+        parent: this,
+        // The following is not reactive to changes in the props data
+        propsData: {
+          // These values cannot be changed while template is showing
+          id: this.computedId,
+          html: this.html,
+          placement: this.placement,
+          fallbackPlacement: this.fallbackPlacement,
+          target: this.getPlacementTarget(),
+          boundary: this.getBoundary(),
+          // Ensure the following are integers
+          offset: toInteger(this.offset, 0),
+          arrowPadding: toInteger(this.arrowPadding, 0),
+          boundaryPadding: toInteger(this.boundaryPadding, 0)
+        }
+      }); // We set the initial reactive data (values that can be changed while open)
+
+      this.handleTemplateUpdate(); // Template transition phase events (handled once only)
+      // When the template has mounted, but not visibly shown yet
+
+      $tip.$once(EVENT_NAME_SHOW, this.onTemplateShow); // When the template has completed showing
+
+      $tip.$once(EVENT_NAME_SHOWN, this.onTemplateShown); // When the template has started to hide
+
+      $tip.$once(EVENT_NAME_HIDE, this.onTemplateHide); // When the template has completed hiding
+
+      $tip.$once(EVENT_NAME_HIDDEN, this.onTemplateHidden); // When the template gets destroyed for any reason
+
+      $tip.$once(HOOK_EVENT_NAME_DESTROYED, this.destroyTemplate); // Convenience events from template
+      // To save us from manually adding/removing DOM
+      // listeners to tip element when it is open
+
+      $tip.$on(EVENT_NAME_FOCUSIN, this.handleEvent);
+      $tip.$on(EVENT_NAME_FOCUSOUT, this.handleEvent);
+      $tip.$on(EVENT_NAME_MOUSEENTER, this.handleEvent);
+      $tip.$on(EVENT_NAME_MOUSELEAVE, this.handleEvent); // Mount (which triggers the `show`)
+
+      $tip.$mount(container.appendChild(document.createElement('div'))); // Template will automatically remove its markup from DOM when hidden
+    },
+    hideTemplate: function hideTemplate() {
+      // Trigger the template to start hiding
+      // The template will emit the `hide` event after this and
+      // then emit the `hidden` event once it is fully hidden
+      // The `hook:destroyed` will also be called (safety measure)
+      this.$_tip && this.$_tip.hide(); // Clear out any stragging active triggers
+
+      this.clearActiveTriggers(); // Reset the hover state
+
+      this.$_hoverState = '';
+    },
+    // Destroy the template instance and reset state
+    destroyTemplate: function destroyTemplate() {
+      this.setWhileOpenListeners(false);
+      this.clearHoverTimeout();
+      this.$_hoverState = '';
+      this.clearActiveTriggers();
+      this.localPlacementTarget = null;
+
+      try {
+        this.$_tip.$destroy();
+      } catch (_unused) {}
+
+      this.$_tip = null;
+      this.removeAriaDescribedby();
+      this.restoreTitle();
+      this.localShow = false;
+    },
+    getTemplateElement: function getTemplateElement() {
+      return this.$_tip ? this.$_tip.$el : null;
+    },
+    handleTemplateUpdate: function handleTemplateUpdate() {
+      var _this4 = this;
+
+      // Update our template title/content "props"
+      // So that the template updates accordingly
+      var $tip = this.$_tip;
+
+      if ($tip) {
+        var props = ['title', 'content', 'variant', 'customClass', 'noFade', 'interactive']; // Only update the values if they have changed
+
+        props.forEach(function (prop) {
+          if ($tip[prop] !== _this4[prop]) {
+            $tip[prop] = _this4[prop];
+          }
+        });
+      }
+    },
+    // --- Show/Hide handlers ---
+    // Show the tooltip
+    show: function show() {
+      var target = this.getTarget();
+
+      if (!target || !contains(document.body, target) || !isVisible(target) || this.dropdownOpen() || (isUndefinedOrNull(this.title) || this.title === '') && (isUndefinedOrNull(this.content) || this.content === '')) {
+        // If trigger element isn't in the DOM or is not visible, or
+        // is on an open dropdown toggle, or has no content, then
+        // we exit without showing
+        return;
+      } // If tip already exists, exit early
+
+
+      if (this.$_tip || this.localShow) {
+        /* istanbul ignore next */
+        return;
+      } // In the process of showing
+
+
+      this.localShow = true; // Create a cancelable BvEvent
+
+      var showEvt = this.buildEvent(EVENT_NAME_SHOW, {
+        cancelable: true
+      });
+      this.emitEvent(showEvt); // Don't show if event cancelled
+
+      /* istanbul ignore if */
+
+      if (showEvt.defaultPrevented) {
+        // Destroy the template (if for some reason it was created)
+        this.destroyTemplate();
+        return;
+      } // Fix the title attribute on target
+
+
+      this.fixTitle(); // Set aria-describedby on target
+
+      this.addAriaDescribedby(); // Create and show the tooltip
+
+      this.createTemplateAndShow();
+    },
+    hide: function hide() {
+      var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      // Hide the tooltip
+      var tip = this.getTemplateElement();
+      /* istanbul ignore if */
+
+      if (!tip || !this.localShow) {
+        this.restoreTitle();
+        return;
+      } // Emit cancelable BvEvent 'hide'
+      // We disable cancelling if `force` is true
+
+
+      var hideEvt = this.buildEvent(EVENT_NAME_HIDE, {
+        cancelable: !force
+      });
+      this.emitEvent(hideEvt);
+      /* istanbul ignore if: ignore for now */
+
+      if (hideEvt.defaultPrevented) {
+        // Don't hide if event cancelled
+        return;
+      } // Tell the template to hide
+
+
+      this.hideTemplate();
+    },
+    forceHide: function forceHide() {
+      // Forcefully hides/destroys the template, regardless of any active triggers
+      var tip = this.getTemplateElement();
+
+      if (!tip || !this.localShow) {
+        /* istanbul ignore next */
+        return;
+      } // Disable while open listeners/watchers
+      // This is also done in the template `hide` event handler
+
+
+      this.setWhileOpenListeners(false); // Clear any hover enter/leave event
+
+      this.clearHoverTimeout();
+      this.$_hoverState = '';
+      this.clearActiveTriggers(); // Disable the fade animation on the template
+
+      if (this.$_tip) {
+        this.$_tip.noFade = true;
+      } // Hide the tip (with force = true)
+
+
+      this.hide(true);
+    },
+    enable: function enable() {
+      this.$_enabled = true; // Create a non-cancelable BvEvent
+
+      this.emitEvent(this.buildEvent(EVENT_NAME_ENABLED));
+    },
+    disable: function disable() {
+      this.$_enabled = false; // Create a non-cancelable BvEvent
+
+      this.emitEvent(this.buildEvent(EVENT_NAME_DISABLED));
+    },
+    // --- Handlers for template events ---
+    // When template is inserted into DOM, but not yet shown
+    onTemplateShow: function onTemplateShow() {
+      // Enable while open listeners/watchers
+      this.setWhileOpenListeners(true);
+    },
+    // When template show transition completes
+    onTemplateShown: function onTemplateShown() {
+      var prevHoverState = this.$_hoverState;
+      this.$_hoverState = '';
+      /* istanbul ignore next: occasional Node 10 coverage error */
+
+      if (prevHoverState === 'out') {
+        this.leave(null);
+      } // Emit a non-cancelable BvEvent 'shown'
+
+
+      this.emitEvent(this.buildEvent(EVENT_NAME_SHOWN));
+    },
+    // When template is starting to hide
+    onTemplateHide: function onTemplateHide() {
+      // Disable while open listeners/watchers
+      this.setWhileOpenListeners(false);
+    },
+    // When template has completed closing (just before it self destructs)
+    onTemplateHidden: function onTemplateHidden() {
+      // Destroy the template
+      this.destroyTemplate(); // Emit a non-cancelable BvEvent 'shown'
+
+      this.emitEvent(this.buildEvent(EVENT_NAME_HIDDEN));
+    },
+    // --- Helper methods ---
+    getTarget: function getTarget() {
+      var target = this.target;
+
+      if (isString(target)) {
+        target = getById(target.replace(/^#/, ''));
+      } else if (isFunction$1(target)) {
+        target = target();
+      } else if (target) {
+        target = target.$el || target;
+      }
+
+      return isElement(target) ? target : null;
+    },
+    getPlacementTarget: function getPlacementTarget() {
+      // This is the target that the tooltip will be placed on, which may not
+      // necessarily be the same element that has the trigger event listeners
+      // For now, this is the same as target
+      // TODO:
+      //   Add in child selector support
+      //   Add in visibility checks for this element
+      //   Fallback to target if not found
+      return this.getTarget();
+    },
+    getTargetId: function getTargetId() {
+      // Returns the ID of the trigger element
+      var target = this.getTarget();
+      return target && target.id ? target.id : null;
+    },
+    getContainer: function getContainer() {
+      // Handle case where container may be a component ref
+      var container = this.container ? this.container.$el || this.container : false;
+      var body = document.body;
+      var target = this.getTarget(); // If we are in a modal, we append to the modal, If we
+      // are in a sidebar, we append to the sidebar, else append
+      // to body, unless a container is specified
+      // TODO:
+      //   Template should periodically check to see if it is in dom
+      //   And if not, self destruct (if container got v-if'ed out of DOM)
+      //   Or this could possibly be part of the visibility check
+
+      return container === false ? closest(CONTAINER_SELECTOR, target) || body :
+      /*istanbul ignore next */
+      isString(container) ?
+      /*istanbul ignore next */
+      getById(container.replace(/^#/, '')) || body :
+      /*istanbul ignore next */
+      body;
+    },
+    getBoundary: function getBoundary() {
+      return this.boundary ? this.boundary.$el || this.boundary : 'scrollParent';
+    },
+    isInModal: function isInModal() {
+      var target = this.getTarget();
+      return target && closest(MODAL_SELECTOR, target);
+    },
+    isDropdown: function isDropdown() {
+      // Returns true if trigger is a dropdown
+      var target = this.getTarget();
+      return target && hasClass(target, DROPDOWN_CLASS);
+    },
+    dropdownOpen: function dropdownOpen() {
+      // Returns true if trigger is a dropdown and the dropdown menu is open
+      var target = this.getTarget();
+      return this.isDropdown() && target && select(DROPDOWN_OPEN_SELECTOR, target);
+    },
+    clearHoverTimeout: function clearHoverTimeout() {
+      clearTimeout(this.$_hoverTimeout);
+      this.$_hoverTimeout = null;
+    },
+    clearVisibilityInterval: function clearVisibilityInterval() {
+      clearInterval(this.$_visibleInterval);
+      this.$_visibleInterval = null;
+    },
+    clearActiveTriggers: function clearActiveTriggers() {
+      for (var trigger in this.activeTrigger) {
+        this.activeTrigger[trigger] = false;
+      }
+    },
+    addAriaDescribedby: function addAriaDescribedby() {
+      // Add aria-describedby on trigger element, without removing any other IDs
+      var target = this.getTarget();
+      var desc = getAttr(target, 'aria-describedby') || '';
+      desc = desc.split(/\s+/).concat(this.computedId).join(' ').trim(); // Update/add aria-described by
+
+      setAttr(target, 'aria-describedby', desc);
+    },
+    removeAriaDescribedby: function removeAriaDescribedby() {
+      var _this5 = this;
+
+      // Remove aria-describedby on trigger element, without removing any other IDs
+      var target = this.getTarget();
+      var desc = getAttr(target, 'aria-describedby') || '';
+      desc = desc.split(/\s+/).filter(function (d) {
+        return d !== _this5.computedId;
+      }).join(' ').trim(); // Update or remove aria-describedby
+
+      if (desc) {
+        /* istanbul ignore next */
+        setAttr(target, 'aria-describedby', desc);
+      } else {
+        removeAttr(target, 'aria-describedby');
+      }
+    },
+    fixTitle: function fixTitle() {
+      // If the target has a `title` attribute,
+      // remove it and store it on a data attribute
+      var target = this.getTarget();
+
+      if (hasAttr(target, 'title')) {
+        // Get `title` attribute value and remove it from target
+        var title = getAttr(target, 'title');
+        setAttr(target, 'title', ''); // Only set the data attribute when the value is truthy
+
+        if (title) {
+          setAttr(target, DATA_TITLE_ATTR, title);
+        }
+      }
+    },
+    restoreTitle: function restoreTitle() {
+      // If the target had a `title` attribute,
+      // restore it and remove the data attribute
+      var target = this.getTarget();
+
+      if (hasAttr(target, DATA_TITLE_ATTR)) {
+        // Get data attribute value and remove it from target
+        var title = getAttr(target, DATA_TITLE_ATTR);
+        removeAttr(target, DATA_TITLE_ATTR); // Only restore the `title` attribute when the value is truthy
+
+        if (title) {
+          setAttr(target, 'title', title);
+        }
+      }
+    },
+    // --- BvEvent helpers ---
+    buildEvent: function buildEvent(type) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      // Defaults to a non-cancellable event
+      return new BvEvent(type, _objectSpread$e({
+        cancelable: false,
+        target: this.getTarget(),
+        relatedTarget: this.getTemplateElement() || null,
+        componentId: this.computedId,
+        vueTarget: this
+      }, options));
+    },
+    emitEvent: function emitEvent(bvEvent) {
+      var type = bvEvent.type;
+      this.emitOnRoot(getRootEventName(this.templateType, type), bvEvent);
+      this.$emit(type, bvEvent);
+    },
+    // --- Event handler setup methods ---
+    listen: function listen() {
+      var _this6 = this;
+
+      // Enable trigger event handlers
+      var el = this.getTarget();
+
+      if (!el) {
+        /* istanbul ignore next */
+        return;
+      } // Listen for global show/hide events
+
+
+      this.setRootListener(true); // Set up our listeners on the target trigger element
+
+      this.computedTriggers.forEach(function (trigger) {
+        if (trigger === 'click') {
+          eventOn(el, 'click', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+        } else if (trigger === 'focus') {
+          eventOn(el, 'focusin', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+          eventOn(el, 'focusout', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+        } else if (trigger === 'blur') {
+          // Used to close $tip when element looses focus
+
+          /* istanbul ignore next */
+          eventOn(el, 'focusout', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+        } else if (trigger === 'hover') {
+          eventOn(el, 'mouseenter', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+          eventOn(el, 'mouseleave', _this6.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+        }
+      }, this);
+    },
+
+    /* istanbul ignore next */
+    unListen: function unListen() {
+      var _this7 = this;
+
+      // Remove trigger event handlers
+      var events = ['click', 'focusin', 'focusout', 'mouseenter', 'mouseleave'];
+      var target = this.getTarget(); // Stop listening for global show/hide/enable/disable events
+
+      this.setRootListener(false); // Clear out any active target listeners
+
+      events.forEach(function (event) {
+        target && eventOff(target, event, _this7.handleEvent, EVENT_OPTIONS_NO_CAPTURE);
+      }, this);
+    },
+    setRootListener: function setRootListener(on) {
+      // Listen for global `bv::{hide|show}::{tooltip|popover}` hide request event
+      var $root = this.$root;
+
+      if ($root) {
+        var method = on ? '$on' : '$off';
+        var type = this.templateType;
+        $root[method](getRootActionEventName(type, EVENT_NAME_HIDE), this.doHide);
+        $root[method](getRootActionEventName(type, EVENT_NAME_SHOW), this.doShow);
+        $root[method](getRootActionEventName(type, EVENT_NAME_DISABLE), this.doDisable);
+        $root[method](getRootActionEventName(type, EVENT_NAME_ENABLE), this.doEnable);
+      }
+    },
+    setWhileOpenListeners: function setWhileOpenListeners(on) {
+      // Events that are only registered when the template is showing
+      // Modal close events
+      this.setModalListener(on); // Dropdown open events (if we are attached to a dropdown)
+
+      this.setDropdownListener(on); // Periodic $element visibility check
+      // For handling when tip target is in <keepalive>, tabs, carousel, etc
+
+      this.visibleCheck(on); // On-touch start listeners
+
+      this.setOnTouchStartListener(on);
+    },
+    // Handler for periodic visibility check
+    visibleCheck: function visibleCheck(on) {
+      var _this8 = this;
+
+      this.clearVisibilityInterval();
+      var target = this.getTarget();
+      var tip = this.getTemplateElement();
+
+      if (on) {
+        this.$_visibleInterval = setInterval(function () {
+          if (tip && _this8.localShow && (!target.parentNode || !isVisible(target))) {
+            // Target element is no longer visible or not in DOM, so force-hide the tooltip
+            _this8.forceHide();
+          }
+        }, 100);
+      }
+    },
+    setModalListener: function setModalListener(on) {
+      // Handle case where tooltip/target is in a modal
+      if (this.isInModal()) {
+        // We can listen for modal hidden events on `$root`
+        this.$root[on ? '$on' : '$off'](ROOT_EVENT_NAME_MODAL_HIDDEN, this.forceHide);
+      }
+    },
+
+    /* istanbul ignore next: JSDOM doesn't support `ontouchstart` */
+    setOnTouchStartListener: function setOnTouchStartListener(on) {
+      var _this9 = this;
+
+      // If this is a touch-enabled device we add extra empty
+      // `mouseover` listeners to the body's immediate children
+      // Only needed because of broken event delegation on iOS
+      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+      if ('ontouchstart' in document.documentElement) {
+        from(document.body.children).forEach(function (el) {
+          eventOnOff(on, el, 'mouseover', _this9.$_noop);
+        });
+      }
+    },
+    setDropdownListener: function setDropdownListener(on) {
+      var target = this.getTarget();
+
+      if (!target || !this.$root || !this.isDropdown) {
+        return;
+      } // We can listen for dropdown shown events on its instance
+      // TODO:
+      //   We could grab the ID from the dropdown, and listen for
+      //   $root events for that particular dropdown id
+      //   Dropdown shown and hidden events will need to emit
+      //   Note: Dropdown auto-ID happens in a `$nextTick()` after mount
+      //         So the ID lookup would need to be done in a `$nextTick()`
+
+
+      if (target.__vue__) {
+        target.__vue__[on ? '$on' : '$off'](EVENT_NAME_SHOWN, this.forceHide);
+      }
+    },
+    // --- Event handlers ---
+    handleEvent: function handleEvent(event) {
+      // General trigger event handler
+      // target is the trigger element
+      var target = this.getTarget();
+
+      if (!target || isDisabled(target) || !this.$_enabled || this.dropdownOpen()) {
+        // If disabled or not enabled, or if a dropdown that is open, don't do anything
+        // If tip is shown before element gets disabled, then tip will not
+        // close until no longer disabled or forcefully closed
+        return;
+      }
+
+      var type = event.type;
+      var triggers = this.computedTriggers;
+
+      if (type === 'click' && arrayIncludes(triggers, 'click')) {
+        this.click(event);
+      } else if (type === 'mouseenter' && arrayIncludes(triggers, 'hover')) {
+        // `mouseenter` is a non-bubbling event
+        this.enter(event);
+      } else if (type === 'focusin' && arrayIncludes(triggers, 'focus')) {
+        // `focusin` is a bubbling event
+        // `event` includes `relatedTarget` (element losing focus)
+        this.enter(event);
+      } else if (type === 'focusout' && (arrayIncludes(triggers, 'focus') || arrayIncludes(triggers, 'blur')) || type === 'mouseleave' && arrayIncludes(triggers, 'hover')) {
+        // `focusout` is a bubbling event
+        // `mouseleave` is a non-bubbling event
+        // `tip` is the template (will be null if not open)
+        var tip = this.getTemplateElement(); // `eventTarget` is the element which is losing focus/hover and
+
+        var eventTarget = event.target; // `relatedTarget` is the element gaining focus/hover
+
+        var relatedTarget = event.relatedTarget;
+        /* istanbul ignore next */
+
+        if ( // From tip to target
+        tip && contains(tip, eventTarget) && contains(target, relatedTarget) || // From target to tip
+        tip && contains(target, eventTarget) && contains(tip, relatedTarget) || // Within tip
+        tip && contains(tip, eventTarget) && contains(tip, relatedTarget) || // Within target
+        contains(target, eventTarget) && contains(target, relatedTarget)) {
+          // If focus/hover moves within `tip` and `target`, don't trigger a leave
+          return;
+        } // Otherwise trigger a leave
+
+
+        this.leave(event);
+      }
+    },
+    doHide: function doHide(id) {
+      // Programmatically hide tooltip or popover
+      if (!id || this.getTargetId() === id || this.computedId === id) {
+        // Close all tooltips or popovers, or this specific tip (with ID)
+        this.forceHide();
+      }
+    },
+    doShow: function doShow(id) {
+      // Programmatically show tooltip or popover
+      if (!id || this.getTargetId() === id || this.computedId === id) {
+        // Open all tooltips or popovers, or this specific tip (with ID)
+        this.show();
+      }
+    },
+
+    /*istanbul ignore next: ignore for now */
+    doDisable: function doDisable(id)
+    /*istanbul ignore next: ignore for now */
+    {
+      // Programmatically disable tooltip or popover
+      if (!id || this.getTargetId() === id || this.computedId === id) {
+        // Disable all tooltips or popovers (no ID), or this specific tip (with ID)
+        this.disable();
+      }
+    },
+
+    /*istanbul ignore next: ignore for now */
+    doEnable: function doEnable(id)
+    /*istanbul ignore next: ignore for now */
+    {
+      // Programmatically enable tooltip or popover
+      if (!id || this.getTargetId() === id || this.computedId === id) {
+        // Enable all tooltips or popovers (no ID), or this specific tip (with ID)
+        this.enable();
+      }
+    },
+    click: function click(event) {
+      if (!this.$_enabled || this.dropdownOpen()) {
+        /* istanbul ignore next */
+        return;
+      } // Get around a WebKit bug where `click` does not trigger focus events
+      // On most browsers, `click` triggers a `focusin`/`focus` event first
+      // Needed so that trigger 'click blur' works on iOS
+      // https://github.com/bootstrap-vue/bootstrap-vue/issues/5099
+      // We use `currentTarget` rather than `target` to trigger on the
+      // element, not the inner content
+
+
+      attemptFocus(event.currentTarget);
+      this.activeTrigger.click = !this.activeTrigger.click;
+
+      if (this.isWithActiveTrigger) {
+        this.enter(null);
+      } else {
+        /* istanbul ignore next */
+        this.leave(null);
+      }
+    },
+
+    /* istanbul ignore next */
+    toggle: function toggle() {
+      // Manual toggle handler
+      if (!this.$_enabled || this.dropdownOpen()) {
+        /* istanbul ignore next */
+        return;
+      } // Should we register as an active trigger?
+      // this.activeTrigger.manual = !this.activeTrigger.manual
+
+
+      if (this.localShow) {
+        this.leave(null);
+      } else {
+        this.enter(null);
+      }
+    },
+    enter: function enter() {
+      var _this10 = this;
+
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      // Opening trigger handler
+      // Note: Click events are sent with event === null
+      if (event) {
+        this.activeTrigger[event.type === 'focusin' ? 'focus' : 'hover'] = true;
+      }
+      /* istanbul ignore next */
+
+
+      if (this.localShow || this.$_hoverState === 'in') {
+        this.$_hoverState = 'in';
+        return;
+      }
+
+      this.clearHoverTimeout();
+      this.$_hoverState = 'in';
+
+      if (!this.computedDelay.show) {
+        this.show();
+      } else {
+        // Hide any title attribute while enter delay is active
+        this.fixTitle();
+        this.$_hoverTimeout = setTimeout(function () {
+          /* istanbul ignore else */
+          if (_this10.$_hoverState === 'in') {
+            _this10.show();
+          } else if (!_this10.localShow) {
+            _this10.restoreTitle();
+          }
+        }, this.computedDelay.show);
+      }
+    },
+    leave: function leave() {
+      var _this11 = this;
+
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      // Closing trigger handler
+      // Note: Click events are sent with event === null
+      if (event) {
+        this.activeTrigger[event.type === 'focusout' ? 'focus' : 'hover'] = false;
+        /* istanbul ignore next */
+
+        if (event.type === 'focusout' && arrayIncludes(this.computedTriggers, 'blur')) {
+          // Special case for `blur`: we clear out the other triggers
+          this.activeTrigger.click = false;
+          this.activeTrigger.hover = false;
+        }
+      }
+      /* istanbul ignore next: ignore for now */
+
+
+      if (this.isWithActiveTrigger) {
+        return;
+      }
+
+      this.clearHoverTimeout();
+      this.$_hoverState = 'out';
+
+      if (!this.computedDelay.hide) {
+        this.hide();
+      } else {
+        this.$_hoverTimeout = setTimeout(function () {
+          if (_this11.$_hoverState === 'out') {
+            _this11.hide();
+          }
+        }, this.computedDelay.hide);
+      }
+    }
+  }
+});var _makePropsConfigurabl, _watch$1;
+
+function ownKeys$d(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$d(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$d(Object(source), true).forEach(function (key) { _defineProperty$g(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$d(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty$g(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var MODEL_PROP_NAME_ENABLED = 'disabled';
+var MODEL_EVENT_NAME_ENABLED = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_ENABLED;
+var MODEL_PROP_NAME_SHOW = 'show';
+var MODEL_EVENT_NAME_SHOW = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_SHOW; // --- Props ---
+
+var props$p = makePropsConfigurable((_makePropsConfigurabl = {
+  // String: scrollParent, window, or viewport
+  // Element: element reference
+  // Object: Vue component
+  boundary: makeProp([HTMLElement, PROP_TYPE_OBJECT, PROP_TYPE_STRING], 'scrollParent'),
+  boundaryPadding: makeProp(PROP_TYPE_NUMBER_STRING, 50),
+  // String: HTML ID of container, if null body is used (default)
+  // HTMLElement: element reference reference
+  // Object: Vue Component
+  container: makeProp([HTMLElement, PROP_TYPE_OBJECT, PROP_TYPE_STRING]),
+  customClass: makeProp(PROP_TYPE_STRING),
+  delay: makeProp(PROP_TYPE_NUMBER_OBJECT_STRING, 50)
+}, _defineProperty$g(_makePropsConfigurabl, MODEL_PROP_NAME_ENABLED, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "fallbackPlacement", makeProp(PROP_TYPE_ARRAY_STRING, 'flip')), _defineProperty$g(_makePropsConfigurabl, "id", makeProp(PROP_TYPE_STRING)), _defineProperty$g(_makePropsConfigurabl, "noFade", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "noninteractive", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "offset", makeProp(PROP_TYPE_NUMBER_STRING, 0)), _defineProperty$g(_makePropsConfigurabl, "placement", makeProp(PROP_TYPE_STRING, 'top')), _defineProperty$g(_makePropsConfigurabl, MODEL_PROP_NAME_SHOW, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "target", makeProp([HTMLElement, SVGElement, PROP_TYPE_FUNCTION, PROP_TYPE_OBJECT, PROP_TYPE_STRING], undefined, true)), _defineProperty$g(_makePropsConfigurabl, "title", makeProp(PROP_TYPE_STRING)), _defineProperty$g(_makePropsConfigurabl, "triggers", makeProp(PROP_TYPE_ARRAY_STRING, 'hover focus')), _defineProperty$g(_makePropsConfigurabl, "variant", makeProp(PROP_TYPE_STRING)), _makePropsConfigurabl), NAME_TOOLTIP); // --- Main component ---
+// @vue/component
+
+var BTooltip = /*#__PURE__*/Vue__default['default'].extend({
+  name: NAME_TOOLTIP,
+  mixins: [normalizeSlotMixin],
+  inheritAttrs: false,
+  props: props$p,
+  data: function data() {
+    return {
+      localShow: this[MODEL_PROP_NAME_SHOW],
+      localTitle: '',
+      localContent: ''
+    };
+  },
+  computed: {
+    // Data that will be passed to the template and popper
+    templateData: function templateData() {
+      return _objectSpread$d({
+        title: this.localTitle,
+        content: this.localContent,
+        interactive: !this.noninteractive
+      }, pick(this.$props, ['boundary', 'boundaryPadding', 'container', 'customClass', 'delay', 'fallbackPlacement', 'id', 'noFade', 'offset', 'placement', 'target', 'target', 'triggers', 'variant', MODEL_PROP_NAME_ENABLED]));
+    },
+    // Used to watch for changes to the title and content props
+    templateTitleContent: function templateTitleContent() {
+      var title = this.title,
+          content = this.content;
+      return {
+        title: title,
+        content: content
+      };
+    }
+  },
+  watch: (_watch$1 = {}, _defineProperty$g(_watch$1, MODEL_PROP_NAME_SHOW, function (newValue, oldValue) {
+    if (newValue !== oldValue && newValue !== this.localShow && this.$_toolpop) {
+      if (newValue) {
+        this.$_toolpop.show();
+      } else {
+        // We use `forceHide()` to override any active triggers
+        this.$_toolpop.forceHide();
+      }
+    }
+  }), _defineProperty$g(_watch$1, MODEL_PROP_NAME_ENABLED, function (newValue) {
+    if (newValue) {
+      this.doDisable();
+    } else {
+      this.doEnable();
+    }
+  }), _defineProperty$g(_watch$1, "localShow", function localShow(newValue) {
+    // TODO: May need to be done in a `$nextTick()`
+    this.$emit(MODEL_EVENT_NAME_SHOW, newValue);
+  }), _defineProperty$g(_watch$1, "templateData", function templateData() {
+    var _this = this;
+
+    this.$nextTick(function () {
+      if (_this.$_toolpop) {
+        _this.$_toolpop.updateData(_this.templateData);
+      }
+    });
+  }), _defineProperty$g(_watch$1, "templateTitleContent", function templateTitleContent() {
+    this.$nextTick(this.updateContent);
+  }), _watch$1),
+  created: function created() {
+    // Create private non-reactive props
+    this.$_toolpop = null;
+  },
+  updated: function updated() {
+    // Update the `propData` object
+    // Done in a `$nextTick()` to ensure slot(s) have updated
+    this.$nextTick(this.updateContent);
+  },
+  beforeDestroy: function beforeDestroy() {
+    // Shutdown our local event listeners
+    this.$off(EVENT_NAME_OPEN, this.doOpen);
+    this.$off(EVENT_NAME_CLOSE, this.doClose);
+    this.$off(EVENT_NAME_DISABLE, this.doDisable);
+    this.$off(EVENT_NAME_ENABLE, this.doEnable); // Destroy the tip instance
+
+    if (this.$_toolpop) {
+      this.$_toolpop.$destroy();
+      this.$_toolpop = null;
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    // Instantiate a new BVTooltip instance
+    // Done in a `$nextTick()` to ensure DOM has completed rendering
+    // so that target can be found
+    this.$nextTick(function () {
+      // Load the on demand child instance
+      var Component = _this2.getComponent(); // Ensure we have initial content
+
+
+      _this2.updateContent(); // Pass down the scoped style attribute if available
+
+
+      var scopeId = getScopeId(_this2) || getScopeId(_this2.$parent); // Create the instance
+
+      var $toolpop = _this2.$_toolpop = new Component({
+        parent: _this2,
+        // Pass down the scoped style ID
+        _scopeId: scopeId || undefined
+      }); // Set the initial data
+
+      $toolpop.updateData(_this2.templateData); // Set listeners
+
+      $toolpop.$on(EVENT_NAME_SHOW, _this2.onShow);
+      $toolpop.$on(EVENT_NAME_SHOWN, _this2.onShown);
+      $toolpop.$on(EVENT_NAME_HIDE, _this2.onHide);
+      $toolpop.$on(EVENT_NAME_HIDDEN, _this2.onHidden);
+      $toolpop.$on(EVENT_NAME_DISABLED, _this2.onDisabled);
+      $toolpop.$on(EVENT_NAME_ENABLED, _this2.onEnabled); // Initially disabled?
+
+      if (_this2[MODEL_PROP_NAME_ENABLED]) {
+        // Initially disabled
+        _this2.doDisable();
+      } // Listen to open signals from others
+
+
+      _this2.$on(EVENT_NAME_OPEN, _this2.doOpen); // Listen to close signals from others
+
+
+      _this2.$on(EVENT_NAME_CLOSE, _this2.doClose); // Listen to disable signals from others
+
+
+      _this2.$on(EVENT_NAME_DISABLE, _this2.doDisable); // Listen to enable signals from others
+
+
+      _this2.$on(EVENT_NAME_ENABLE, _this2.doEnable); // Initially show tooltip?
+
+
+      if (_this2.localShow) {
+        $toolpop.show();
+      }
+    });
+  },
+  methods: {
+    getComponent: function getComponent() {
+      // Overridden by BPopover
+      return BVTooltip;
+    },
+    updateContent: function updateContent() {
+      // Overridden by BPopover
+      // Tooltip: Default slot is `title`
+      // Popover: Default slot is `content`, `title` slot is title
+      // We pass a scoped slot function reference by default (Vue v2.6x)
+      // And pass the title prop as a fallback
+      this.setTitle(this.normalizeSlot() || this.title);
+    },
+    // Helper methods for `updateContent()`
+    setTitle: function setTitle(value) {
+      value = isUndefinedOrNull(value) ? '' : value; // We only update the value if it has changed
+
+      if (this.localTitle !== value) {
+        this.localTitle = value;
+      }
+    },
+    setContent: function setContent(value) {
+      value = isUndefinedOrNull(value) ? '' : value; // We only update the value if it has changed
+
+      if (this.localContent !== value) {
+        this.localContent = value;
+      }
+    },
+    // --- Template event handlers ---
+    onShow: function onShow(bvEvent) {
+      // Placeholder
+      this.$emit(EVENT_NAME_SHOW, bvEvent);
+
+      if (bvEvent) {
+        this.localShow = !bvEvent.defaultPrevented;
+      }
+    },
+    onShown: function onShown(bvEvent) {
+      // Tip is now showing
+      this.localShow = true;
+      this.$emit(EVENT_NAME_SHOWN, bvEvent);
+    },
+    onHide: function onHide(bvEvent) {
+      this.$emit(EVENT_NAME_HIDE, bvEvent);
+    },
+    onHidden: function onHidden(bvEvent) {
+      // Tip is no longer showing
+      this.$emit(EVENT_NAME_HIDDEN, bvEvent);
+      this.localShow = false;
+    },
+    onDisabled: function onDisabled(bvEvent) {
+      // Prevent possible endless loop if user mistakenly
+      // fires `disabled` instead of `disable`
+      if (bvEvent && bvEvent.type === EVENT_NAME_DISABLED) {
+        this.$emit(MODEL_EVENT_NAME_ENABLED, true);
+        this.$emit(EVENT_NAME_DISABLED, bvEvent);
+      }
+    },
+    onEnabled: function onEnabled(bvEvent) {
+      // Prevent possible endless loop if user mistakenly
+      // fires `enabled` instead of `enable`
+      if (bvEvent && bvEvent.type === EVENT_NAME_ENABLED) {
+        this.$emit(MODEL_EVENT_NAME_ENABLED, false);
+        this.$emit(EVENT_NAME_ENABLED, bvEvent);
+      }
+    },
+    // --- Local event listeners ---
+    doOpen: function doOpen() {
+      !this.localShow && this.$_toolpop && this.$_toolpop.show();
+    },
+    doClose: function doClose() {
+      this.localShow && this.$_toolpop && this.$_toolpop.hide();
+    },
+    doDisable: function doDisable() {
+      this.$_toolpop && this.$_toolpop.disable();
+    },
+    doEnable: function doEnable() {
+      this.$_toolpop && this.$_toolpop.enable();
+    }
+  },
+  render: function render(h) {
+    // Always renders a comment node
+    // TODO:
+    //   Future: Possibly render a target slot (single root element)
+    //   which we can apply the listeners to (pass `this.$el` to BVTooltip)
+    return h();
   }
 });// Mixin to determine if an event listener has been registered
 
@@ -11795,7 +13505,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var props = makePropsConfigurable(sortKeys(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, props$I), props$n), props$l), props$k), props$j), props$i), props$h), props$g), props$f), props$e), props$d), props$c), props$b), props$a), props$6), props$4), props$2), props$1)), NAME_TABLE); // --- Main component ---
+var props = makePropsConfigurable(sortKeys(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, props$L), props$n), props$l), props$k), props$j), props$i), props$h), props$g), props$f), props$e), props$d), props$c), props$b), props$a), props$6), props$4), props$2), props$1)), NAME_TABLE); // --- Main component ---
 // @vue/component
 
 var BTable = /*#__PURE__*/Vue__default['default'].extend({
@@ -11816,7 +13526,8 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
     BFormInput: BFormInput,
     BFormSelect: BFormSelect,
     BFormCheckbox: BFormCheckbox,
-    BFormRating: BFormRating
+    BFormRating: BFormRating,
+    BTooltip: BTooltip
   },
   props: {
     fields: Array,
@@ -11824,11 +13535,19 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
     value: Array,
     editMode: {
       type: String,
-      default: 'cell'
+      default: "cell"
     },
     editTrigger: {
       type: String,
-      default: 'click'
+      default: "click"
+    },
+    rowUpdate: {
+      type: Object,
+      default: null
+    },
+    disableDefaultEdit: {
+      type: Boolean,
+      default: false
     }
   },
   directives: {
@@ -11874,15 +13593,9 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         type: String,
         default: null
       },
-      tableItems: this.value ? this.value.map(function (item) {
-        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
-          isEdit: false
-        });
-      }) : this.items.map(function (item) {
-        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
-          isEdit: false
-        });
-      })
+      tableItems: [],
+      tableMap: {},
+      localChanges: {}
     };
   },
   mounted: function mounted() {
@@ -11891,22 +13604,60 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
   },
   watch: {
     value: function value(newVal) {
-      this.tableItems = this.createItems(newVal);
+      this.createTableItems(newVal);
     },
     items: function items(newVal) {
-      this.tableItems = this.createItems(newVal);
+      this.createTableItems(newVal);
+    },
+    rowUpdate: {
+      handler: function handler(newVal) {
+        if (this.tableMap[newVal.id]) {
+          this.tableMap[newVal.id].isEdit = newVal.edit;
+        }
+
+        if (newVal.action === "update") {
+          this.clearValidation(newVal.id);
+          this.updateData(newVal.id);
+        } else if (newVal.action === "add") {
+          this.updateData(newVal.id, "add", _objectSpread2$1({}, newVal.data), newVal.edit);
+        } else if (newVal.action === "delete") {
+          this.updateData(newVal.id, "delete");
+        } else if (newVal.action === "cancel" || newVal.isEdit === false) {
+          this.clearValidation(newVal.id);
+          delete this.localChanges[newVal.id];
+        }
+      },
+      deep: true
     }
   },
   computed: {},
   methods: {
-    handleEditCell: function handleEditCell(e, index, name) {
-      e.stopPropagation();
-      this.resetItems();
-      this.tableItems[index].isEdit = true;
-      this.selectedCell = name;
+    handleEditCell: function handleEditCell(e, id, name, editable) {
+      if (!this.disableDefaultEdit && editable) {
+        e.stopPropagation();
+        this.clearEditMode();
+        this.updateData();
+        this.tableMap[id].isEdit = true;
+        this.selectedCell = name;
+        this.clearValidation(id);
+
+        if (!this.localChanges[id]) {
+          this.localChanges[id] = {};
+        }
+      }
+    },
+    clearValidation: function clearValidation(id) {
+      // Clear validation for the selected row
+      for (var key in this.tableMap[id].fields) {
+        this.tableMap[id].fields[key].validity = {
+          valid: true
+        };
+      }
     },
     handleKeydown: function handleKeydown(e, index, data) {
-      if (e.code === "Tab" && this.editMode === 'cell') {
+      if ((e.code === "Tab" || e.code === "Enter") && this.editMode === "cell" && !this.disableDefaultEdit) {
+        var _this$tableItems$rowI;
+
         e.preventDefault();
         var fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
         var rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
@@ -11923,20 +13674,30 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
         fieldIndex = i;
         this.selectedCell = this.fields[fieldIndex].key;
-        this.resetItems();
+        this.clearEditMode(data.item.id);
+        this.updateData(data.item.id);
+        var rowId = (_this$tableItems$rowI = this.tableItems[rowIndex]) === null || _this$tableItems$rowI === void 0 ? void 0 : _this$tableItems$rowI.id;
 
-        if (this.tableItems[rowIndex]) {
-          this.tableItems[rowIndex].isEdit = true;
+        if (this.tableMap[rowId]) {
+          this.tableMap[rowId].isEdit = true;
+
+          if (!this.localChanges[rowId]) {
+            this.localChanges[rowId] = {};
+          }
         }
       } else if (e.code === "Escape") {
         e.preventDefault();
         this.selectedCell = null;
-        this.resetItems();
+        this.clearEditMode(data.item.id);
+        this.localChanges = {};
       }
     },
     handleClickOut: function handleClickOut() {
-      this.selectedCell = null;
-      this.resetItems();
+      if (!this.disableDefaultEdit) {
+        this.selectedCell = null;
+        this.clearEditMode();
+        this.updateData();
+      }
     },
     inputHandler: function inputHandler(value, data, key, options) {
       var changedValue = value; // Handle select element with options
@@ -11948,21 +13709,45 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      if (this.value) {
-        this.$emit("input", this.tableItems.map(function (item) {
-          var newItem = _objectSpread2$1({}, item);
+      var validity = data.field.validate ? data.field.validate(changedValue) : {
+        valid: true
+      };
+      var fields = this.tableMap[data.item.id].fields;
+      fields[key].validity.valid = true;
+
+      if (this.value && (!validity || (validity === null || validity === void 0 ? void 0 : validity.valid) === true)) {
+        if (!this.localChanges[data.item.id]) {
+          this.localChanges[data.item.id] = {};
+        }
+
+        this.localChanges[data.item.id][key] = {
+          value: changedValue,
+          rowIndex: data.index
+        };
+      } else {
+        fields[key].validity = validity;
+      }
+
+      var fieldType = data.field.type;
+      var excludeTypes = {
+        text: true,
+        range: true,
+        number: true
+      };
 
       if (!excludeTypes[fieldType]) {
         this.$emit("input-change", _objectSpread2$1(_objectSpread2$1({}, data), {}, {
           id: data.item.id,
-          value: changedValue
+          value: changedValue,
+          validity: _objectSpread2$1({}, fields[key].validity)
         }));
       }
     },
-    changeHandler: function changeHandler(value, data) {
+    changeHandler: function changeHandler(value, data, key) {
       this.$emit("input-change", _objectSpread2$1(_objectSpread2$1({}, data), {}, {
         id: data.item.id,
-        value: value
+        value: value,
+        validity: _objectSpread2$1({}, this.tableMap[data.item.id].fields[key].validity)
       }));
     },
     updateData: function updateData(id, action, data, isEdit) {
@@ -12012,7 +13797,7 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
         "input-change": true
       };
       return Object.keys(listeners).reduce(function (a, c) {
-        return excludeEvents[c] ? a : _objectSpread2$1(_objectSpread2$1({}, a), {}, _defineProperty$C({}, c, listeners[c]));
+        return excludeEvents[c] ? a : _objectSpread2$1(_objectSpread2$1({}, a), {}, _defineProperty$H({}, c, listeners[c]));
       }, {});
     },
     getCellValue: function getCellValue(data, field) {
@@ -12028,21 +13813,59 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
 
       return value;
     },
-    resetItems: function resetItems() {
-      this.tableItems = this.tableItems.map(function (item) {
-        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
-          isEdit: false
-        });
+    getCellData: function getCellData(data) {
+      return _objectSpread2$1(_objectSpread2$1({}, data), {}, {
+        isEdit: this.tableMap[data.item.id].isEdit,
+        id: data.item.id
       });
     },
-    createItems: function createItems(value) {
-      var _this = this;
+    getValidity: function getValidity(data, field) {
+      return this.tableMap[data.item.id].fields[field.key].validity;
+    },
+    showField: function showField(field, data, type) {
+      var _this$tableMap$data$i;
 
-      return value.map(function (item, index) {
-        return _objectSpread2$1(_objectSpread2$1({}, item), {}, {
-          isEdit: _this.tableItems[index] ? _this.tableItems[index].isEdit : false
-        });
+      return field.type === type && ((_this$tableMap$data$i = this.tableMap[data.item.id]) === null || _this$tableMap$data$i === void 0 ? void 0 : _this$tableMap$data$i.isEdit) && (this.selectedCell === field.key || this.editMode === "row") && field.editable;
+    },
+    getFieldValue: function getFieldValue(field, data) {
+      var _this$tableMap$data$i2;
+
+      return (_this$tableMap$data$i2 = this.tableMap[data.item.id].fields[field.key]) === null || _this$tableMap$data$i2 === void 0 ? void 0 : _this$tableMap$data$i2.value;
+    },
+    enableFocus: function enableFocus(type) {
+      return this.editMode === "cell" ? type : false;
+    },
+    clearEditMode: function clearEditMode(id) {
+      if (id) {
+        this.tableMap[id].isEdit = false;
+      } else {
+        for (var changeId in this.localChanges) {
+          this.tableMap[changeId].isEdit = false;
+        }
+      }
+    },
+    createTableItems: function createTableItems(data) {
+      var _this2 = this;
+
+      this.tableItems = data.map(function (item) {
+        return _objectSpread2$1({}, item);
       });
+      this.tableMap = data.reduce(function (rows, curRow) {
+        return _objectSpread2$1(_objectSpread2$1({}, rows), {}, _defineProperty$H({}, curRow.id, {
+          id: curRow.id,
+          isEdit: _this2.tableMap[curRow.id] ? _this2.tableMap[curRow.id].isEdit : false,
+          fields: Object.keys(curRow).reduce(function (keys, curKey) {
+            var _this2$tableMap$curRo, _this2$tableMap$curRo2;
+
+            return _objectSpread2$1(_objectSpread2$1({}, keys), {}, _defineProperty$H({}, curKey, {
+              value: curRow[curKey],
+              validity: (_this2$tableMap$curRo = _this2.tableMap[curRow.id]) !== null && _this2$tableMap$curRo !== void 0 && (_this2$tableMap$curRo2 = _this2$tableMap$curRo.fields[curKey]) !== null && _this2$tableMap$curRo2 !== void 0 && _this2$tableMap$curRo2.validity ? _this2.tableMap[curRow.id].fields[curKey].validity : {
+                valid: true
+              }
+            }));
+          }, {})
+        }));
+      }, {});
     }
   }
 });function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -12190,7 +14013,9 @@ var __vue_render__ = function __vue_render__() {
       return {
         key: "cell(" + field.key + ")",
         fn: function fn(data) {
-          return [field.type === 'date' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-datepicker', _vm._b({
+          return [_vm.showField(field, data, 'date') ? _c('div', {
+            key: index
+          }, [_c('b-form-datepicker', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12199,8 +14024,10 @@ var __vue_render__ = function __vue_render__() {
             }],
             key: index,
             attrs: {
+              "id": field.key + "-" + data.item.id,
               "type": field.type,
-              "value": _vm.getFieldValue(field, data)
+              "value": _vm.getFieldValue(field, data),
+              "state": _vm.getValidity(data, field).valid ? null : false
             },
             on: {
               "input": function input(value) {
@@ -12212,16 +14039,26 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-datepicker', Object.assign({}, field), false)) : field.type === 'select' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-select', _vm._b({
+          }, 'b-form-datepicker', Object.assign({}, field), false)), _vm._v(" "), _vm.getValidity(data, field).errorMessage ? _c('b-tooltip', {
+            attrs: {
+              "target": field.key + "-" + data.item.id,
+              "variant": "danger",
+              "show": !_vm.getValidity(data, field).valid,
+              "disabled": true
+            }
+          }, [_vm._v("\n        " + _vm._s(_vm.getValidity(data, field).errorMessage) + "\n      ")]) : _vm._e()], 1) : _vm.showField(field, data, 'select') ? _c('div', {
+            key: index
+          }, [_c('b-form-select', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
               value: _vm.enableFocus(),
               expression: "enableFocus()"
             }],
-            key: index,
             attrs: {
-              "value": _vm.getFieldValue(field, data)
+              "id": field.key + "-" + data.item.id,
+              "value": _vm.getFieldValue(field, data),
+              "state": _vm.getValidity(data, field).valid ? null : false
             },
             on: {
               "change": function change(value) {
@@ -12233,7 +14070,14 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-select', Object.assign({}, field), false)) : field.type === 'checkbox' && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-checkbox', _vm._b({
+          }, 'b-form-select', Object.assign({}, field), false)), _vm._v(" "), _vm.getValidity(data, field).errorMessage ? _c('b-tooltip', {
+            attrs: {
+              "target": field.key + "-" + data.item.id,
+              "variant": "danger",
+              "show": !_vm.getValidity(data, field).valid,
+              "disabled": true
+            }
+          }, [_vm._v("\n        " + _vm._s(_vm.getValidity(data, field).errorMessage) + "\n      ")]) : _vm._e()], 1) : _vm.showField(field, data, 'checkbox') ? _c('b-form-checkbox', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12242,6 +14086,7 @@ var __vue_render__ = function __vue_render__() {
             }],
             key: index,
             attrs: {
+              "id": field.key + "-" + data.item.id,
               "checked": _vm.getFieldValue(field, data)
             },
             on: {
@@ -12254,7 +14099,7 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-checkbox', Object.assign({}, field), false)) : field.type === 'rating' && field.type && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-rating', _vm._b({
+          }, 'b-form-checkbox', Object.assign({}, field), false)) : _vm.showField(field, data, 'rating') ? _c('b-form-rating', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
@@ -12263,6 +14108,7 @@ var __vue_render__ = function __vue_render__() {
             }],
             key: index,
             attrs: {
+              "id": field.key + "-" + data.item.id,
               "value": _vm.getFieldValue(field, data)
             },
             on: {
@@ -12275,17 +14121,20 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : field.type && _vm.tableItems[data.index].isEdit && (_vm.selectedCell === field.key || _vm.editMode === 'row') && field.editable ? _c('b-form-input', _vm._b({
+          }, 'b-form-rating', Object.assign({}, field), false)) : _vm.showField(field, data, field.type) ? _c('div', {
+            key: index
+          }, [_c('b-form-input', _vm._b({
             directives: [{
               name: "focus",
               rawName: "v-focus",
               value: _vm.enableFocus(),
               expression: "enableFocus()"
             }],
-            key: index,
             attrs: {
+              "id": field.key + "-" + data.item.id,
               "type": field.type,
-              "value": _vm.getFieldValue(field, data)
+              "value": _vm.getFieldValue(field, data),
+              "state": _vm.getValidity(data, field).valid ? null : false
             },
             on: {
               "keydown": function keydown($event) {
@@ -12295,16 +14144,23 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.inputHandler(value, data, field.key);
               },
               "change": function change(value) {
-                return _vm.changeHandler(value, data);
+                return _vm.changeHandler(value, data, field.key);
               }
             }
-          }, 'b-form-input', Object.assign({}, field), false)) : _c('div', {
+          }, 'b-form-input', Object.assign({}, field), false)), _vm._v(" "), _vm.getValidity(data, field).errorMessage ? _c('b-tooltip', {
+            attrs: {
+              "target": field.key + "-" + data.item.id,
+              "variant": "danger",
+              "show": !_vm.getValidity(data, field).valid,
+              "disabled": true
+            }
+          }, [_vm._v("\n        " + _vm._s(_vm.getValidity(data, field).errorMessage) + "\n      ")]) : _vm._e()], 1) : _c('div', {
             key: index,
             staticClass: "data-cell",
             on: _vm._d({}, [_vm.editTrigger, function ($event) {
-              return _vm.handleEditCell($event, data.index, field.key);
+              return _vm.handleEditCell($event, data.item.id, field.key, field.editable);
             }])
-          }, [_vm.$scopedSlots["cell(" + field.key + ")"] ? _vm._t("cell(" + field.key + ")", null, null, data) : [_vm._v(_vm._s(_vm.getValue(data, field)))]], 2)];
+          }, [_vm.$scopedSlots["cell(" + field.key + ")"] ? _vm._t("cell(" + field.key + ")", null, null, _vm.getCellData(data)) : [_vm._v(_vm._s(_vm.getCellValue(data, field)))]], 2)];
         }
       };
     })], null, true)
@@ -12316,7 +14172,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-43311d3a_0", {
+  inject("data-v-4eab6fce_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -12328,7 +14184,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-43311d3a";
+var __vue_module_identifier__ = "data-v-4eab6fce";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

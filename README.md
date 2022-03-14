@@ -1,10 +1,11 @@
 
 
+
 # BootstrapVue Editable Table
 
 > **_NOTE:_** Starting from version 0.1.2-beta.4, a unique id for every row is required.
 
-**Demo**: [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue) | [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue) | [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue) | [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
+**Demo**: [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue) | [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue) | [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue) | [Input Validation](https://codesandbox.io/s/vue-table-validation-pcysqz?file=/src/App.vue) | [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
 
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
 
@@ -23,6 +24,7 @@ If you'd like to contribute, please read this [introductory article](https://muh
 [Keyboard Keys](#keyboard-keys)<br/>
 [Custom Cell](#custom-cell)<br/>
 [Row Editing](#row-editing)<br/>
+[Input Validation](#input-validation)<br/>
 [Add, Update and Remove Rows](#add-update-and-remove-rows)<br/>
 [Load Data via REST API](#load-data-via-rest-api)<br/>
 [API](#api)<br/>
@@ -109,7 +111,7 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {}
+      handleInput(data) {}
   }
 };
 </script>
@@ -335,7 +337,7 @@ export default {
     };
   },
   methods: {
-      handleInput(value, data) {}
+      handleInput(data) {}
   }
 };
 </script>
@@ -494,6 +496,149 @@ table.editable-table td {
 ```
 For more details about custom slots, please read [BootstrapVue Table documentation](https://bootstrap-vue.org/docs/components/table) 
 
+## Input Validation
+Validation is supported for the following form elements:
+* Input
+* Select
+* Date
+
+To validate, you can pass the validator function as a property for the required field:
+```javascript
+{ validate: this.validateName, key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name...", class: "name-col"},
+```
+The function parameter will have the current changed value:
+```javascript
+validateName(value) {
+    if (value === '') {
+        return {
+            valid: false,
+            errorMessage: 'Please enter name'
+        }
+    }
+    return {
+        valid: true
+    };
+}
+```
+If `valid` is `false`, the cell value will not be updated.
+`errorMessage` is optional and will be displayed in a tooltip if the value is invalid.
+
+Below is a complete example: 
+```html
+<template>
+<div>
+    <b-editable-table bordered class="editable-table" v-model="items" :fields="fields">
+    </b-editable-table>
+</div>
+</template>
+
+<script>
+import BEditableTable from 'bootstrap-vue-editable-table';
+import {BButton} from 'bootstrap-vue';
+export default {
+  components: {
+    BEditableTable
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", type: "text", editable: true, placeholder: "Enter Name...", class: "name-col", validate: this.validateName},
+        { key: "department", label: "Department", type: "select", editable: true, class: "department-col" , options: [
+          { value: 0, text: 'Please select department' },
+          { value: 1, text: 'HR' },
+          { value: 2, text: 'Engineer' },
+          { value: 3, text: 'VP' },
+          { value: 4, text: 'CEO'}
+        ], validate: this.validateSelect},
+        { key: "age", label: "Age", type:"range", min:"0", max:"100", editable: true, placeholder: "Enter Age...", class: "age-col" },
+        { key: "dateOfBirth", label: "Date Of Birth", type: "date", editable: true, class: "date-col", locale: "en", validate: this.validateDate,
+          "date-format-options": {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          }, },
+        { key: "isActive", label: "Is Active", type: "checkbox", editable: true, class: "is-active-col" }
+      ],
+       items: [
+          { id: 1, age: 40, name: 'Dickerson', department: 1, dateOfBirth: '1984-05-20', isActive: true },
+          { id: 2, age: 21, name: 'Larsen', department: 2, dateOfBirth: '1972-07-25', isActive: false },
+          { id: 3, age: 89, name: 'Geneva', department: 3, dateOfBirth: '1981-02-02', isActive: false },
+          { id: 4, age: 38, name: 'Jami', department: 4, dateOfBirth: '1964-10-19', isActive: true },
+        ]
+    };
+  },
+  methods: {
+      validateName(value) {
+        if (value === '') {
+          return {
+            valid: false,
+            errorMessage: 'Please enter name'
+          }
+        }
+        return {valid: true};
+      },
+      validateDate(value) {
+        const year = new Date(value).getFullYear();
+        if (year > 2003) {
+          return {
+            valid: false,
+            errorMessage: 'Must be above 19'
+          }
+        }
+        return {valid: true};
+      },
+      validateSelect(value, options) {
+        if (value === 0) {
+         return {
+            valid: false,
+            errorMessage: 'Please select a department'
+          }
+        }
+        return {valid: true};
+      }
+  }
+};
+</script>
+
+<style>
+table.editable-table {
+  margin: auto;
+}
+
+table.editable-table td {
+  vertical-align: middle;
+}
+
+.editable-table .data-cell {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.editable-table .custom-checkbox {
+  width: 50px;
+}
+
+.name-col {
+  width: 120px;
+}
+
+.department-col {
+  width: 150px;
+}
+
+.age-col {
+  width: 100px;
+}
+
+.date-col {
+  width: 200px;
+}
+
+.is-active-col {
+  width: 100px
+}
+</style>
+```
 ## Add, Update and Remove Rows
 To add, update and remove rows using external buttons, you need to pass the `rowUpdate` prop containing the row id and other required information. Below is a full example:
 
@@ -536,9 +681,6 @@ To add, update and remove rows using external buttons, you need to pass the `row
         ></BIconTrash>
       </template>
     </b-editable-table>
-    <pre>
-      {{ items }}
-    </pre>
   </div>
 </template>
 
@@ -758,9 +900,6 @@ table.editable-table td {
         </div>
       </template>
     </b-editable-table>
-    <pre>
-      {{users}}
-    </pre>
 </div>
 </template>
 
@@ -851,8 +990,8 @@ table.editable-table td {
 ## Supported Version
 This has been tested on:
 
- - vue `v2.6.12`
- - bootstrap `v4.3.1`
+ - vue `v2.6.14`
+ - bootstrap `v4.6.1`
  - bootstrap-vue `v2.21.2`
 
 We are looking to support as many versions as possible so please create an issue if you encounter compatibility issues 🙏
@@ -870,6 +1009,6 @@ We are looking to support as many versions as possible so please create an issue
 	 * [ ] Tags
 	 * [ ] File upload
  * [x] Enable row editing (allows to edit all the cells of a row at once)
- * [ ] Validation
+ * [x] Validation
  * [ ] Vue 3 support
  * [ ] Styling themes
