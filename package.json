@@ -1,6 +1,6 @@
 {
   "name": "bootstrap-vue-editable-table",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A Bootstrap Vue editable table for editing cells using built-in Bootstrap form elements",
   "author": "Muhi Masri",
   "scripts": {
