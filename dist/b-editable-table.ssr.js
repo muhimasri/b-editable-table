@@ -3,14 +3,9 @@
 
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
-
-    if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-    }
-
-    keys.push.apply(keys, symbols);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
   }
 
   return keys;
@@ -18,19 +13,12 @@
 
 function _objectSpread2$1(target) {
   for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys$A(Object(source), true).forEach(function (key) {
-        _defineProperty$H(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys$A(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys$A(Object(source), !0).forEach(function (key) {
+      _defineProperty$H(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$A(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
   }
 
   return target;
@@ -60,7 +48,7 @@ function _arrayWithHoles$1(arr) {
 }
 
 function _iterableToArrayLimit$1(arr, i) {
-  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
 
   if (_i == null) return;
   var _arr = [];
@@ -150,7 +138,8 @@ IS_BROWSER && Boolean(WINDOW.PointerEvent || WINDOW.MSPointerEvent);
 IS_BROWSER && 'IntersectionObserver' in WINDOW && 'IntersectionObserverEntry' in WINDOW && // Edge 15 and UC Browser lack support for `isIntersecting`
 // but we an use `intersectionRatio > 0` instead
 // 'isIntersecting' in window.IntersectionObserverEntry.prototype &&
-'intersectionRatio' in WINDOW.IntersectionObserverEntry.prototype;var PROP_NAME = '$bvConfig';// --- General ---
+'intersectionRatio' in WINDOW.IntersectionObserverEntry.prototype;var PROP_NAME = '$bvConfig';
+var DEFAULT_BREAKPOINT = ['xs', 'sm', 'md', 'lg', 'xl'];// --- General ---
 var RX_ARRAY_NOTATION = /\[(\d+)]/g;
 var RX_BV_PREFIX = /^(BV?)/;
 var RX_DIGITS = /^\d+$/;
@@ -322,6 +311,9 @@ function _defineProperty$G(obj, key, value) { if (key in obj) { Object.definePro
 
 var assign = function assign() {
   return Object.assign.apply(Object, arguments);
+};
+var create = function create(proto, optionalProps) {
+  return Object.create(proto, optionalProps);
 };
 var defineProperties = function defineProperties(obj, props) {
   return Object.defineProperties(obj, props);
@@ -908,7 +900,17 @@ var attemptBlur = function attemptBlur(el) {
   } catch (_unused2) {}
 
   return !isActiveElement(el);
-};var VueProto = Vue__default['default'].prototype; // --- Getter methods ---
+};var memoize = function memoize(fn) {
+  var cache = create(null);
+  return function () {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var argsKey = JSON.stringify(args);
+    return cache[argsKey] = cache[argsKey] || fn.apply(null, args);
+  };
+};var VueProto = Vue__default["default"].prototype; // --- Getter methods ---
 
 var getConfigValue = function getConfigValue(key) {
   var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
@@ -923,6 +925,26 @@ var getComponentConfig = function getComponentConfig(key) {
   // otherwise we return the full config (or an empty object if not found)
   return propKey ? getConfigValue("".concat(key, ".").concat(propKey), defaultValue) : getConfigValue(key, {});
 }; // Get all breakpoint names
+
+var getBreakpoints = function getBreakpoints() {
+  return getConfigValue('breakpoints', DEFAULT_BREAKPOINT);
+}; // Private method for caching breakpoint names
+
+var _getBreakpointsCached = memoize(function () {
+  return getBreakpoints();
+}); // Get all breakpoint names (cached)
+
+
+var getBreakpointsCached = function getBreakpointsCached() {
+  return cloneDeep(_getBreakpointsCached());
+}; // Get breakpoints with the smallest breakpoint set as ''
+// Useful for components that create breakpoint specific props
+
+memoize(function () {
+  var breakpoints = getBreakpointsCached();
+  breakpoints[0] = '';
+  return breakpoints;
+}); // Get breakpoints with the largest breakpoint set as ''
 function ownKeys$x(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$x(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$x(Object(source), true).forEach(function (key) { _defineProperty$E(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$x(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1000,7 +1022,7 @@ var makeModelMixin = function makeModelMixin(prop) {
   var props = _defineProperty$D({}, prop, makeProp(type, defaultValue, validator)); // @vue/component
 
 
-  var mixin = Vue__default['default'].extend({
+  var mixin = Vue__default["default"].extend({
     model: {
       prop: prop,
       event: event
@@ -1061,7 +1083,7 @@ var normalizeSlot = function normalizeSlot(names) {
 
 
   return isFunction$1(slot) ? slot(scope) : slot;
-};var normalizeSlotMixin = Vue__default['default'].extend({
+};var normalizeSlotMixin = Vue__default["default"].extend({
   methods: {
     // Returns `true` if the either a `$scopedSlot` or `$slot` exists with the specified name
     // `name` can be a string name or an array of names
@@ -1194,7 +1216,7 @@ var props$Q = {
 }; // --- Main component ---
 // @vue/component
 
-var BVTransition = /*#__PURE__*/Vue__default['default'].extend({
+var BVTransition = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TRANSITION,
   functional: true,
   props: props$Q,
@@ -1386,7 +1408,7 @@ var props$P = {
 // Shared private base component to reduce bundle/runtime size
 // @vue/component
 
-var BVIconBase = /*#__PURE__*/Vue__default['default'].extend({
+var BVIconBase = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_ICON_BASE,
   functional: true,
   props: props$P,
@@ -1483,7 +1505,7 @@ var makeIcon = function makeIcon(name, content) {
   var iconNameClass = "bi-".concat(kebabName);
   var iconTitle = kebabName.replace(/-/g, ' ');
   var svgContent = trim(content || '');
-  return /*#__PURE__*/Vue__default['default'].extend({
+  return /*#__PURE__*/Vue__default["default"].extend({
     name: iconName,
     functional: true,
     props: omit(props$P, ['content']),
@@ -1547,7 +1569,7 @@ var props$O = makePropsConfigurable(sortKeys(_objectSpread$u(_objectSpread$u({},
 // Requires the requested icon component to be installed
 // @vue/component
 
-var BIcon = /*#__PURE__*/Vue__default['default'].extend({
+var BIcon = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_ICON,
   functional: true,
   props: props$O,
@@ -1672,13 +1694,13 @@ var makePropWatcher = function makePropWatcher(propName) {
   };
 };
 var makePropCacheMixin = function makePropCacheMixin(propName, proxyPropName) {
-  return Vue__default['default'].extend({
+  return Vue__default["default"].extend({
     data: function data() {
       return _defineProperty$y({}, proxyPropName, cloneDeep(this[propName]));
     },
     watch: _defineProperty$y({}, propName, makePropWatcher(proxyPropName))
   });
-};var attrsMixin = makePropCacheMixin('$attrs', 'bvAttrs');var listenOnRootMixin = Vue__default['default'].extend({
+};var attrsMixin = makePropCacheMixin('$attrs', 'bvAttrs');var listenOnRootMixin = Vue__default["default"].extend({
   methods: {
     /**
      * Safely register event listeners on the root Vue node
@@ -1800,7 +1822,7 @@ var props$N = makePropsConfigurable(sortKeys(_objectSpread$t(_objectSpread$t(_ob
 })), NAME_LINK); // --- Main component ---
 // @vue/component
 
-var BLink = /*#__PURE__*/Vue__default['default'].extend({
+var BLink = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_LINK,
   // Mixin order is important!
   mixins: [attrsMixin, listenersMixin, listenOnRootMixin, normalizeSlotMixin],
@@ -2041,7 +2063,7 @@ var computeAttrs = function computeAttrs(props, data) {
 // @vue/component
 
 
-var BButton = /*#__PURE__*/Vue__default['default'].extend({
+var BButton = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_BUTTON,
   functional: true,
   props: props$M,
@@ -2289,7 +2311,7 @@ var props$L = {
 }; // --- Mixin ---
 // @vue/component
 
-var idMixin = Vue__default['default'].extend({
+var idMixin = Vue__default["default"].extend({
   props: props$L,
   data: function data() {
     return {
@@ -2425,7 +2447,7 @@ var props$K = makePropsConfigurable(sortKeys(_objectSpread$r(_objectSpread$r(_ob
 })), NAME_CALENDAR); // --- Main component ---
 // @vue/component
 
-var BCalendar = Vue__default['default'].extend({
+var BCalendar = Vue__default["default"].extend({
   name: NAME_CALENDAR,
   // Mixin order is important!
   mixins: [attrsMixin, idMixin, modelMixin$5, normalizeSlotMixin],
@@ -5923,7 +5945,9 @@ var Popper = function () {
 
 Popper.Utils = (typeof window !== 'undefined' ? window : global).PopperUtils;
 Popper.placements = placements;
-Popper.Defaults = Defaults;var PLACEMENT_TOP_START = 'top-start';
+Popper.Defaults = Defaults;
+
+var Popper$1 = Popper;var PLACEMENT_TOP_START = 'top-start';
 var PLACEMENT_TOP_END = 'top-end';
 var PLACEMENT_BOTTOM_START = 'bottom-start';
 var PLACEMENT_BOTTOM_END = 'bottom-end';
@@ -5995,7 +6019,7 @@ var BvEvent = /*#__PURE__*/function () {
   }]);
 
   return BvEvent;
-}();var clickOutMixin = Vue__default['default'].extend({
+}();var clickOutMixin = Vue__default["default"].extend({
   data: function data() {
     return {
       listenForClickOut: false
@@ -6043,7 +6067,7 @@ var BvEvent = /*#__PURE__*/function () {
       }
     }
   }
-});var focusInMixin = Vue__default['default'].extend({
+});var focusInMixin = Vue__default["default"].extend({
   data: function data() {
     return {
       listenForFocusIn: false
@@ -6125,7 +6149,7 @@ var props$J = makePropsConfigurable(sortKeys(_objectSpread$q(_objectSpread$q({},
 })), NAME_DROPDOWN); // --- Mixin ---
 // @vue/component
 
-var dropdownMixin = Vue__default['default'].extend({
+var dropdownMixin = Vue__default["default"].extend({
   mixins: [idMixin, listenOnRootMixin, clickOutMixin, focusInMixin],
   provide: function provide() {
     return {
@@ -6247,7 +6271,7 @@ var dropdownMixin = Vue__default['default'].extend({
 
 
       if (!this.inNavbar) {
-        if (typeof Popper === 'undefined') {
+        if (typeof Popper$1 === 'undefined') {
           /* istanbul ignore next */
           warn('Popper.js not found. Falling back to CSS positioning', NAME_DROPDOWN);
         } else {
@@ -6281,7 +6305,7 @@ var dropdownMixin = Vue__default['default'].extend({
     },
     createPopper: function createPopper(element) {
       this.destroyPopper();
-      this.$_popper = new Popper(element, this.$refs.menu, this.getPopperConfig());
+      this.$_popper = new Popper$1(element, this.$refs.menu, this.getPopperConfig());
     },
     // Ensure popper event listeners are removed cleanly
     destroyPopper: function destroyPopper() {
@@ -6547,7 +6571,7 @@ var props$I = makePropsConfigurable({
 }, 'formOptionControls'); // --- Mixin ---
 // @vue/component
 
-var formOptionsMixin = Vue__default['default'].extend({
+var formOptionsMixin = Vue__default["default"].extend({
   props: props$I,
   computed: {
     formOptions: function formOptions() {
@@ -6620,7 +6644,7 @@ var props$H = makePropsConfigurable({
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
-var formControlMixin = Vue__default['default'].extend({
+var formControlMixin = Vue__default["default"].extend({
   props: props$H,
   mounted: function mounted() {
     this.handleAutofocus();
@@ -6654,7 +6678,7 @@ var formControlMixin = Vue__default['default'].extend({
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
-var formCustomMixin = Vue__default['default'].extend({
+var formCustomMixin = Vue__default["default"].extend({
   props: props$G,
   computed: {
     custom: function custom() {
@@ -6666,7 +6690,7 @@ var formCustomMixin = Vue__default['default'].extend({
 }, 'formControls'); // --- Mixin ---
 // @vue/component
 
-var formSizeMixin = Vue__default['default'].extend({
+var formSizeMixin = Vue__default["default"].extend({
   props: props$F,
   computed: {
     sizeFormClass: function sizeFormClass() {
@@ -6688,7 +6712,7 @@ var props$E = makePropsConfigurable({
 }, 'formState'); // --- Mixin ---
 // @vue/component
 
-var formStateMixin = Vue__default['default'].extend({
+var formStateMixin = Vue__default["default"].extend({
   props: props$E,
   computed: {
     computedState: function computedState() {
@@ -6737,7 +6761,7 @@ var props$D = makePropsConfigurable(sortKeys(_objectSpread$p(_objectSpread$p(_ob
 })), 'formRadioCheckControls'); // --- Mixin ---
 // @vue/component
 
-var formRadioCheckMixin = Vue__default['default'].extend({
+var formRadioCheckMixin = Vue__default["default"].extend({
   mixins: [attrsMixin, idMixin, modelMixin$4, normalizeSlotMixin, formControlMixin, formSizeMixin, formStateMixin, formCustomMixin],
   inheritAttrs: false,
   props: props$D,
@@ -6990,7 +7014,7 @@ var MODEL_EVENT_NAME_INDETERMINATE = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_I
 var props$C = makePropsConfigurable(sortKeys(_objectSpread$o(_objectSpread$o({}, props$D), {}, (_objectSpread2 = {}, _defineProperty$s(_objectSpread2, MODEL_PROP_NAME_INDETERMINATE, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$s(_objectSpread2, "switch", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$s(_objectSpread2, "uncheckedValue", makeProp(PROP_TYPE_ANY, false)), _defineProperty$s(_objectSpread2, "value", makeProp(PROP_TYPE_ANY, true)), _objectSpread2))), NAME_FORM_CHECKBOX); // --- Main component ---
 // @vue/component
 
-var BFormCheckbox = /*#__PURE__*/Vue__default['default'].extend({
+var BFormCheckbox = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_CHECKBOX,
   mixins: [formRadioCheckMixin],
   inject: {
@@ -7163,7 +7187,7 @@ var props$B = sortKeys(_objectSpread$n(_objectSpread$n(_objectSpread$n(_objectSp
 })); // --- Main component ---
 // @vue/component
 
-var BVFormBtnLabelControl = /*#__PURE__*/Vue__default['default'].extend({
+var BVFormBtnLabelControl = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_BUTTON_LABEL_CONTROL,
   directives: {
     'b-hover': VBHover
@@ -7400,7 +7424,7 @@ var props$A = makePropsConfigurable(sortKeys(_objectSpread$m(_objectSpread$m(_ob
 })), NAME_FORM_DATEPICKER); // --- Main component ---
 // @vue/component
 
-var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
+var BFormDatepicker = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_DATEPICKER,
   mixins: [idMixin, modelMixin$3],
   props: props$A,
@@ -7647,7 +7671,7 @@ var BFormDatepicker = /*#__PURE__*/Vue__default['default'].extend({
       ref: 'control'
     }, [$calendar]);
   }
-});var formSelectionMixin = Vue__default['default'].extend({
+});var formSelectionMixin = Vue__default["default"].extend({
   computed: {
     selectionStart: {
       // Expose selectionStart for formatters, etc
@@ -7750,7 +7774,7 @@ var props$z = makePropsConfigurable(sortKeys(_objectSpread$l(_objectSpread$l({},
 })), 'formTextControls'); // --- Mixin ---
 // @vue/component
 
-var formTextMixin = Vue__default['default'].extend({
+var formTextMixin = Vue__default["default"].extend({
   mixins: [modelMixin$2],
   props: props$z,
   data: function data() {
@@ -7963,7 +7987,7 @@ var formTextMixin = Vue__default['default'].extend({
       }
     }
   }
-});var formValidityMixin = Vue__default['default'].extend({
+});var formValidityMixin = Vue__default["default"].extend({
   computed: {
     validity: {
       // Expose validity property
@@ -8040,7 +8064,7 @@ var props$y = makePropsConfigurable(sortKeys(_objectSpread$k(_objectSpread$k(_ob
 })), NAME_FORM_INPUT); // --- Main component ---
 // @vue/component
 
-var BFormInput = /*#__PURE__*/Vue__default['default'].extend({
+var BFormInput = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_INPUT,
   // Mixin order is important!
   mixins: [listenersMixin, idMixin, formControlMixin, formSizeMixin, formStateMixin, formTextMixin, formSelectionMixin, formValidityMixin],
@@ -8180,7 +8204,7 @@ var clampValue = function clampValue(value, min, max) {
 // @vue/component
 
 
-var BVFormRatingStar = Vue__default['default'].extend({
+var BVFormRatingStar = Vue__default["default"].extend({
   name: NAME_FORM_RATING_STAR,
   mixins: [normalizeSlotMixin],
   props: {
@@ -8264,7 +8288,7 @@ var props$x = makePropsConfigurable(sortKeys(_objectSpread$j(_objectSpread$j(_ob
 })), NAME_FORM_RATING); // --- Main component ---
 // @vue/component
 
-var BFormRating = /*#__PURE__*/Vue__default['default'].extend({
+var BFormRating = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_RATING,
   components: {
     BIconStar: BIconStar,
@@ -8541,7 +8565,7 @@ var props$v = makePropsConfigurable(sortKeys(_objectSpread$i(_objectSpread$i({},
 })), 'formOptions'); // --- Mixin ---
 // @vue/component
 
-var optionsMixin = Vue__default['default'].extend({
+var optionsMixin = Vue__default["default"].extend({
   mixins: [formOptionsMixin],
   props: props$v,
   methods: {
@@ -8585,7 +8609,7 @@ var optionsMixin = Vue__default['default'].extend({
 }, NAME_FORM_SELECT_OPTION); // --- Main component ---
 // @vue/component
 
-var BFormSelectOption = /*#__PURE__*/Vue__default['default'].extend({
+var BFormSelectOption = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_SELECT_OPTION,
   functional: true,
   props: props$u,
@@ -8616,7 +8640,7 @@ var props$t = makePropsConfigurable(sortKeys(_objectSpread$h(_objectSpread$h({},
 })), NAME_FORM_SELECT_OPTION_GROUP); // --- Main component ---
 // @vue/component
 
-var BFormSelectOptionGroup = /*#__PURE__*/Vue__default['default'].extend({
+var BFormSelectOptionGroup = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_SELECT_OPTION_GROUP,
   mixins: [normalizeSlotMixin, formOptionsMixin],
   props: props$t,
@@ -8657,7 +8681,7 @@ var props$s = makePropsConfigurable(sortKeys(_objectSpread$g(_objectSpread$g(_ob
 })), NAME_FORM_SELECT); // --- Main component ---
 // @vue/component
 
-var BFormSelect = /*#__PURE__*/Vue__default['default'].extend({
+var BFormSelect = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_FORM_SELECT,
   mixins: [idMixin, mixin, formControlMixin, formSizeMixin, formStateMixin, formCustomMixin, optionsMixin, normalizeSlotMixin],
   props: props$s,
@@ -8764,7 +8788,7 @@ var getScopeId = function getScopeId(vm) {
   return vm ? vm.$options._scopeId || defaultValue : defaultValue;
 };function _defineProperty$j(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var scopedStyleMixin = Vue__default['default'].extend({
+var scopedStyleMixin = Vue__default["default"].extend({
   computed: {
     scopedStyleAttrs: function scopedStyleAttrs() {
       var scopeId = getScopeId(this.$parent);
@@ -8821,7 +8845,7 @@ var props$r = {
 }; // --- Main component ---
 // @vue/component
 
-var BVPopper = /*#__PURE__*/Vue__default['default'].extend({
+var BVPopper = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_POPPER,
   props: props$r,
   data: function data() {
@@ -8961,7 +8985,7 @@ var BVPopper = /*#__PURE__*/Vue__default['default'].extend({
       this.destroyPopper(); // We use `el` rather than `this.$el` just in case the original
       // mountpoint root element type was changed by the template
 
-      this.$_popper = new Popper(this.target, el, this.popperConfig);
+      this.$_popper = new Popper$1(this.target, el, this.popperConfig);
     },
     destroyPopper: function destroyPopper() {
       this.$_popper && this.$_popper.destroy();
@@ -9023,7 +9047,7 @@ var props$q = {
 }; // --- Main component ---
 // @vue/component
 
-var BVTooltipTemplate = /*#__PURE__*/Vue__default['default'].extend({
+var BVTooltipTemplate = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TOOLTIP_TEMPLATE,
   extends: BVPopper,
   mixins: [scopedStyleMixin],
@@ -9182,7 +9206,7 @@ var templateData = {
 }; // --- Main component ---
 // @vue/component
 
-var BVTooltip = /*#__PURE__*/Vue__default['default'].extend({
+var BVTooltip = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TOOLTIP_HELPER,
   mixins: [listenOnRootMixin],
   data: function data() {
@@ -10117,7 +10141,7 @@ var props$p = makePropsConfigurable((_makePropsConfigurabl = {
 }, _defineProperty$g(_makePropsConfigurabl, MODEL_PROP_NAME_ENABLED, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "fallbackPlacement", makeProp(PROP_TYPE_ARRAY_STRING, 'flip')), _defineProperty$g(_makePropsConfigurabl, "id", makeProp(PROP_TYPE_STRING)), _defineProperty$g(_makePropsConfigurabl, "noFade", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "noninteractive", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "offset", makeProp(PROP_TYPE_NUMBER_STRING, 0)), _defineProperty$g(_makePropsConfigurabl, "placement", makeProp(PROP_TYPE_STRING, 'top')), _defineProperty$g(_makePropsConfigurabl, MODEL_PROP_NAME_SHOW, makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$g(_makePropsConfigurabl, "target", makeProp([HTMLElement, SVGElement, PROP_TYPE_FUNCTION, PROP_TYPE_OBJECT, PROP_TYPE_STRING], undefined, true)), _defineProperty$g(_makePropsConfigurabl, "title", makeProp(PROP_TYPE_STRING)), _defineProperty$g(_makePropsConfigurabl, "triggers", makeProp(PROP_TYPE_ARRAY_STRING, 'hover focus')), _defineProperty$g(_makePropsConfigurabl, "variant", makeProp(PROP_TYPE_STRING)), _makePropsConfigurabl), NAME_TOOLTIP); // --- Main component ---
 // @vue/component
 
-var BTooltip = /*#__PURE__*/Vue__default['default'].extend({
+var BTooltip = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TOOLTIP,
   mixins: [normalizeSlotMixin],
   inheritAttrs: false,
@@ -10341,7 +10365,7 @@ var BTooltip = /*#__PURE__*/Vue__default['default'].extend({
   }
 });// Mixin to determine if an event listener has been registered
 
-var hasListenerMixin = Vue__default['default'].extend({
+var hasListenerMixin = Vue__default["default"].extend({
   methods: {
     hasListener: function hasListener(name) {
       // Only includes listeners registered via `v-on:name`
@@ -10372,7 +10396,7 @@ var props$o = makePropsConfigurable({
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BTr = /*#__PURE__*/Vue__default['default'].extend({
+var BTr = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TR,
   mixins: [attrsMixin, listenersMixin, normalizeSlotMixin],
   provide: function provide() {
@@ -10467,7 +10491,7 @@ var BTr = /*#__PURE__*/Vue__default['default'].extend({
 });var props$n = {}; // --- Mixin ---
 // @vue/component
 
-var bottomRowMixin = Vue__default['default'].extend({
+var bottomRowMixin = Vue__default["default"].extend({
   props: props$n,
   methods: {
     renderBottomRow: function renderBottomRow() {
@@ -10528,7 +10552,7 @@ var props$m = makePropsConfigurable({
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BTd = /*#__PURE__*/Vue__default['default'].extend({
+var BTd = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TABLE_CELL,
   // Mixin order is important!
   mixins: [attrsMixin, listenersMixin, normalizeSlotMixin],
@@ -10676,7 +10700,7 @@ var MODEL_EVENT_NAME_BUSY = MODEL_EVENT_NAME_PREFIX + MODEL_PROP_NAME_BUSY; // -
 var props$l = _defineProperty$d({}, MODEL_PROP_NAME_BUSY, makeProp(PROP_TYPE_BOOLEAN, false)); // --- Mixin ---
 // @vue/component
 
-var busyMixin = Vue__default['default'].extend({
+var busyMixin = Vue__default["default"].extend({
   props: props$l,
   data: function data() {
     return {
@@ -10742,7 +10766,7 @@ var busyMixin = Vue__default['default'].extend({
 }; // --- Mixin ---
 // @vue/component
 
-var captionMixin = Vue__default['default'].extend({
+var captionMixin = Vue__default["default"].extend({
   props: props$k,
   computed: {
     captionId: function captionId() {
@@ -10774,7 +10798,7 @@ var captionMixin = Vue__default['default'].extend({
 });var props$j = {}; // --- Mixin ---
 // @vue/component
 
-var colgroupMixin = Vue__default['default'].extend({
+var colgroupMixin = Vue__default["default"].extend({
   methods: {
     renderColgroup: function renderColgroup() {
       var fields = this.computedFields;
@@ -10802,7 +10826,7 @@ var colgroupMixin = Vue__default['default'].extend({
 }; // --- Mixin ---
 // @vue/component
 
-var emptyMixin = Vue__default['default'].extend({
+var emptyMixin = Vue__default["default"].extend({
   props: props$i,
   methods: {
     renderEmpty: function renderEmpty() {
@@ -10969,7 +10993,7 @@ var props$h = {
 }; // --- Mixin ---
 // @vue/component
 
-var filteringMixin = Vue__default['default'].extend({
+var filteringMixin = Vue__default["default"].extend({
   props: props$h,
   data: function data() {
     return {
@@ -11304,7 +11328,7 @@ var props$g = sortKeys(_objectSpread$9(_objectSpread$9({}, modelProps), {}, _def
 }, MODEL_PROP_NAME, makeProp(PROP_TYPE_ARRAY, [])))); // --- Mixin ---
 // @vue/component
 
-var itemsMixin = Vue__default['default'].extend({
+var itemsMixin = Vue__default["default"].extend({
   mixins: [modelMixin],
   props: props$g,
   data: function data() {
@@ -11405,7 +11429,7 @@ var itemsMixin = Vue__default['default'].extend({
 }; // --- Mixin ---
 // @vue/component
 
-var paginationMixin = Vue__default['default'].extend({
+var paginationMixin = Vue__default["default"].extend({
   props: props$f,
   computed: {
     localPaging: function localPaging() {
@@ -11440,7 +11464,7 @@ var props$e = {
 }; // --- Mixin ---
 // @vue/component
 
-var providerMixin = Vue__default['default'].extend({
+var providerMixin = Vue__default["default"].extend({
   mixins: [listenOnRootMixin],
   props: props$e,
   computed: {
@@ -11617,7 +11641,7 @@ var props$d = {
 }; // --- Mixin ---
 // @vue/component
 
-var selectableMixin = Vue__default['default'].extend({
+var selectableMixin = Vue__default["default"].extend({
   props: props$d,
   data: function data() {
     return {
@@ -11937,7 +11961,7 @@ var props$c = (_props = {
 })), _defineProperty$9(_props, "sortIconLeft", makeProp(PROP_TYPE_BOOLEAN, false)), _defineProperty$9(_props, "sortNullLast", makeProp(PROP_TYPE_BOOLEAN, false)), _props); // --- Mixin ---
 // @vue/component
 
-var sortingMixin = Vue__default['default'].extend({
+var sortingMixin = Vue__default["default"].extend({
   props: props$c,
   data: function data() {
     return {
@@ -12166,7 +12190,7 @@ var props$b = {
 }; // --- Mixin ---
 // @vue/component
 
-var stackedMixin = Vue__default['default'].extend({
+var stackedMixin = Vue__default["default"].extend({
   props: props$b,
   computed: {
     isStacked: function isStacked() {
@@ -12211,7 +12235,7 @@ var props$a = {
 }; // --- Mixin ---
 // @vue/component
 
-var tableRendererMixin = Vue__default['default'].extend({
+var tableRendererMixin = Vue__default["default"].extend({
   mixins: [attrsMixin],
   provide: function provide() {
     return {
@@ -12341,7 +12365,7 @@ var props$9 = makePropsConfigurable({
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BTbody = /*#__PURE__*/Vue__default['default'].extend({
+var BTbody = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TBODY,
   mixins: [attrsMixin, listenersMixin, normalizeSlotMixin],
   provide: function provide() {
@@ -12480,7 +12504,7 @@ var textSelectionActive = function textSelectionActive() {
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BTh = /*#__PURE__*/Vue__default['default'].extend({
+var BTh = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TH,
   extends: BTd,
   props: props$8,
@@ -12514,7 +12538,7 @@ var props$7 = {
 }; // --- Mixin ---
 // @vue/component
 
-var tbodyRowMixin = Vue__default['default'].extend({
+var tbodyRowMixin = Vue__default["default"].extend({
   props: props$7,
   methods: {
     // Methods for computing classes, attributes and styles for table cells
@@ -12850,7 +12874,7 @@ var props$6 = sortKeys(_objectSpread$4(_objectSpread$4(_objectSpread$4({}, props
 })); // --- Mixin ---
 // @vue/component
 
-var tbodyMixin = Vue__default['default'].extend({
+var tbodyMixin = Vue__default["default"].extend({
   mixins: [tbodyRowMixin],
   props: props$6,
   beforeDestroy: function beforeDestroy() {
@@ -13066,7 +13090,7 @@ var props$5 = makePropsConfigurable({
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BTfoot = /*#__PURE__*/Vue__default['default'].extend({
+var BTfoot = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TFOOT,
   mixins: [attrsMixin, listenersMixin, normalizeSlotMixin],
   provide: function provide() {
@@ -13147,7 +13171,7 @@ var BTfoot = /*#__PURE__*/Vue__default['default'].extend({
 }; // --- Mixin ---
 // @vue/component
 
-var tfootMixin = Vue__default['default'].extend({
+var tfootMixin = Vue__default["default"].extend({
   props: props$4,
   methods: {
     renderTFootCustom: function renderTFootCustom() {
@@ -13190,7 +13214,7 @@ var props$3 = makePropsConfigurable({
 //   to the child elements, so this can be converted to a functional component
 // @vue/component
 
-var BThead = /*#__PURE__*/Vue__default['default'].extend({
+var BThead = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_THEAD,
   mixins: [attrsMixin, listenersMixin, normalizeSlotMixin],
   provide: function provide() {
@@ -13298,7 +13322,7 @@ var props$2 = {
 }; // --- Mixin ---
 // @vue/component
 
-var theadMixin = Vue__default['default'].extend({
+var theadMixin = Vue__default["default"].extend({
   props: props$2,
   methods: {
     fieldClasses: function fieldClasses(field) {
@@ -13474,7 +13498,7 @@ var theadMixin = Vue__default['default'].extend({
 });var props$1 = {}; // --- Mixin ---
 // @vue/component
 
-var topRowMixin = Vue__default['default'].extend({
+var topRowMixin = Vue__default["default"].extend({
   methods: {
     renderTopRow: function renderTopRow() {
       var fields = this.computedFields,
@@ -13508,7 +13532,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var props = makePropsConfigurable(sortKeys(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, props$L), props$n), props$l), props$k), props$j), props$i), props$h), props$g), props$f), props$e), props$d), props$c), props$b), props$a), props$6), props$4), props$2), props$1)), NAME_TABLE); // --- Main component ---
 // @vue/component
 
-var BTable = /*#__PURE__*/Vue__default['default'].extend({
+var BTable = /*#__PURE__*/Vue__default["default"].extend({
   name: NAME_TABLE,
   // Order of mixins is important!
   // They are merged from first to last, followed by this component
@@ -13518,7 +13542,7 @@ var BTable = /*#__PURE__*/Vue__default['default'].extend({
   stackedMixin, filteringMixin, sortingMixin, paginationMixin, captionMixin, colgroupMixin, selectableMixin, emptyMixin, topRowMixin, bottomRowMixin, busyMixin, providerMixin],
   props: props // Render function is provided by `tableRendererMixin`
 
-});var script = Vue__default['default'].extend({
+});var script = Vue__default["default"].extend({
   name: "BEditableTable",
   components: {
     BTable: BTable,
@@ -14193,14 +14217,16 @@ var __vue_is_functional_template__ = false;
 var __vue_component__ = /*#__PURE__*/normalizeComponent({
   render: __vue_render__,
   staticRenderFns: __vue_staticRenderFns__
-}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, undefined, createInjectorSSR, undefined);// Import vue component
+}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, undefined, createInjectorSSR, undefined);
+
+var component$1 = __vue_component__;// Import vue component
 
 // Default export is installable instance of component.
 // IIFE injects install function into component, allowing component
 // to be registered via Vue.use() as well as Vue.component(),
 var component = /*#__PURE__*/(function () {
   // Assign InstallableComponent type
-  var installable = __vue_component__; // Attach install function executed by Vue.use()
+  var installable = component$1; // Attach install function executed by Vue.use()
 
   installable.install = function (Vue) {
     Vue.component('BEditableTable', installable);
@@ -14210,7 +14236,7 @@ var component = /*#__PURE__*/(function () {
 })(); // It's possible to expose named exports when writing components that can
 // also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
 // export const RollupDemoDirective = directive;
-var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,'default': component});// only expose one global var, with named exports exposed as properties of
+var namedExports=/*#__PURE__*/Object.freeze({__proto__:null,'default':component});// only expose one global var, with named exports exposed as properties of
 // that global var (eg. plugin.namedExport)
 
 Object.entries(namedExports).forEach(function (_ref) {
