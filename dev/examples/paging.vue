@@ -1,11 +1,20 @@
 <template>
   <div>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination>
+    <p class="mt-3">Current Page: {{ currentPage }}</p>
     <b-editable-table
       bordered
       class="editable-table"
       v-model="items"
       :fields="fields"
       @input-change="handleInput"
+      :per-page="perPage"
+      :current-page="currentPage"
     >
       <template #cell(isActive)="data">
         <span v-if="data.value">Yes</span>
@@ -27,6 +36,8 @@ export default {
   },
   data() {
     return {
+      perPage: 3,
+      currentPage: 1,
       fields: [
         {
           key: 'name',
@@ -113,11 +124,80 @@ export default {
           dateOfBirth: '1964-10-19',
           isActive: true,
         },
+        {
+          id: 5,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 6,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 7,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 8,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 9,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 10,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 11,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
+        {
+          id: 12,
+          age: 38,
+          name: 'Jami',
+          department: 4,
+          dateOfBirth: '1964-10-19',
+          isActive: true,
+        },
       ],
     }
   },
   methods: {
     handleInput(data) {},
+  },
+  computed: {
+    rows() {
+      return this.items.length
+    },
   },
 }
 </script>

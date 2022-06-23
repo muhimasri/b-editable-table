@@ -13543,7 +13543,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
   props: props // Render function is provided by `tableRendererMixin`
 
 });var script = Vue__default["default"].extend({
-  name: "BEditableTable",
+  name: 'BEditableTable',
   components: {
     BTable: BTable,
     BFormDatepicker: BFormDatepicker,
@@ -13559,11 +13559,11 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
     value: Array,
     editMode: {
       type: String,
-      default: "cell"
+      default: 'cell'
     },
     editTrigger: {
       type: String,
-      default: "click"
+      default: 'click'
     },
     rowUpdate: {
       type: Object,
@@ -13583,10 +13583,10 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
               return;
             }
 
-          case "checkbox":
+          case 'checkbox':
             el.children[0].focus();
 
-          case "date":
+          case 'date':
             el.children[0].focus();
 
           default:
@@ -13604,10 +13604,10 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
           }
         };
 
-        document.addEventListener("click", el.clickOutsideEvent);
+        document.addEventListener('click', el.clickOutsideEvent);
       },
       unbind: function unbind(el) {
-        document.removeEventListener("click", el.clickOutsideEvent);
+        document.removeEventListener('click', el.clickOutsideEvent);
       }
     }
   },
@@ -13639,14 +13639,14 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
           this.tableMap[newVal.id].isEdit = newVal.edit;
         }
 
-        if (newVal.action === "update") {
+        if (newVal.action === 'update') {
           this.clearValidation(newVal.id);
           this.updateData(newVal.id);
-        } else if (newVal.action === "add") {
-          this.updateData(newVal.id, "add", _objectSpread2$1({}, newVal.data), newVal.edit);
-        } else if (newVal.action === "delete") {
-          this.updateData(newVal.id, "delete");
-        } else if (newVal.action === "cancel" || newVal.isEdit === false) {
+        } else if (newVal.action === 'add') {
+          this.updateData(newVal.id, 'add', _objectSpread2$1({}, newVal.data), newVal.edit);
+        } else if (newVal.action === 'delete') {
+          this.updateData(newVal.id, 'delete');
+        } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
           this.clearValidation(newVal.id);
           delete this.localChanges[newVal.id];
         }
@@ -13679,7 +13679,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       }
     },
     handleKeydown: function handleKeydown(e, index, data) {
-      if ((e.code === "Tab" || e.code === "Enter") && this.editMode === "cell" && !this.disableDefaultEdit) {
+      if ((e.code === 'Tab' || e.code === 'Enter') && this.editMode === 'cell' && !this.disableDefaultEdit) {
         var _this$tableItems$rowI;
 
         e.preventDefault();
@@ -13709,7 +13709,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
             this.localChanges[rowId] = {};
           }
         }
-      } else if (e.code === "Escape") {
+      } else if (e.code === 'Escape') {
         e.preventDefault();
         this.selectedCell = null;
         this.clearEditMode(data.item.id);
@@ -13760,7 +13760,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       };
 
       if (!excludeTypes[fieldType]) {
-        this.$emit("input-change", _objectSpread2$1(_objectSpread2$1({}, data), {}, {
+        this.$emit('input-change', _objectSpread2$1(_objectSpread2$1({}, data), {}, {
           id: data.item.id,
           value: changedValue,
           validity: _objectSpread2$1({}, fields[key].validity)
@@ -13768,7 +13768,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       }
     },
     changeHandler: function changeHandler(value, data, key) {
-      this.$emit("input-change", _objectSpread2$1(_objectSpread2$1({}, data), {}, {
+      this.$emit('input-change', _objectSpread2$1(_objectSpread2$1({}, data), {}, {
         id: data.item.id,
         value: value,
         validity: _objectSpread2$1({}, this.tableMap[data.item.id].fields[key].validity)
@@ -13780,7 +13780,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       var isUpdate = false;
       var objId = id ? id : Object.keys(this.localChanges)[0];
 
-      if (action === "add") {
+      if (action === 'add') {
         isUpdate = true; // Warning: if watcher don't trigger the new row will not update the tableMap properly
 
         this.tableMap[id] = {
@@ -13789,7 +13789,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
           fields: {}
         };
         this.tableItems.unshift(data);
-      } else if (action === "delete") {
+      } else if (action === 'delete') {
         isUpdate = true;
         delete this.tableMap[id];
         this.tableItems = this.tableItems.filter(function (item) {
@@ -13803,13 +13803,21 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
             isUpdate = true;
             var cell = objValue[key];
             _this.tableMap[objId].fields[key].value = cell.value;
-            _this.tableItems[cell.rowIndex][key] = cell.value;
+            var rowIndex = cell.rowIndex;
+            var currentPage = _this.$attrs['current-page'];
+            var perPage = _this.$attrs['per-page'];
+
+            if (currentPage > 1 && perPage > 0) {
+              rowIndex = (currentPage - 1) * perPage + rowIndex;
+            }
+
+            _this.tableItems[rowIndex][key] = cell.value;
           });
         }
       }
 
       if (isUpdate) {
-        this.$emit("input", this.tableItems);
+        this.$emit('input', this.tableItems);
       }
 
       delete this.localChanges[id ? id : objId];
@@ -13818,7 +13826,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       // Exclude listeners that are not part of Bootstrap Vue
       var excludeEvents = {
         input: true,
-        "input-change": true
+        'input-change': true
       };
       return Object.keys(listeners).reduce(function (a, c) {
         return excludeEvents[c] ? a : _objectSpread2$1(_objectSpread2$1({}, a), {}, _defineProperty$H({}, c, listeners[c]));
@@ -13826,7 +13834,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
     },
     getCellValue: function getCellValue(data, field) {
       var row = this.tableMap[data.item.id];
-      var value = row && row.fields[field.key] ? row.fields[field.key].value : ""; // Handle select element with options
+      var value = row && row.fields[field.key] ? row.fields[field.key].value : ''; // Handle select element with options
 
       if (data.field.options) {
         var selectedValue = data.field.options.find(function (item) {
@@ -13849,7 +13857,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
     showField: function showField(field, data, type) {
       var _this$tableMap$data$i;
 
-      return field.type === type && ((_this$tableMap$data$i = this.tableMap[data.item.id]) === null || _this$tableMap$data$i === void 0 ? void 0 : _this$tableMap$data$i.isEdit) && (this.selectedCell === field.key || this.editMode === "row") && field.editable;
+      return field.type === type && ((_this$tableMap$data$i = this.tableMap[data.item.id]) === null || _this$tableMap$data$i === void 0 ? void 0 : _this$tableMap$data$i.isEdit) && (this.selectedCell === field.key || this.editMode === 'row') && field.editable;
     },
     getFieldValue: function getFieldValue(field, data) {
       var _this$tableMap$data$i2;
@@ -13857,7 +13865,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
       return (_this$tableMap$data$i2 = this.tableMap[data.item.id].fields[field.key]) === null || _this$tableMap$data$i2 === void 0 ? void 0 : _this$tableMap$data$i2.value;
     },
     enableFocus: function enableFocus(type) {
-      return this.editMode === "cell" ? type : false;
+      return this.editMode === 'cell' ? type : false;
     },
     clearEditMode: function clearEditMode(id) {
       if (id) {
@@ -14196,7 +14204,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-4eab6fce_0", {
+  inject("data-v-7a52295e_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -14208,7 +14216,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-4eab6fce";
+var __vue_module_identifier__ = "data-v-7a52295e";
 /* functional template */
 
 var __vue_is_functional_template__ = false;
