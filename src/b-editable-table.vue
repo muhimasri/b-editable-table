@@ -308,7 +308,7 @@ export default Vue.extend({
       }
 
       const validity = data.field.validate
-        ? data.field.validate(changedValue)
+        ? data.field.validate(changedValue, data)
         : { valid: true }
       const fields = this.tableMap[data.item.id].fields
       fields[key].validity.valid = true
