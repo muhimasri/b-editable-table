@@ -13785,7 +13785,7 @@ var script = Vue.extend({
           this.updateData(newVal.id);
         } else if (newVal.action === 'add') {
           this.updateData(newVal.id, 'add', { ...newVal.data
-          }, newVal.edit);
+          }, newVal.edit, newVal.addPosition);
         } else if (newVal.action === 'delete') {
           this.updateData(newVal.id, 'delete');
         } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
@@ -13878,7 +13878,7 @@ var script = Vue.extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      const validity = data.field.validate ? data.field.validate(changedValue) : {
+      const validity = data.field.validate ? data.field.validate(changedValue, data) : {
         valid: true
       };
       const fields = this.tableMap[data.item.id].fields;
@@ -13923,7 +13923,7 @@ var script = Vue.extend({
       });
     },
 
-    updateData(id, action, data, isEdit) {
+    updateData(id, action, data, isEdit, addPosition) {
       let isUpdate = false;
       const objId = id ? id : Object.keys(this.localChanges)[0];
 
@@ -13935,7 +13935,12 @@ var script = Vue.extend({
           isEdit,
           fields: {}
         };
-        this.tableItems.unshift(data);
+
+        if (addPosition === 'end') {
+          this.tableItems.push(data);
+        } else {
+          this.tableItems.unshift(data);
+        }
       } else if (action === 'delete') {
         isUpdate = true;
         delete this.tableMap[id];
@@ -14322,7 +14327,40 @@ var __vue_render__ = function () {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : _vm.showField(field, data, field.type) ? _c('div', {
+          }, 'b-form-rating', Object.assign({}, field), false)) : _vm.showField(field, data, 'textarea') ? _c('div', {
+            key: index
+          }, [_c('b-form-textarea', _vm._b({
+            directives: [{
+              name: "focus",
+              rawName: "v-focus",
+              value: _vm.enableFocus(),
+              expression: "enableFocus()"
+            }],
+            attrs: {
+              "id": field.key + "-" + data.item.id,
+              "type": field.type,
+              "value": _vm.getFieldValue(field, data),
+              "state": _vm.getValidity(data, field).valid ? null : false
+            },
+            on: {
+              "keydown": function ($event) {
+                return _vm.handleKeydown($event, index, data);
+              },
+              "input": function (value) {
+                return _vm.inputHandler(value, data, field.key);
+              },
+              "change": function (value) {
+                return _vm.changeHandler(value, data, field.key);
+              }
+            }
+          }, 'b-form-textarea', Object.assign({}, field), false)), _vm._v(" "), _vm.getValidity(data, field).errorMessage ? _c('b-tooltip', {
+            attrs: {
+              "target": field.key + "-" + data.item.id,
+              "variant": "danger",
+              "show": !_vm.getValidity(data, field).valid,
+              "disabled": true
+            }
+          }, [_vm._v("\n        " + _vm._s(_vm.getValidity(data, field).errorMessage) + "\n      ")]) : _vm._e()], 1) : _vm.showField(field, data, field.type) ? _c('div', {
             key: index
           }, [_c('b-form-input', _vm._b({
             directives: [{
@@ -14373,7 +14411,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-7a52295e_0", {
+  inject("data-v-27f38362_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined

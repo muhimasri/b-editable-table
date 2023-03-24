@@ -13643,7 +13643,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
           this.clearValidation(newVal.id);
           this.updateData(newVal.id);
         } else if (newVal.action === 'add') {
-          this.updateData(newVal.id, 'add', _objectSpread2$1({}, newVal.data), newVal.edit);
+          this.updateData(newVal.id, 'add', _objectSpread2$1({}, newVal.data), newVal.edit, newVal.addPosition);
         } else if (newVal.action === 'delete') {
           this.updateData(newVal.id, 'delete');
         } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
@@ -13733,7 +13733,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
         changedValue = selectedValue ? selectedValue.value : value;
       }
 
-      var validity = data.field.validate ? data.field.validate(changedValue) : {
+      var validity = data.field.validate ? data.field.validate(changedValue, data) : {
         valid: true
       };
       var fields = this.tableMap[data.item.id].fields;
@@ -13774,7 +13774,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
         validity: _objectSpread2$1({}, this.tableMap[data.item.id].fields[key].validity)
       }));
     },
-    updateData: function updateData(id, action, data, isEdit) {
+    updateData: function updateData(id, action, data, isEdit, addPosition) {
       var _this = this;
 
       var isUpdate = false;
@@ -13788,7 +13788,12 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
           isEdit: isEdit,
           fields: {}
         };
-        this.tableItems.unshift(data);
+
+        if (addPosition === 'end') {
+          this.tableItems.push(data);
+        } else {
+          this.tableItems.unshift(data);
+        }
       } else if (action === 'delete') {
         isUpdate = true;
         delete this.tableMap[id];
@@ -14153,7 +14158,40 @@ var __vue_render__ = function __vue_render__() {
                 return _vm.handleKeydown($event, index, data);
               }
             }
-          }, 'b-form-rating', Object.assign({}, field), false)) : _vm.showField(field, data, field.type) ? _c('div', {
+          }, 'b-form-rating', Object.assign({}, field), false)) : _vm.showField(field, data, 'textarea') ? _c('div', {
+            key: index
+          }, [_c('b-form-textarea', _vm._b({
+            directives: [{
+              name: "focus",
+              rawName: "v-focus",
+              value: _vm.enableFocus(),
+              expression: "enableFocus()"
+            }],
+            attrs: {
+              "id": field.key + "-" + data.item.id,
+              "type": field.type,
+              "value": _vm.getFieldValue(field, data),
+              "state": _vm.getValidity(data, field).valid ? null : false
+            },
+            on: {
+              "keydown": function keydown($event) {
+                return _vm.handleKeydown($event, index, data);
+              },
+              "input": function input(value) {
+                return _vm.inputHandler(value, data, field.key);
+              },
+              "change": function change(value) {
+                return _vm.changeHandler(value, data, field.key);
+              }
+            }
+          }, 'b-form-textarea', Object.assign({}, field), false)), _vm._v(" "), _vm.getValidity(data, field).errorMessage ? _c('b-tooltip', {
+            attrs: {
+              "target": field.key + "-" + data.item.id,
+              "variant": "danger",
+              "show": !_vm.getValidity(data, field).valid,
+              "disabled": true
+            }
+          }, [_vm._v("\n        " + _vm._s(_vm.getValidity(data, field).errorMessage) + "\n      ")]) : _vm._e()], 1) : _vm.showField(field, data, field.type) ? _c('div', {
             key: index
           }, [_c('b-form-input', _vm._b({
             directives: [{
@@ -14204,7 +14242,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-7a52295e_0", {
+  inject("data-v-27f38362_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -14216,7 +14254,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-7a52295e";
+var __vue_module_identifier__ = "data-v-27f38362";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

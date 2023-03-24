@@ -73,6 +73,28 @@
         :key="index"
         :value="getFieldValue(field, data)"
       ></b-form-rating>
+      <div :key="index" v-else-if="showField(field, data, 'textarea')">
+        <b-form-textarea
+          :id="`${field.key}-${data.item.id}`"
+          @keydown="handleKeydown($event, index, data)"
+          @input="(value) => inputHandler(value, data, field.key)"
+          @change="(value) => changeHandler(value, data, field.key)"
+          v-bind="{ ...field }"
+          v-focus="enableFocus()"
+          :type="field.type"
+          :value="getFieldValue(field, data)"
+          :state="getValidity(data, field).valid ? null : false"
+        ></b-form-textarea>
+        <b-tooltip
+          v-if="getValidity(data, field).errorMessage"
+          :target="`${field.key}-${data.item.id}`"
+          variant="danger"
+          :show="!getValidity(data, field).valid"
+          :disabled="true"
+        >
+          {{ getValidity(data, field).errorMessage }}
+        </b-tooltip>
+      </div>
       <div :key="index" v-else-if="showField(field, data, field.type)">
         <b-form-input
           :id="`${field.key}-${data.item.id}`"
@@ -221,7 +243,13 @@ export default Vue.extend({
           this.clearValidation(newVal.id)
           this.updateData(newVal.id)
         } else if (newVal.action === 'add') {
-          this.updateData(newVal.id, 'add', { ...newVal.data }, newVal.edit)
+          this.updateData(
+            newVal.id,
+            'add',
+            { ...newVal.data },
+            newVal.edit,
+            newVal.addPosition,
+          )
         } else if (newVal.action === 'delete') {
           this.updateData(newVal.id, 'delete')
         } else if (newVal.action === 'cancel' || newVal.isEdit === false) {
@@ -347,14 +375,24 @@ export default Vue.extend({
         validity: { ...this.tableMap[data.item.id].fields[key].validity },
       })
     },
-    updateData(id: any, action: String, data: any, isEdit: Boolean) {
+    updateData(
+      id: any,
+      action: String,
+      data: any,
+      isEdit: Boolean,
+      addPosition: String,
+    ) {
       let isUpdate = false
       const objId = id ? id : Object.keys(this.localChanges)[0]
       if (action === 'add') {
         isUpdate = true
         // Warning: if watcher don't trigger the new row will not update the tableMap properly
         this.tableMap[id] = { id, isEdit, fields: {} }
-        this.tableItems.unshift(data)
+        if (addPosition === 'end') {
+          this.tableItems.push(data)
+        } else {
+          this.tableItems.unshift(data)
+        }
       } else if (action === 'delete') {
         isUpdate = true
         delete this.tableMap[id]
