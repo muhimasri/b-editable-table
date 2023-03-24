@@ -2,12 +2,15 @@
 
 BootstrapVue Editable Table provides new features to [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table) that easily enable cell/row editing, input validation, and other gems while keeping existing functionalities of the original table intact!
 
-* [Get Started](https://b-editable-table.muhimasri.com)
-* **Examples on CodeSandbox**:
-  * [Edit Cell](https://codesandbox.io/s/bootstrap-vue-editable-table-wx012?file=/src/App.vue)
-  * [Edit Row](https://codesandbox.io/s/bootstrap-vue-row-editing-7w1scn?file=/src/App.vue)
-  * [Add, Update and Remove Rows](https://codesandbox.io/s/vue-add-remove-table-rows-chtnj?file=/src/App.vue)
-  * [Input Validation](https://codesandbox.io/s/vue-table-validation-pcysqz?file=/src/App.vue)
-  * [Load Data via Rest API](https://codesandbox.io/s/vue-table-load-data-api-cub6i)
+- **Get Started**:
+  - [Setup](https://b-editable-table.muhimasri.com/guide/)
+  - [Basic Usage](https://b-editable-table.muhimasri.com/guide/basic-usage.html)
+  - [Playground](https://b-editable-table.muhimasri.com/)
+- **Code Examples**:
+  - [Edit Cell](https://b-editable-table.muhimasri.com/guide/basic-usage.html)
+  - [Edit Row](https://b-editable-table.muhimasri.com/guide/row-editing.html)
+  - [Add, Update and Remove Rows](https://b-editable-table.muhimasri.com/guide/add-update-and-remove-rows.html)
+  - [Input Validation](https://b-editable-table.muhimasri.com/guide/input-validation.html)
+  - [Load Data via Rest API](https://b-editable-table.muhimasri.com/guide/load-data-via-rest-api.html)
 
 ![Demo](https://github.com/muhimasri/b-editable-table/blob/main/images/demo.gif)
