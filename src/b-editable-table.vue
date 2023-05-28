@@ -347,7 +347,7 @@ export default Vue.extend({
         }
         this.localChanges[data.item.id][key] = {
           value: changedValue,
-          rowIndex: data.index,
+          rowIndex: this.tableMap[data.item.id]?.rowIndex,
         }
       } else {
         fields[key].validity = validity
@@ -484,13 +484,14 @@ export default Vue.extend({
     createTableItems(data: Array<any>) {
       this.tableItems = data.map((item: any) => ({ ...item }))
       this.tableMap = data.reduce(
-        (rows, curRow) => ({
+        (rows, curRow, rowIndex) => ({
           ...rows,
           [curRow.id]: {
             id: curRow.id,
             isEdit: this.tableMap[curRow.id]
               ? this.tableMap[curRow.id].isEdit
               : false,
+            rowIndex,
             fields: Object.keys(curRow).reduce(
               (keys, curKey) => ({
                 ...keys,

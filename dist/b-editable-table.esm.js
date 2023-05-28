@@ -49,6 +49,7 @@ IS_BROWSER && 'IntersectionObserver' in WINDOW && 'IntersectionObserverEntry' in
 'intersectionRatio' in WINDOW.IntersectionObserverEntry.prototype;
 
 var PROP_NAME = '$bvConfig';
+var DEFAULT_BREAKPOINT = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 // --- General ---
 var RX_ARRAY_NOTATION = /\[(\d+)]/g;
@@ -228,6 +229,9 @@ function _defineProperty$G(obj, key, value) { if (key in obj) { Object.definePro
 
 var assign = function assign() {
   return Object.assign.apply(Object, arguments);
+};
+var create = function create(proto, optionalProps) {
+  return Object.create(proto, optionalProps);
 };
 var defineProperties = function defineProperties(obj, props) {
   return Object.defineProperties(obj, props);
@@ -840,6 +844,18 @@ var attemptBlur = function attemptBlur(el) {
   return !isActiveElement(el);
 };
 
+var memoize = function memoize(fn) {
+  var cache = create(null);
+  return function () {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var argsKey = JSON.stringify(args);
+    return cache[argsKey] = cache[argsKey] || fn.apply(null, args);
+  };
+};
+
 var VueProto = Vue.prototype; // --- Getter methods ---
 
 var getConfigValue = function getConfigValue(key) {
@@ -855,6 +871,26 @@ var getComponentConfig = function getComponentConfig(key) {
   // otherwise we return the full config (or an empty object if not found)
   return propKey ? getConfigValue("".concat(key, ".").concat(propKey), defaultValue) : getConfigValue(key, {});
 }; // Get all breakpoint names
+
+var getBreakpoints = function getBreakpoints() {
+  return getConfigValue('breakpoints', DEFAULT_BREAKPOINT);
+}; // Private method for caching breakpoint names
+
+var _getBreakpointsCached = memoize(function () {
+  return getBreakpoints();
+}); // Get all breakpoint names (cached)
+
+
+var getBreakpointsCached = function getBreakpointsCached() {
+  return cloneDeep(_getBreakpointsCached());
+}; // Get breakpoints with the smallest breakpoint set as ''
+// Useful for components that create breakpoint specific props
+
+memoize(function () {
+  var breakpoints = getBreakpointsCached();
+  breakpoints[0] = '';
+  return breakpoints;
+}); // Get breakpoints with the largest breakpoint set as ''
 
 function ownKeys$x(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -5911,6 +5947,8 @@ Popper.Utils = (typeof window !== 'undefined' ? window : global).PopperUtils;
 Popper.placements = placements;
 Popper.Defaults = Defaults;
 
+var Popper$1 = Popper;
+
 var PLACEMENT_TOP_START = 'top-start';
 var PLACEMENT_TOP_END = 'top-end';
 var PLACEMENT_BOTTOM_START = 'bottom-start';
@@ -6243,7 +6281,7 @@ var dropdownMixin = Vue.extend({
 
 
       if (!this.inNavbar) {
-        if (typeof Popper === 'undefined') {
+        if (typeof Popper$1 === 'undefined') {
           /* istanbul ignore next */
           warn('Popper.js not found. Falling back to CSS positioning', NAME_DROPDOWN);
         } else {
@@ -6277,7 +6315,7 @@ var dropdownMixin = Vue.extend({
     },
     createPopper: function createPopper(element) {
       this.destroyPopper();
-      this.$_popper = new Popper(element, this.$refs.menu, this.getPopperConfig());
+      this.$_popper = new Popper$1(element, this.$refs.menu, this.getPopperConfig());
     },
     // Ensure popper event listeners are removed cleanly
     destroyPopper: function destroyPopper() {
@@ -9005,7 +9043,7 @@ var BVPopper = /*#__PURE__*/Vue.extend({
       this.destroyPopper(); // We use `el` rather than `this.$el` just in case the original
       // mountpoint root element type was changed by the template
 
-      this.$_popper = new Popper(this.target, el, this.popperConfig);
+      this.$_popper = new Popper$1(this.target, el, this.popperConfig);
     },
     destroyPopper: function destroyPopper() {
       this.$_popper && this.$_popper.destroy();
@@ -13847,13 +13885,15 @@ var script = Vue.extend({
       fields[key].validity.valid = true;
 
       if (this.value && (!validity || (validity === null || validity === void 0 ? void 0 : validity.valid) === true)) {
+        var _this$tableMap$data$i;
+
         if (!this.localChanges[data.item.id]) {
           this.localChanges[data.item.id] = {};
         }
 
         this.localChanges[data.item.id][key] = {
           value: changedValue,
-          rowIndex: data.index
+          rowIndex: (_this$tableMap$data$i = this.tableMap[data.item.id]) === null || _this$tableMap$data$i === void 0 ? void 0 : _this$tableMap$data$i.rowIndex
         };
       } else {
         fields[key].validity = validity;
@@ -13970,15 +14010,15 @@ var script = Vue.extend({
     },
 
     showField(field, data, type) {
-      var _this$tableMap$data$i;
+      var _this$tableMap$data$i2;
 
-      return field.type === type && ((_this$tableMap$data$i = this.tableMap[data.item.id]) === null || _this$tableMap$data$i === void 0 ? void 0 : _this$tableMap$data$i.isEdit) && (this.selectedCell === field.key || this.editMode === 'row') && field.editable;
+      return field.type === type && ((_this$tableMap$data$i2 = this.tableMap[data.item.id]) === null || _this$tableMap$data$i2 === void 0 ? void 0 : _this$tableMap$data$i2.isEdit) && (this.selectedCell === field.key || this.editMode === 'row') && field.editable;
     },
 
     getFieldValue(field, data) {
-      var _this$tableMap$data$i2;
+      var _this$tableMap$data$i3;
 
-      return (_this$tableMap$data$i2 = this.tableMap[data.item.id].fields[field.key]) === null || _this$tableMap$data$i2 === void 0 ? void 0 : _this$tableMap$data$i2.value;
+      return (_this$tableMap$data$i3 = this.tableMap[data.item.id].fields[field.key]) === null || _this$tableMap$data$i3 === void 0 ? void 0 : _this$tableMap$data$i3.value;
     },
 
     enableFocus(type) {
@@ -13998,10 +14038,11 @@ var script = Vue.extend({
     createTableItems(data) {
       this.tableItems = data.map(item => ({ ...item
       }));
-      this.tableMap = data.reduce((rows, curRow) => ({ ...rows,
+      this.tableMap = data.reduce((rows, curRow, rowIndex) => ({ ...rows,
         [curRow.id]: {
           id: curRow.id,
           isEdit: this.tableMap[curRow.id] ? this.tableMap[curRow.id].isEdit : false,
+          rowIndex,
           fields: Object.keys(curRow).reduce((keys, curKey) => {
             var _this$tableMap$curRow, _this$tableMap$curRow2;
 
@@ -14373,7 +14414,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-27f38362_0", {
+  inject("data-v-a1468074_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -14398,6 +14439,8 @@ const __vue_component__ = /*#__PURE__*/normalizeComponent({
   staticRenderFns: __vue_staticRenderFns__
 }, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, createInjector, undefined, undefined);
 
+var component = __vue_component__;
+
 // Import vue component
 
 // Default export is installable instance of component.
@@ -14405,7 +14448,7 @@ const __vue_component__ = /*#__PURE__*/normalizeComponent({
 // to be registered via Vue.use() as well as Vue.component(),
 var entry_esm = /*#__PURE__*/(() => {
   // Assign InstallableComponent type
-  const installable = __vue_component__; // Attach install function executed by Vue.use()
+  const installable = component; // Attach install function executed by Vue.use()
 
   installable.install = Vue => {
     Vue.component('BEditableTable', installable);
@@ -14416,4 +14459,4 @@ var entry_esm = /*#__PURE__*/(() => {
 // also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
 // export const RollupDemoDirective = directive;
 
-export default entry_esm;
+export { entry_esm as default };

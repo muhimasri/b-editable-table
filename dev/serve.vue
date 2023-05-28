@@ -1,7 +1,7 @@
 <script lang="ts">
 import Vue from 'vue'
-import InputValidation from './examples/input-validation.vue'
-// import CompleteExample from './examples/complete-example.vue';
+// import InputValidation from './examples/input-validation.vue'
+import CompleteExample from './examples/complete-example.vue';
 // import CellEdit from './examples/cell-edit.vue'
 // import RowEdit from './examples/row-edit.vue';
 // import LoadApi from './examples/load-api.vue';
@@ -14,8 +14,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 export default Vue.extend({
   name: 'ServeDev',
   components: {
-    // CompleteExample,
-    InputValidation,
+    CompleteExample,
+    // InputValidation,
     // RowEdit,
     // LoadApi,
     // OneWayBinding,
@@ -28,10 +28,10 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <input-validation></input-validation>
+    <!-- <input-validation></input-validation> -->
     <!-- <cell-edit></cell-edit> -->
     <!-- <row-edit></row-edit> -->
-    <!-- <complete-example></complete-example> -->
+    <complete-example></complete-example>
     <!-- <load-api></load-api> -->
     <!-- <one-way-binding></one-way-binding> -->
     <!-- <add-remove-update></add-remove-update> -->
