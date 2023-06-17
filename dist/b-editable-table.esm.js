@@ -13829,7 +13829,7 @@ var script = Vue.extend({
 
         e.preventDefault();
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
-        let rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
+        let rowIndex = this.fields.length - 1 === index ? this.tableMap[data.item.id].rowIndex + 1 : this.tableMap[data.item.id].rowIndex;
         let i = fieldIndex; // Find next editable field
 
         while (!this.fields[i].editable) {
@@ -14030,7 +14030,9 @@ var script = Vue.extend({
         this.tableMap[id].isEdit = false;
       } else {
         for (const changeId in this.localChanges) {
-          this.tableMap[changeId].isEdit = false;
+          if (this.tableMap[changeId]) {
+            this.tableMap[changeId].isEdit = false;
+          }
         }
       }
     },
@@ -14414,7 +14416,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-a1468074_0", {
+  inject("data-v-0f10b917_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined

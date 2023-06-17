@@ -13684,7 +13684,7 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
 
         e.preventDefault();
         var fieldIndex = this.fields.length - 1 === index ? 0 : index + 1;
-        var rowIndex = this.fields.length - 1 === index ? data.index + 1 : data.index;
+        var rowIndex = this.fields.length - 1 === index ? this.tableMap[data.item.id].rowIndex + 1 : this.tableMap[data.item.id].rowIndex;
         var i = fieldIndex; // Find next editable field
 
         while (!this.fields[i].editable) {
@@ -13879,7 +13879,9 @@ var BTable = /*#__PURE__*/Vue__default["default"].extend({
         this.tableMap[id].isEdit = false;
       } else {
         for (var changeId in this.localChanges) {
-          this.tableMap[changeId].isEdit = false;
+          if (this.tableMap[changeId]) {
+            this.tableMap[changeId].isEdit = false;
+          }
         }
       }
     },
@@ -14245,7 +14247,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-a1468074_0", {
+  inject("data-v-0f10b917_0", {
     source: "table.b-table{width:unset}table.b-table td{padding:0}.data-cell{display:flex;width:100%;height:100%}",
     map: undefined,
     media: undefined
@@ -14257,7 +14259,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-a1468074";
+var __vue_module_identifier__ = "data-v-0f10b917";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

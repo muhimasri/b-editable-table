@@ -290,7 +290,9 @@ export default Vue.extend({
         e.preventDefault()
         let fieldIndex = this.fields.length - 1 === index ? 0 : index + 1
         let rowIndex =
-          this.fields.length - 1 === index ? data.index + 1 : data.index
+          this.fields.length - 1 === index
+            ? this.tableMap[data.item.id].rowIndex + 1
+            : this.tableMap[data.item.id].rowIndex
         let i = fieldIndex
         // Find next editable field
         while (!this.fields[i].editable) {
@@ -477,7 +479,9 @@ export default Vue.extend({
         this.tableMap[id].isEdit = false
       } else {
         for (const changeId in this.localChanges) {
-          this.tableMap[changeId].isEdit = false
+          if (this.tableMap[changeId]) {
+            this.tableMap[changeId].isEdit = false
+          }
         }
       }
     },
