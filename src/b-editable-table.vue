@@ -517,7 +517,7 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style scoped>
 table.b-table {
   width: unset;
 }
