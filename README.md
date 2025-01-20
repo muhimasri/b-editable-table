@@ -3,6 +3,7 @@
 BootstrapVue Editable Table provides new features to [BootstrapVue Table](https://bootstrap-vue.org/docs/components/table) that easily enable cell/row editing, input validation, and other gems while keeping existing functionalities of the original table intact!
 
 - **Get Started**:
+  - [Playground](https://b-editable-table.muhimasri.com/)   
   - [Setup](https://b-editable-table.muhimasri.com/guide/)
   - [Basic Usage](https://b-editable-table.muhimasri.com/guide/basic-usage.html)
   - [Playground](https://b-editable-table.muhimasri.com/)
